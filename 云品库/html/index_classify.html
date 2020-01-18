@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <title>title</title>
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/index.css" />
+  <link rel="stylesheet" type="text/css" href="../css/style.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .top {
+      position: fixed;
+      ;
+      top: 0;
+      left: 0;
+      padding-top: 30px;
+      background-color: #fff;
+      z-index: 9999;
+    }
+
+    .ipt-text {
+      padding-top: 26px;
+    }
+
+    .ipt-text img {
+      margin-top: 0;
+    }
+
+    /*.pull-left {
+          padding-top: 6px;
+        }*/
+    #classify {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /*flex: 1;*/
+      /*height: 100%;*/
+    }
+
+    .c_list {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      height: 100%;
+      justify-content: space-between;
+      /*border: 1px solid red;*/
+    }
+
+    .left {
+      position: fixed;
+      ;
+      left: 0;
+      top: 80px;
+      bottom: 0;
+      text-align: center;
+      background-color: rgba(242, 241, 246, 1);
+      overflow-y: scroll;
+    }
+
+    .left-item {
+      width: 60px;
+      padding: 6px 10px;
+      font-size: 14px;
+      color: rgba(102, 102, 102, 1);
+      background: rgba(242, 241, 246, 1);
+      border-left: 1px solid rgba(242, 241, 246, 1);
+      border-bottom: 1px solid rgba(230, 234, 237, 1);
+      line-height: 36px;
+    }
+
+    .bj {
+      color: rgba(206, 61, 58, 1);
+      background: rgba(255, 255, 255, 1);
+      border-left: 2px solid rgba(206, 61, 58, 1);
+      border-radius: 0 !important;
+    }
+
+
+
+    .right {
+      margin-left: 80px;
+      height: 100%;
+      /*border: 1px solid red;*/
+      padding: 0 12px;
+      /*overflow: hidden;*/
+      /*overflow-y: scroll;*/
+    }
+
+    body {
+      position: relative;
+      background: #fff;
+    }
+
+    .list {
+      padding: 10px;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 0px 27px 0px rgba(211, 211, 211, 0.34);
+    }
+
+    .total-title {
+      padding-left: 5px;
+      font-size: 14px;
+      color: rgba(102, 102, 102, 1);
+    }
+
+    .seckill-item {
+      width: 30%;
+      padding-top: 10px;
+      font-size: 12px;
+      text-align: center;
+      color: rgba(102, 102, 102, 1);
+      border-radius: 5px;
+    }
+
+    .seckill-text {
+      color: rgba(80, 80, 80, 1);
+    }
+
+    .seckill-item-text {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .mt10 {
+      margin-top: 4px;
+    }
+
+    .opacity-0 {
+      opacity: 0;
+    }
+
+    .seckill-items-img {
+      width: 100%;
+      padding-top: 100%;
+      border-radius: 5px;
+    }
+
+    .classify {
+      min-height: 100vh;
+      background: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dingbu"></div>
+  <header class="top" onclick="openNavTabWin('index_search','index_search.html','搜索')">
+    <div class="ipt flex-center">
+      <input type="text" placeholder="" disabled>
+    </div>
+    <div class="ipt-text clearfix">
+      <img class="pull-left ipt-img" src="../image/search.png" alt="" width="14" height="14">
+      <p class="pull-left">请输入搜索关键词</p>
+    </div>
+  </header>
+  <div id="classify"></div>
+  <script type="text/template" id="template">
+    <div class="c_list">
+        <div class="c_list">
+            <div class="left">
+                <ul>
+                    {{~ it.type_arr :item:index}} {{? it.this_type.type_id === item.type_id }}
+                    <li class="left-item bj">{{=item.type_name}}</li>
+                    {{??}}
+                    <li class="left-item nav-item" onclick="changeNav({{=item.type_id}}, {{=index}})">{{=item.type_name}}</li>
+                    {{?}} {{~}}
+                </ul>
+            </div>
+            <div class="right">
+              {{~ it.type_arr :items}} {{? it.this_type.type_id === items.type_id }}
+              <img src="{{=items.type_img}}" width="100%" height="100" style="border-radius:5px; margin-top:10px;">
+              {{? items.two_type.length > 0}} {{~ items.two_type :t_item}}
+              <div class="list">
+                <h3 class="total-title" style="font-size: 12px;">{{=t_item.type_name}}</h3>
+                <div class="flex-wrap">
+                    {{~ t_item.three_type :g_item}}
+                    <!-- <div class="seckill-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=g_item.gid}}})"> -->
+                    <div class="seckill-item" onclick="openNavTabWin('index_classify_details','index_classify_details.html','分类详情',{type_id:{{=g_item.type_id}}})">
+                        <div class="seckill-items-img" style="background:url('{{=g_item.type_image}}') no-repeat;background-size:cover;"></div>
+                        <p class="seckill-item-text max-one-line" style="font-size: 12px;">{{=g_item.type_name}}</p>
+                    </div>
+                    {{~}} {{? t_item.three_type.length % 3 == 2}}
+                    <div class="seckill-item opacity-0">
+                        <img src="" alt="" width="100%" height="76">
+                        <p class="seckill-item-text max-one-line">占位</p>
+                    </div>
+                    {{?}}
+                </div>
+              </div>
+              {{~}} {{?}} {{?}} {{~}}
+            </div>
+      </div>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var pageParam, type_id, data, index = 0;
+  apiready = function () {
+    var header = $api.dom('.dingbu'); // 获取 header 标签元素
+    // var footer = $api.dom('footer'); // 获取 footer 标签元素
+
+    // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+    // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+    // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+    var headerH = $api.fixStatusBar(header);
+    // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+    // var footerH = $api.fixTabBar(footer);
+
+    pageParam = api.pageParam;
+
+    // localStorage.setItem('aaa', '123')
+    // window.onload = function () {
+    //   console.log(localStorage.getItem('aaa'))
+    // }
+    // type_id = api.getGlobalData({key:'type_id'});
+
+    // var offset = $api.offset(document.body);
+    // var height = offset.h;
+    // console.log(JSON.stringify(height));
+    //
+    // api.openFrame({
+    //     name: 'classify-right',
+    //     url: './classify-right.html',
+    //     rect: {
+    //         x: 0,
+    //         y: 80,
+    //         w: 'auto',
+    //         h: height
+    //     },
+    //     pageParam: {
+    //         arr: '12'
+    //     },
+    //     bounces: true,
+    //     bgColor: 'rgba(120,0,0,0)',
+    //     vScrollBarEnabled: false,
+    //     hScrollBarEnabled: false
+    // });
+
+    api.addEventListener({
+      name: 'myEvent'
+    }, function (ret, err) {
+      type_id = ret.value.type_id;
+      // console.log(type_id)
+      changeNav(type_id)
+    });
+
+    fnAjax('goods/type', 'GET').then(res => {
+      if (res.error_code === 0) {
+        data = res.data;
+
+        fnDataToView("classify", res.data, "template");
+        // console.log(JSON.stringify(res))
+      }
+    })
+
+    api.addEventListener({
+      name: 'scrolltobottom',
+      extra: {
+        threshold: 10 //设置距离底部多少距离时触发，默认值为0，数字类型
+      }
+    }, function (ret, err) {
+      // alert('已滚动到底部');
+        // console.log('已滑动到底部')
+      if (index < data.type_arr.length) {
+        var len = data.type_arr.length
+        var list = document.querySelector('.left')
+        var li = list.querySelectorAll('.nav-item')
+        // console.log(len)
+        // if (index > len / 2) {
+        //   setTimeout(() => {
+        //     list.scrollTop = 555
+        //   }, 3)
+        // }
+
+        changeNav(data.type_arr[index++].type_id, index, len)
+        // console.log(list.scrollTop, list.clientHeight, document.documentElement.clientHeight)
+        // list.scrollTop = Number(li[0].offsetHeight) * len / 2
+
+      }
+    });
+  }
+
+  function changeNav(type, _index, len = 20) {
+    // console.log(type_id)
+    var list = document.querySelector('.left')
+    var rightContent = document.querySelector('.right')
+    // console.log(rightContent.scrollTop + ' 298')
+    // console.log(rightContent.offsetTop + ' 300')
+    rightContent.scrollTop = 50
+    console.log(rightContent.scrollTop + ' 302')
+    // console.log(rightContent.offset + ' 303')
+    console.log(rightContent.offsetHeight + ' 304')
+    // console.log($api.offset(rightContent).h + ' 305')
+    // console.log(api.deviceName + ' 306')
+    var ite = document.querySelectorAll('.nav-item')
+    console.log(JSON.stringify(document.querySelectorAll('.nav-item')) + ' 308')
+    console.log(_index + ' 309')
+    // console.log(list.scrollTop)
+    var scrollTop = list.scrollTop
+    // var officeTop = ite[_index].officeTop
+    // var higth = list.officeWidth
+   var scrollTop2 =0
+   var bol = true;
+    console.log(scrollTop)
+    console.log(_index)
+    if(_index < 16){
+      var officeTop1=ite[_index].offsetTop;
+
+    }else if(_index >16){
+      var officeTop1=400;
+       bol = false
+    }
+
+    var hight = window.getComputedStyle(list, null)["height"]
+    var hight1 = parseInt(hight.slice(0,hight.length-2)/2)
+
+    // console.log(list.)
+    // list.scrollTop = 100
+    index = _index;
+    fnAjax('goods/type', 'GET', {
+      values: {
+        type_id: type
+      }
+    }).then(res => {
+      if (res.error_code === 0) {
+        res.data.msg = 1
+        fnDataToView("classify", res.data, "template");
+        console.log(typeof index, 'index', len, 'len')
+        setTimeout(() => {
+          var list = document.querySelector('.left')
+          // list.scrollTop = 1000
+         var movetop = Number(officeTop1) - hight1 + 25
+             console.log(scrollTop2)
+             if(bol){
+                 list.scrollTop += movetop
+             }else {
+               list.scrollTop += officeTop1
+             }
+
+          // if (offsetLeft >= screenWidth / 2) {
+      		// 	menu.scrollLeft += movetop
+      		// } else {
+      		// 	menu.scrollLeft += movetop
+      		// }
+        }, 1)
+        // if (index > len / 2) {
+        //   setTimeout(() => {
+        //     var list = document.querySelector('.left')
+        //
+        //     list.scrollTop = 1000
+        //   }, 10)
+        // } else {
+        //   setTimeout(() => {
+        //     var list = document.querySelector('.left')
+        //     list.scrollTop = 0
+        //   }, 10)
+        // }
+        // // var type_arr = res.data.type_arr;
+        // type_arr.forEach(item => {
+        //   if(item.two_type.length == 0){
+        //     two_type.split(item)
+        //   }
+        // })
+        // res.data.type_arr.forEach(item => {
+        //   if(item.two_type.length){
+        //
+        //   }
+        // })
+      }
+    })
+  }
+</script>
+
+</html>

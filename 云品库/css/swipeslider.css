@@ -1,0 +1,40 @@
+.swipslider {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    height: 284px;
+    user-select: none;
+}
+
+.swipslider .sw-slides {
+    display: block;
+    padding: 0;
+    list-style: none;
+    width: 412px;
+    height: 284px;
+    white-space: nowrap;
+    font-size: 0;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    position: absolute;
+    /*bottom: 0;*/
+}
+
+.swipslider .sw-slide {
+    width: 412px;
+    height: 284px;
+    margin: auto;
+    display: inline-block;
+    position: relative;
+}
+
+.swipslider .sw-slide>img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    /*-webkit-transform: translate(-50%, -50%);*/
+    /*transform: translate(-50%, -50%);*/
+    max-height:284px;
+    max-width: 412px;
+    margin-left: auto;
+    margin-right: auto;

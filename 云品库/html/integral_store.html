@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        .top-bj {
+            height: 90px;
+            padding: 10px 38px;
+            background: url(../image/jifen.png) no-repeat center;
+            background-size: cover;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
+        }
+
+        .fl {
+            padding: 6px 0;
+            padding-right: 20px;
+            border-right: 2px solid rgba(255, 255, 255, 1);
+        }
+
+        .top-title {
+            margin-bottom: 6px;
+            font-size: 20px;
+        }
+
+        .fr-fl,
+        .fr-fr {
+            padding: 10px 12px;
+        }
+
+        .cio {
+            width: 48px;
+            height: 48px;
+            margin: 8px auto 0;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .bj_no {
+            box-sizing: border-box;
+            border: 1px solid #CE3D3A;
+            background: #fff;
+            color: #CE3D3A;
+        }
+        .fw{
+          flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bj flex" id="user_inte"></div>
+    <section class="flex fw" id="shop_list"></section>
+    <script type="text/template" id="user_temp">
+        <div class="fl mt10">
+            <div class="top-title">{{=it.user.integ}}</div>
+            <div>积分</div>
+            <div>（签到领积分）</div>
+        </div>
+        <div class="flex">
+            {{~ it.integral_view :item}}
+            <div class="fr-fl" onclick="openNavTabWin('integral','{{=item.address}}','积分商城',{statu:'{{=item.name}}'})">
+                <div>{{=item.name}}</div>
+                <div class="cio">
+                    <img src="{{=item.icon}}" alt="" width="48" height="48">
+                </div>
+            </div>
+            {{~}}
+        </div>
+    </script>
+    <script type="text/template" id="shop_temp">
+        {{~ it.goods :item}}
+        <div class="shop-item" onclick="openNavTabWin('integral_shop_detail','integral_shop_detail.html','商品详情',{gid:{{=item.gid}}})">
+            <img src="{{=item.g_image}}" alt="" width="180" height="180">
+            <p class="item-text max-two-line">{{=item.g_name}}</p>
+            <div class="item-parameter flex">
+                <p class="font-red margin-top2">{{=item.conversion}}积分</p>
+                {{? item.conversion <=it.user.integ}}
+                    <p class="bj">兑换</p>
+                    {{??}}
+                    <p class="bj bj_no">不足</p>
+                    {{?}}
+            </div>
+        </div>
+        {{~}}
+    </script>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+        isLogin().then(res => {
+            fnAjax('Integral/index', 'POST').then(res => {
+                if (res.error_code === 0) {
+                    console.log(JSON.stringify(res.data))
+                    fnDataToView("user_inte", res.data, "user_temp");
+                    fnDataToView("shop_list", res.data, "shop_temp");
+                }
+            })
+        }, () => {
+            // alert("请先登录");
+            api.toast({msg:"请先登录"})
+            setTimeout(function(){
+              api.closeWin();
+            },1000)
+        })
+
+    }
+</script>
+
+</html>

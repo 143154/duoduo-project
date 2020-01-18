@@ -1,0 +1,256 @@
+
+html {
+    background: rgba(247, 248, 249, 1) !important;
+}
+header {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    /*margin-top: 22px;*/
+}
+
+header .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+}
+
+header .back img {
+    margin-top: 16px;
+    margin-left: 12px;
+    width: 8px;
+    height: 15px;
+}
+
+header .title {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    color: rgba(102, 102, 102, 1);
+    font-size: 16px;
+    line-height: 50px;
+    border-bottom: 1px solid rgba(238, 238, 238, 1);
+}
+
+
+.back {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+}
+
+.page {
+    /*padding: 4px 10px;*/
+    padding: 10px;
+}
+
+.pull-left {
+    float: left !important;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.show {
+    display: block !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fx {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.flex-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start !important;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.flex-column {
+    display: flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-align {
+    display: flex;
+    align-items: center;
+}
+
+
+.flex-align-end {
+    display: flex;
+    align-items: flex-end;
+}
+
+.font-red {
+    color: rgba(255, 57, 57, 1);
+}
+
+.flex-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.flex-bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+.display-none {
+    display: none;
+}
+
+.load {
+    padding: 30% 0 5%;
+}
+
+.white {
+    background: #fff;
+}
+
+.red {
+    color: rgba(206, 61, 58, 1) !important;
+}
+
+.margin-bottom30 {
+    margin-bottom: 30px;
+}
+
+.margin-left10 {
+    margin-left: 10px;
+}
+
+.padding-top10 {
+    padding-top: 10px;
+}
+
+.padding10 {
+    padding: 10px 0;
+}
+
+.padding-bottom10 {
+    padding-bottom: 10px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+
+.p12 {
+  padding: 12px;
+}
+
+.max-one-line{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
+
+/*倒三角*/
+
+.triangle-down {
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid rgba(160, 160, 160, 1);
+}
+
+.load {
+    padding: 30% 0 5%;
+}
+
+section {
+    /*padding: 0 10px;*/
+}
+
+input {
+    outline: none;
+}
+
+img {
+    border: 0
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+    color:rgba(80,80,80,1);
+    font-family: MicrosoftYaHei;
+    font-weight: 500;
+    line-height: 1.0;
+    color: inherit
+}
+
+p,span,a {
+  font-size: 14px;
+  color:rgba(102,102,102,1);
+}

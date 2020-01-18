@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        .top-bj {
+            height: 62px;
+            padding: 24px 15px;
+            background: url('../image/user_bg.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .top-font {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .top-font-1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .top-font-2 {
+            font-size: 14px;
+        }
+
+        .p {
+            background: #fff;
+        }
+
+        .tx_img {
+            border-radius: 50%
+        }
+        #like-w {
+          margin-top: 20px;
+        }
+        .fw {
+            flex-wrap: wrap;
+        }
+        .shop-item {
+          background-color: #fff;
+            border-radius: 5px;
+        }
+        .item-img {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .item-text,
+        .seckill-item-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .likelist {
+          padding: 0 10px;
+        }
+        .max-two-line{
+          padding:0 5px;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="dingbu"></div>
+    <div id="user"></div>
+    <div id="order"></div>
+    <div id="frame"></div>
+    <div id="sales"></div>
+    <div id="like-w"></div>
+    <script type="text/template" id="user_temp">
+        <div class="top-bj flex-align">
+            {{? it}} {{? it.image}}
+            <img src="{{=it.image}}" alt="" width="60" height="60" class="tx_img"> {{??}}
+            <img src="../image/user_thumb.png" alt="" width="60" height="60"> {{?}} {{??}}
+            <img src="../image/user_thumb.png" alt="" width="60" height="60"> {{?}}
+            <div class="top-font ml10">
+                {{? it}}
+                <div class="top-font-1">
+                    {{? it.nickname}} {{=it.nickname}} {{??}} {{=it.phone}} {{?}}
+                </div>
+                {{??}}
+                <div class="top-font-1" onclick="openNavTabWin('user_login','user_login.html','登录')">立即登录</div>
+                {{?}}
+                <div class="top-font-2">Hi~等你好久了</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="order_temp">
+        <div class="p20 text-center flex">
+            {{~ it :item}}
+            <div onclick="openNavTabWin('order','order.html','订单列表',{type:{{=item.type}}})">
+                <img src="{{=item.icon}}" width="30" height="30" alt="">
+                <h6>{{=item.name}}</h6>
+            </div>
+            {{~}}
+        </div>
+    </script>
+    <script type="text/template" id="frame_temp">
+        <div class="m10">
+            {{~ it.frame :item}} {{? it.user}} {{? item.address == 'call'}}
+            <div class="p flex" onclick="call()">
+                {{??}}
+                <div class="p flex" onclick="openNavTabWin('pages','{{=item.address}}','{{=item.name}}')">
+                    {{?}} {{??}}
+                    <div class="p flex" onclick="showLogin()">
+                        {{?}}
+                        <div class="flex-center">
+                            <img src="{{=item.icon}}" alt="" width="16" height="16">
+                            <div class="ml10">{{=item.name}}</div>
+                        </div>
+                        <img src="../image/right.png" width="6" height="12">
+                    </div>
+                    {{~}}
+                </div>
+    </script>
+    <script type="text/template" id="template">
+      {{? it}}
+      <div class="p flex" onclick="openNavTabWin('sales_user','sales_user.html','分销中心')">
+          <div class="flex-center">
+              <img src="../image/fenxiao.png" alt="" width="16" height="16">
+              <div class="ml10">分销中心</div>
+          </div>
+          <img src="../image/right.png" width="6" height="12">
+      </div>
+
+      <div class="p flex" onclick="logout()">
+          <div class="flex-center">
+              <img src="../image/user_a.png" alt="" width="16" height="16">
+              <div class="ml10">退出登录</div>
+          </div>
+          <img src="../image/right.png" width="6" height="12">
+      </div>
+      {{?}}
+    </script>
+
+    <script type="text/template" id="like-list">
+      {{?it.record.length}}
+      <div style="text-align:center;">
+        <img width="180px" src="../image/like-title.png" alt="">
+      </div>
+      {{?}}
+      <section class="flex fw mb-10 likelist">
+        {{~ it.record :items}}
+        <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+        <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+            <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+            <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+            <p class="max-two-line" style="font-size: 12px;">{{=items.g_name}}</p>
+            {{? items.tag != ""}}
+            <p class="item-teg">{{=items.tag}}</p>
+            {{?}}
+            <div class="item-parameter flex">
+                <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                <p class="bj">马上抢</p>
+                <!-- <p class="assess_count">{{=items.assess_count}} 条评论</p> -->
+            </div>
+        </div>
+        {{~}}
+      </section>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+      var header = $api.dom('.dingbu'); // 获取 header 标签元素
+      // var footer = $api.dom('footer'); // 获取 footer 标签元素
+
+      // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+      // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+      // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+      var headerH = $api.fixStatusBar(header);
+      // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      // var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+            // 获取个人页信息
+            fnAjax('user/user_view', 'GET').then(res => {
+                    // console.log(JSON.stringify(res))
+                    if (res.error_code === 0) {
+                        fnDataToView("user", res.data.user, "user_temp");
+                        fnDataToView("order", res.data.order, "order_temp");
+                        fnDataToView("frame", res.data, "frame_temp");
+
+                    }
+                })
+                // 判断用户是否为分销商
+            fnAjax('finance/get_user', 'GET').then(res => {
+                if (res.error_code === 0) {
+                    fnDataToView("sales", res.data, "template");
+                }
+            })
+            setTimeout(function() {
+              //个人的推荐
+              fnAjax('user/view_record', 'GET').then(res => {
+                  if (res.error_code === 0) {
+                    // console.log(JSON.stringify(res.data));
+                      fnDataToView("like-w", res.data, "like-list");
+                  }
+              })
+            }, 500)
+
+        });
+        // 获取个人页信息
+        fnAjax('user/user_view', 'GET').then(res => {
+                // console.log(JSON.stringify(res))
+                if (res.error_code === 0) {
+                    fnDataToView("user", res.data.user, "user_temp");
+                    fnDataToView("order", res.data.order, "order_temp");
+                    fnDataToView("frame", res.data, "frame_temp");
+                }
+            })
+            // 判断用户是否为分销商
+        fnAjax('finance/get_user', 'GET').then(res => {
+            if (res.error_code === 0) {
+                fnDataToView("sales", res.data, "template");
+            }
+        })
+        setTimeout(function() {
+          //个人的推荐
+          fnAjax('user/view_record', 'GET').then(res => {
+              if (res.error_code === 0) {
+                // console.log(JSON.stringify(res.data));
+                  fnDataToView("like-w", res.data, "like-list");
+              }
+          })
+        }, 500)
+
+
+
+    }
+
+    function logout() {
+        $api.rmStorage('uid');
+        window.location.reload();
+        api.toast({
+            msg: "退出成功"
+        })
+    }
+
+    function showLogin() {
+        api.toast({
+            msg: '请先登录'
+        })
+    }
+
+    function call() {
+      // 微信二维码
+      api.openFrame({
+          name: 'wx_code',
+          url: './wx_code.html',
+          bgColor: 'rgba(0,0,0,.6)',
+          rect: {
+              x: 0,
+              y: 0,
+              w: 'auto',
+              h: 'auto'
+          },
+          pageParam: {
+
+          }
+      });
+
+    }
+</script>
+
+</html>

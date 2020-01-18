@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        body {
+          padding-top: 50px;
+        }
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            border-bottom: 1px solid #F0F1F3;
+            z-index: 9999;
+        }
+        .item-text,
+        .seckill-item-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .top-item {
+            flex: 0 0 auto;
+            padding: 20px 10px 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .top-item.active {
+            border-bottom: 2px solid rgba(235, 73, 73, 1);
+        }
+        /*.h-100{
+          height: 100vh;
+        }*/
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .fw {
+            flex-wrap: wrap;
+        }
+
+        #classify_info {
+            padding: 0 15px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        .fw {
+            flex-wrap: wrap;
+        }
+
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .assess_count{
+          padding: 0 10px;
+          box-sizing: border-box;
+          font-size: 12px;
+          color: #B3B3B3;
+        }
+
+        .item-text{
+          text-align: center;
+          /*margin-top: 5px;*/
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+        .item-img{
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          /*border-bottom: 1px solid #eee;*/
+        }
+        #top .shop-item{
+          width: 20%;
+          padding-bottom: 0;
+          /*border-radius: 5px;*/
+          border-bottom:0;
+            box-shadow: none;
+        }
+        #top .shop-item .item-img {
+          /*border: 1px solid red;*/
+          width: 80%;
+          padding-top: 80%;
+          background-size: contain;
+          background-position: center!important;
+        }
+
+        #top {
+          justify-content: flex-start;
+        }
+        .opacity-0{
+          opacity: 0;
+        }
+        #goods {
+          padding: 0 15px;
+          box-sizing: border-box;
+          background: #fff;
+        }
+        .list {
+            margin-top: 6px;
+            padding: 15px 30px;
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+            border-top: 1px solid rgba(229, 229, 229, 1);
+            border-bottom: 1px solid rgba(229, 229, 229, 1);
+        }
+
+        .item {
+            width: 48%;
+            padding-bottom: 20px;
+            margin: 10px 0 4px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 22px;
+            overflow: hidden;
+            box-shadow: 0px 0px 27px 0px rgba(211, 211, 211, 0.43);
+        }
+        /*倒三角*/
+
+        .triangle-down {
+            margin-left: 4px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid rgba(160, 160, 160, 1);
+        }
+        .triangle-up{
+          margin-left: 4px;
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-bottom: 6px solid rgba(160, 160, 160, 1);
+        }
+
+        .item-text {
+          font-size: 12px;
+        }
+        .max-two-line{
+          padding: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="classify_list">
+      <div class="shop-item opacity-0">
+          <div class="item-img"></div>
+          <!-- <img class="item-img" src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+          <p class="item-text">占位</p>
+      </div>
+    </div>
+    <div id="classify_info"></div>
+    <!-- 排序 -->
+    <div id="sort"></div>
+    <div id="goods"></div>
+
+    <!-- 一级分类 -->
+    <script type="text/template" id="list_temp">
+        <div class="flex-start top white" id="menu">
+            {{~ it.type_lot :item:index}}
+              <div class="top-item" onclick="selected({{=item.type_id}},{{=index}}, '{{=item.type_name}}')">{{=item.type_name}}</div>
+            {{~}}
+        </div>
+    </script>
+    <script type="text/template" id="info_temp">
+        <!-- 二级分类 -->
+        <section id="top" class="flex fw mb-10 w-100">
+            {{~ it.type_lot :items:index}}
+              {{?index < 9}}
+              <!-- openNavTabWin('index_classify_details','index_classify_details.html','分类详情',{type_id:{{=items.type_id}}}) -->
+              <div class="shop-item shop-item1" onclick="openNavTabWin('new_activity2','new_activity2.html','分类详情',{fisrt_id: {{=it.tid}}, type_id: {{=items.type_id}}})" >
+                  <div class="item-img" style="background:url({{=items.type_image}}) no-repeat;background-size:contain"></div>
+                  <!-- <img class="item-img" src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+                  <p class="item-text">{{=items.type_name}}</p>
+              </div>
+              {{?}}
+            {{~}}
+            {{?it.type_lot.length > 8}}
+            <div class="shop-item" onclick="openNavTabWin('new_activity2','new_activity2.html','更多',{type_id:{{=it.fisrt_type.type_id}}})">
+                <div class="item-img" style="background:url('../image/type-more.png') no-repeat;background-size:50px"></div>
+                <p class="item-text">更多</p>
+            </div>
+            {{?}}
+            {{? it.type_lot.length % 3 == 2}}
+            <div class="shop-item opacity-0">
+                <div class="item-img"></div>
+                <!-- <img class="item-img" src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+                <p class="item-text">占位</p>
+            </div>
+            {{?}}
+        </section>
+    </script>
+
+
+    <script type="text/template" id="sort_temp">
+      <div class="flex list">
+        {{? it.together == 0}}
+          <div onclick="sort('together',{{=it.together}})"><span>综合</span><span class="triangle-up"></span></div>
+        {{?? it.together == 1}}
+          <div onclick="sort('together',{{=it.together}})"><span class="red">综合</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('together',{{=it.together}})"><span class="red">综合</span><span class="triangle-down"></span></div>
+        {{?}}
+
+        {{? it.sales == 0}}
+          <div onclick="sort('sales',{{=it.sales}})"><span>销量</span><span class="triangle-up"></span></div>
+        {{?? it.sales == 1}}
+          <div onclick="sort('sales',{{=it.sales}})"><span  class="red">销量</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('sales',{{=it.sales}})"><span  class="red">销量</span><span class="triangle-down"></span></div>
+        {{?}}
+
+        {{? it.price == 0}}
+          <div onclick="sort('price',{{=it.price}})"><span>价格</span><span class="triangle-up"></span></div>
+        {{?? it.price == 1}}
+          <div onclick="sort('price',{{=it.price}})"><span class="red">价格</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('price',{{=it.price}})"><span class="red">价格</span><span class="triangle-down"></span></div>
+        {{?}}
+
+          <!-- <div ><span>筛选</span><span class="triangle-up"></span></div> -->
+      </div>
+    </script>
+
+    <script type="text/template" id="goodlist">
+      <section class="flex fw mb-10">
+      {{~it.goods :items}}
+      <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+      <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+          <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+          <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+          <p class="max-two-line">{{=items.g_name}}</p>
+          {{? items.tag != ""}}
+          <p class="item-teg">{{=items.tag}}</p>
+          {{?}}
+          <div class="item-parameter flex">
+              <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+              <p class="bj">马上抢</p>
+              <!-- <p class="assess_count">{{=items.assess_count}} 条评论</p> -->
+          </div>
+      </div>
+      {{~}}
+      </section>
+    </script>
+</body>
+<script src="../script/api.js"></script>
+<script src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam, item, values = {}, sid;
+    apiready = function() {
+        pageParam = api.pageParam;
+        getNewType()
+    };
+
+    // 顶部1级分类
+    function getNewType(type_id) {
+      fnAjax('index/get_activity_type', 'GET').then(res => {
+        if(res.error_code === 0) {
+          // console.log(JSON.stringify(res.data));
+          var data = res.data;
+
+          fnDataToView('classify_list', data, 'list_temp')
+          item = $api.domAll(document, '.top-item');
+          // var index = data.type_lot.findIndex(item => item.type_id === type_id)
+          selected(data.type_lot[0].type_id, 0)
+        }
+      })
+    }
+
+    // 2级分类
+    function getNewType2(tid) {
+      fnAjax('index/get_activity_types', 'GET', {
+        values: {
+          tid: tid
+        }
+      }).then(res => {
+        if(res.error_code === 0) {
+          var data = res.data;
+          // console.log(JSON.stringify(data));
+          fnDataToView('classify_info', data, 'info_temp');
+          if (data.type_lot.length) {
+            getNewType3(data.type_lot[0].type_id)
+            sid = data.type_lot[0].type_id
+          }
+        }
+        var top2 = $api.byId('top');
+        var item1 = document.querySelectorAll('.shop-item1');
+        // console.log(item1.length);
+        if (item1.length>5) {
+          top2.style.cssText="justify-content:flex-start;";
+        }else {
+        top2.style.cssText="justify-content:space-around;";
+        }
+      })
+    }
+
+    // 3级分类  &  商品
+    function getNewType3(tid) {
+      // console.log(tid);
+      fnAjax('index/get_activity_shop', 'GET', {
+        values: {
+          tid: tid
+        }
+      }).then(res => {
+        if(res.error_code === 0) {
+          var data = res.data;
+          // console.log(JSON.stringify(data));
+          fnDataToView('goods', data, 'goodlist');
+          fnDataToView("sort", data, "sort_temp");
+        }
+      })
+    }
+
+    // 推荐商品切换
+    function selected(_id, index, text) {
+      var menu = $api.byId('menu');
+  		var list = document.querySelectorAll('.top-item')
+  		var screenWidth = document.body.offsetWidth;
+  		// 点击的到屏幕的距离
+  		var offsetLeft = list[index].offsetLeft - menu.scrollLeft
+  		//   点击的宽度
+  		var itemWidth = list[index].offsetWidth
+  		//   要移动的宽度
+  		var moveLeft = offsetLeft - screenWidth / 2 + itemWidth / 2
+  		if (offsetLeft >= screenWidth / 2) {
+  			menu.scrollLeft += moveLeft
+  		} else {
+  			menu.scrollLeft += moveLeft
+  		}
+        getNewType2(_id)
+        for (let i = 0; i < item.length; i++) {
+            $api.removeCls(item[i], 'active');
+            if (index == i) {
+                $api.addCls(item[i], 'active');
+            }
+        }
+        if(text) {
+          api.setTabLayoutAttr({
+              title: text
+          })
+        }
+
+        document.body.scrollTop = 0;
+    }
+
+    function sort(sort,sort_num){
+      var state = sort_num == 0 ? '1' : (sort_num == 1 ? '2' : '0');
+      console.log(state);
+      values[sort] = state,
+      values.type_id = pageParam.type_id;
+      values.tid = sid
+      // console.log(JSON.stringify(values))
+      fnAjax('index/get_activity_shop', 'GET', {values}).then(res => {
+        // console.log(JSON.stringify(res))
+          if (res.error_code === 0) {
+            let data = res.data
+            fnDataToView("sort", data, "sort_temp");
+            fnDataToView('goods', data, 'goodlist');
+          }
+      })
+    }
+</script>
+
+</html>

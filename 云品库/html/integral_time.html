@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+    .seckill-top {
+      padding: 20px;
+    }
+    .skill_time_box{
+      padding: 0 15px;
+    }
+
+    .item-img {
+        width: 100%;
+        padding-top: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .assess_count{
+      padding: 0 10px;
+      box-sizing: border-box;
+      font-size: 12px;
+      color: #B3B3B3;
+    }
+    .item-teg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 22px;
+        height: 13px;
+        padding: 2px 5px;
+        margin: 0 5px;
+        /*line-height: 13px;*/
+        font-size: 10px;
+        font-weight: bold;
+        border-radius: 2px;
+        color: #fff;
+        background: #D5B98A;
+    }
+    body{
+      min-height: 100vh;
+      background: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="seckill-top">
+        <div class="flex-center">
+            <p>距活动结束</p>
+            <div id="seckill">
+              <span class="seckill-time">00</span>
+              <span>天</span>
+              <span class="seckill-time">00</span>
+              <span>:</span>
+              <span class="seckill-time">00</span>
+              <span>:</span>
+              <span class="seckill-time">00</span>
+            </div>
+        </div>
+    </div>
+    <script type="text/template" id="seckill_tem">
+      <span class="seckill-time">{{=it.endTime[0]}}</span>
+      <span>天</span>
+      <span class="seckill-time">{{=it.endTime[1]}}</span>
+      <span>:</span>
+      <span class="seckill-time">{{=it.endTime[2]}}</span>
+      <span>:</span>
+      <span class="seckill-time">{{=it.endTime[3]}}</span>
+    </script>
+    <div id="store_list"></div>
+    <script type="text/template" id="template">
+      <div class="img">
+        <img src="{{=it.img.image}}" alt="" width="100%" height="auto">
+      </div>
+      <section class="flex-wrap skill_time_box">
+        {{~it.goods :item}}
+          <div class="shop-item" onclick="openNavTabWin('integral_shop_detail','integral_shop_detail.html','商品详情',{gid:{{=item.gid}}})">
+              <div class="item-img" style="background:url({{=item.g_image}}) no-repeat;background-size:cover"></div>
+              <!-- <img src="" alt="" width="180" height="180"> -->
+              <p class="item-text max-two-line">{{=item.g_name}}</p>
+              {{? item.tag}}
+              <p class="item-teg">{{=items.tag}}</p>
+              {{?}}
+              <div class="item-parameter flex">
+                  <p class="font-red margin-top2">{{=item.g_xprice}}积分</p>
+                  <p class="assess_count">{{=item.assess_count || 0}} 条评论</p>
+                  <!-- <p class="bj">秒杀</p> -->
+              </div>
+          </div>
+        {{~}}
+      </section>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+      fnAjax('Integral/rush', 'GET').then(res => {
+          if (res.error_code === 0) {
+            // console.log(JSON.stringify(res.data))
+            fnDataToView("store_list", res.data, "template");
+            setInterval(function() {
+                endTime = timeFn(res.data.activity.end * 1000);
+                res.data.activity.endTime = endTime;
+                fnDataToView('seckill', res.data.activity, 'seckill_tem');
+                // console.log(endTime)
+            }, 1000)
+          }
+      })
+    }
+
+    function timeFn(d1) {  
+        var dateBegin = new Date(),
+            dateEnd = new Date(d1),
+            dateDiff, dayDiff, leave1, hours, leave2, minutes, leave3, seconds, endTime;  
+        dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
+        if (dateDiff < 0){
+          endTime = ["00", "00", "00", "00"] ;
+          return endTime;  
+        }
+        dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天
+        if (dayDiff < 10) {
+            dayDiff = "0" + dayDiff
+        }
+        leave1 = dateDiff % (24 * 3600 * 1000);   //计算天数后剩余的毫秒数
+        hours = Math.floor(leave1 / (3600 * 1000)); //计算出小时数
+        if (hours < 10) {
+            hours = "0" + hours
+        }
+        //计算相差分钟数
+        leave2 = leave1 % (3600 * 1000);   //计算小时数后剩余的毫秒数
+        minutes = Math.floor(leave2 / (60 * 1000)); //计算相差分钟数
+        if (minutes < 10) {
+            minutes = "0" + minutes
+        }
+        //计算相差秒数
+        leave3 = leave2 % (60 * 1000);    //计算分钟数后剩余的毫秒数    
+        seconds = Math.round(leave3 / 1000); 
+        if (seconds < 10) {
+            seconds = "0" + seconds
+        }
+        endTime = [dayDiff, hours, minutes, seconds] 
+        return endTime;  
+    }
+</script>
+
+</html>

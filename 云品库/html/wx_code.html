@@ -1,0 +1,55 @@
+      <style>
+          .show_wx_code{
+            position: absolute;
+            top: calc(50% - 200px);
+            left: calc(50% - 150px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width:300px;
+            height: 400px;
+            background: #fff;
+          }
+          .show_wx_code .lmx_wx_img{
+            width: 200px;
+            height: 200px;
+          }
+          .show_wx_tip{
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+          }
+          .wx_close{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+          }
+      </style>
+
+
+    <div class="show_wx_code">
+      <img class="wx_close" src="../image/close.png" width="30" height="30" onclick="closeFrame()">
+        <img id="wx_code" class="lmx_wx_img" src="../image/logo.png" width="100" height="100" alt="">
+        <p class="show_wx_tip">微信扫描二维码联系在线客服</p>
+    </div>
+
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/global.js"></script>
+  <script type="text/javascript" src="../script/utils.js"></script>
+  <script src="../script/doT.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+          closeFrame()
+        });
+
+        fnAjax('index/get_sys', 'GET').then(res => {
+            var qrcode = res.data.qrcode;
+            $api.attr($api.byId('wx_code'), 'src', qrcode);
+            console.log(JSON.stringify(res.data.qrcode))
+        })
+      };
+  </script>

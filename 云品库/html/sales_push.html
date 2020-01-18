@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        html {
+            background: #fff !important;
+        }
+
+        body {
+            background: #fff !important;
+        }
+
+        .mt10 {
+            margin-top: 15px;
+        }
+
+        .white {
+            margin-top: 0;
+        }
+
+        .p15 {
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+            background: rgba(247, 248, 249, 1);
+            line-height: 18px;
+        }
+
+        .p_font {
+            margin-top: 4px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .ml {
+            margin-left: 10px;
+        }
+
+        .o_hidden {
+            width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="order_list"></div>
+    <script type="text/template" id="template">
+      <div class="p white">
+        推广订单
+      </div>
+      {{~it :items}}
+      {{~ items.child_order :item}}
+      <div class="p15 flex">
+        <div class="flex-row">
+          <img src="{{=item.g_image}}" alt="" width="80" height="80">
+          <div class="ml10">
+            <div class="o_hidden">{{=item.g_name}}</div>
+            <div class="p_font">订单金额:{{=item.zprice}}</div>
+          </div>
+        </div>
+        <div class="font-red">收益：¥{{=item.rebate}}</div>
+      </div>
+      {{~}}
+      {{~}}
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+      fnAjax('Finance/get_child_user_order', 'GET').then(res => {
+          if (res.error_code === 0) {
+            console.log(JSON.stringify(res.data))
+            fnDataToView("order_list", res.data, "template");
+          }else{
+            api.toast({msg:res.msg})
+          }
+      })
+    }
+</script>
+
+</html>

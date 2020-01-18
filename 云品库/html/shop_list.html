@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        /*购物车列表*/
+
+        body {
+            background: #f7f8f9;
+        }
+
+        .top {
+            padding: 15px 10px;
+            line-height: 22px;
+        }
+        .img{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          height: 500px;
+        }
+        .mt10{
+          margin-top: 10px;
+          color: #7F7F7F;
+        }
+        .w-100{
+          width: 100%;
+        }
+
+        .btn {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 30px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: rgba(255, 254, 254, 1);
+            background: rgba(206, 61, 58, 1);
+            font-size: 14px;
+            border-radius: 50px;
+        }
+        .footer{
+          padding:5px 0;
+          background: #fff;
+        }
+
+        .fw {
+            flex-wrap: wrap;
+        }
+        .shop-item {
+          background-color: #fff;
+            border-radius: 5px;
+        }
+        .item-img {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .item-text,
+        .seckill-item-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .likelist {
+          padding: 0 10px;
+        }
+        .item-text {
+          font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="dingbu"></div>
+  <div id="car_list"></div>
+    <script type="text/template" id="template">
+      {{? it}}
+      <div class="top flex">
+        <div class="top-checkbox flex">
+            <label for=""  onclick="checkAll({{=it.all_selection}})">
+              <input type="checkbox" {{=it.all_selection  == 1 ? 'checked' : ''}}>
+            </label>
+            <p>全部</p>
+        </div>
+        <div class="top-checkbox-color" onclick="openNavTabWin('shop_edit','shop_edit.html','编辑')">编辑</div>
+    </div>
+        {{~ it.car :item}}
+          <div class="item flex-start">
+              <div class="top-checkbox flex-center">
+                  <label for=""  onclick="changeStatus({{=item.status}},{{=item.cid}})">
+                    <input type="checkbox" {{=item.status  == 1 ? 'checked' : ''}}>
+                  </label>
+                  <img src="{{=item.c_image}}" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=item.g_id}}})" alt="" width="88" height="88">
+              </div>
+              <div class="item-details w-100" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=item.g_id}}})">
+                  <h3 class="max-two-line" style="font-size: 12px">{{=item.c_name}}</h3>
+                  <p>{{=item.s_name}}</p>
+                  <div class="flex">
+                      <p>￥{{=item.price}}</p>
+                      <div>×{{=item.num}}</div>
+                  </div>
+              </div>
+          </div>
+        {{~}}
+
+        <div style="text-align:center;">
+          <img width="180px" src="../image/like-title.png" alt="">
+        </div>
+        <section class="flex fw mb-10 likelist">
+            {{~ it.record :items}}
+            <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+            <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+                <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+                <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+                <p class="max-two-line" style="font-size: 12px;">{{=items.g_name}}</p>
+                {{? items.tag != ""}}
+                <p class="item-teg">{{=items.tag}}</p>
+                {{?}}
+                <div class="item-parameter flex">
+                    <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                    <p class="bj">马上抢</p>
+                    <!-- <p class="assess_count">{{=items.assess_count}} 条评论</p> -->
+                </div>
+            </div>
+            {{~}}
+        </section>
+        <footer class="flex footer">
+            <div class="top-checkbox  flex-center">
+                <!-- <label for="check_all"><input type="checkbox" id="check_all"></label>
+                <p>全部</p> -->
+            </div>
+            <div class="flex-row">
+                <p class="flex-center">合计： <span>￥</span><span>{{=it.a_price || 0}}</span></p>
+                <div class="btn" onclick="toDetail()">提交订单</div>
+            </div>
+        </footer>
+      {{??}}
+      <div class="img">
+        <img src="../image/shop_list.png"  width="180px" height="157px">
+        <div class="mt10">您的购物车是空的，快去添加商品吧</div>
+      </div>
+      {{?}}
+    </script>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+      var header = $api.dom('.dingbu'); // 获取 header 标签元素
+      // var footer = $api.dom('footer'); // 获取 footer 标签元素
+
+      // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+      // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+      // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+      var headerH = $api.fixStatusBar(header);
+      // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      // var footerH = $api.fixTabBar(footer);
+
+      isLogin().then(res => {
+      },()=>{
+        api.toast({msg:'请先登录'});
+        // setTimeout(function(){
+        //   openNavTabWin('user_login','user_login.html','登录')
+        // },500)
+      })
+      api.addEventListener({
+          name: 'viewappear'
+      }, function(ret, err) {
+        fnAjax('car/get_user_car','GET').then(res => {
+          if(res.error_code === 0) {
+            var data = res.data,a_price = 0;
+            data.car.forEach(item => {
+              if(item.status == 1){
+                a_price += parseFloat(item.price) * parseInt(item.num)
+              }
+            })
+            data.a_price = a_price;
+            fnDataToView("car_list", data, "template");
+          }else{
+            fnDataToView("car_list", res.data, "template");
+          }
+        })
+      });
+
+      fnAjax('car/get_user_car','GET').then(res => {
+        // console.log(JSON.stringify(res))
+        if(res.error_code === 0) {
+          // console.log(JSON.stringify(res.data))
+          var data = res.data,a_price = 0;
+          data.car.forEach(item => {
+            if(item.status == 1){
+              a_price += parseFloat(item.price) * parseInt(item.num)
+            }
+          })
+          data.a_price = a_price;
+          fnDataToView("car_list", data, "template");
+        }else{
+          fnDataToView("car_list", res.data, "template");
+        }
+      })
+    }
+    function changeStatus(status,cid){
+      status = status === 0 ? 1 : 0;
+      // console.log(status);
+      fnAjax('car/set_car_selection','GET',{
+        values:{
+          type:2,
+          status:status,
+          cid:cid
+        }
+      }).then(res => {
+        fnAjax('car/get_user_car','GET').then(res => {
+          // console.log(JSON.stringify(res))
+          if(res.error_code === 0) {
+            // console.log(JSON.stringify(res.data))
+            var data = res.data,a_price = 0;
+            data.car.forEach(item => {
+              if(item.status == 1){
+                a_price += parseFloat(item.price) * parseInt(item.num)
+              }
+            })
+            data.a_price = a_price;
+            fnDataToView("car_list", data, "template");
+          }else{
+            fnDataToView("car_list", res.data, "template");
+          }
+        })
+      })
+    }
+    function checkAll(status){
+      status = status === 0 ? 1 : 0;
+      fnAjax('car/set_car_selection','GET',{
+        values:{
+          type:1,
+          status:status
+        }
+      }).then(res => {
+        fnAjax('car/get_user_car','GET').then(res => {
+          // console.log(JSON.stringify(res))
+          if(res.error_code === 0) {
+            // console.log(JSON.stringify(res.data))
+            var data = res.data,a_price = 0;
+            data.car.forEach(item => {
+              if(item.status == 1){
+                a_price += parseFloat(item.price) * parseInt(item.num)
+              }
+            })
+            data.a_price = a_price;
+            fnDataToView("car_list", data, "template");
+          }else{
+            fnDataToView("car_list", res.data, "template");
+          }
+        })
+      })
+    }
+    function toDetail(){
+      fnAjax('car/get_user_car','GET').then(res => {
+        if(res.error_code === 0) {
+          // console.log(JSON.stringify(res.data))
+          var data = res.data,statu = false;
+          data.car.forEach(item => {
+            if(item.status == 1){
+              statu = true
+            }
+          })
+          if(statu){
+            openNavTabWin('order_details','order_details.html','确认订单')
+          }else{
+            api.toast({msg:"请选中至少一件商品"})
+          }
+
+        }
+      })
+    }
+</script>
+
+</html>

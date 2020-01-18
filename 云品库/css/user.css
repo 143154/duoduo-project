@@ -1,0 +1,93 @@
+body {
+    background: rgba(247, 248, 249, 1);
+}
+.p20 {
+    padding: 20px;
+    background: #fff;
+}
+
+.p20 h6 {
+    font-size: 12px;
+    color: rgba(80, 80, 80, 1);
+    line-height: 20px;
+}
+
+.m10 {
+    margin: 10px 0;
+}
+
+.p {
+    padding: 15px 20px;
+    font-size: 14px;
+    color: rgba(80, 80, 80, 1);
+    margin-bottom: 1px;
+}
+
+.white {
+    margin-top: 20px;
+}
+
+.ipt {
+  display: flex;
+    padding: 15px;
+    border-bottom: 1px solid rgba(229,229,229,1);
+    font-size: 14px;
+    color: rgba(80, 80, 80, 1);
+}
+
+.ipt input {
+  width: 80%;
+  font-size:14px;
+  color:rgba(80,80,80,1);
+}
+
+.mr10 {
+    width: 80px;
+}
+
+.addr_switch {
+    position: relative;
+    width: 60px;
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 32px;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.addr_circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 1px 0 2px #ccc;
+    background-color: #fff;
+    transition: .5s;
+}
+
+.addr_switch.active {
+    background-color: #1989FA;
+}
+
+.addr_switch.active .addr_circle {
+    left: 28px;
+}
+
+.sub {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.sub button {
+  width:88%;
+  height:44px;
+  background:rgba(206,61,58,1);
+  border-radius:24px;
+  font-size:16px;
+  color:rgba(255,255,255,1);
+}

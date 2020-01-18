@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/order.css" />
+    <style>
+        /*空订单*/
+
+        .page p {
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(127, 127, 127, 1);
+        }
+
+        .list img {
+            margin-top: 3px;
+        }
+
+        .shop-list {
+            padding: 10px 15px;
+            overflow: hidden;
+        }
+
+        .shop-item {
+            float: left;
+            margin-right: 4px;
+        }
+
+        .pages {
+            padding: 15px;
+            margin-top: 1px;
+        }
+
+        .font h6 {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+        }
+        /*空订单*/
+
+        .white {
+            margin-top: 0;
+        }
+
+        .all {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 32px;
+            margin-bottom: 4px;
+        }
+
+        .font p {
+            margin-top: 10px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .sub {
+            position: relative;
+            bottom: -20px;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .sub button {
+            width: 88%;
+            height: 44px;
+            background: rgba(206, 61, 58, 1);
+            border-radius: 24px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 1);
+        }
+        .w-100{
+          width:100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="recede"></div>
+    <script type="text/template" id="template">
+        <div class="list white flex">
+            <p>选择服务类型</p>
+        </div>
+        {{~ it.order :item}}
+        <div class="item bj-color flex-row">
+            <img src="{{=item.g_image}}" alt="" width="88" height="88">
+            <div class="item-property flex">
+                <div class="padding-8">
+                    <h3 class="item-property-title max-two-line">{{=item.g_name}}</h3>
+                    <p class="guige">{{=item.s_name}}</p>
+                </div>
+            </div>
+        </div>
+        {{~}} {{~ it.view :items}}
+        <label for="r{{=items.id}}" class="w-100">
+        <div  class="white flex pages">
+            <div class="flex-row">
+                <img src="{{=items.icon}}" alt="" width="16" height="16">
+                <div class="font ml10">
+                    <h6>{{=items.name}}</h6>
+                    <p>{{=items.brief}}</p>
+                </div>
+            </div>
+            <div class="flex-center">
+                <input type="radio" name="tui" id="r{{=items.id}}" onclick="types('{{=items.name}}')">
+            </div>
+        </div>
+        </label>
+        {{~}}
+
+    <div class="p12">退款金额</div>
+    <div class="white p12 font-red">￥{{=it.zprice}}</div>
+    <div class="p12">退款说明</div>
+    <div class="white">
+        <textarea class="text" style="resize:none" id="content" name="name" rows="8" cols="80" placeholder="请输入退款说明"></textarea>
+    </div>
+    <div class="sub">
+        <button onclick="send()">提交申请</button>
+    </div>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam,refund_type;
+    apiready = function() {
+        pageParam = api.pageParam;
+        fnAjax('user/select_service', 'GET', {
+            values: {
+                did: pageParam.did
+            }
+        }).then(res => {
+            console.log(JSON.stringify(res));
+            fnDataToView('recede', res.data, 'template');
+        })
+    }
+    function send(){
+      var tui_content = $('content').value;
+      fnAjax('user/save_apply','GET',{
+        values:{
+          did:pageParam.did,
+          refund_type:refund_type,
+          tui_content:tui_content
+        }
+      }).then(res => {
+        if(res.error_code === 0){
+          api.toast({msg:res.msg});
+        }else{
+          api.toast({msg:res.msg});
+        }
+      })
+    }
+    function types(name){
+      refund_type = name;
+    }
+</script>
+
+</html>

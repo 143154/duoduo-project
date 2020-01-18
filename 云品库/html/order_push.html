@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/order.css" />
+    <style>
+        /*空订单*/
+
+        .page p {
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(127, 127, 127, 1);
+        }
+
+        .list img {
+            margin-top: 3px;
+        }
+
+        .shop-list {
+            padding: 10px 15px;
+            overflow: hidden;
+        }
+
+        .shop-item {
+            float: left;
+            margin-right: 4px;
+        }
+
+        .all {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 32px;
+            margin-bottom: 4px;
+        }
+
+        .margin-right {
+            margin-right: 12px;
+        }
+
+        .margin-left {
+            margin-left: 20px;
+        }
+
+        .subimt {
+            padding: 8px 15px;
+        }
+
+        .btn {
+            width: 76px;
+            height: 28px;
+            font-size: 14px;
+            color: rgba(153, 153, 153, 1);
+            line-height: 28px;
+            border: 1px solid rgba(153, 153, 153, 1);
+            border-radius: 10px;
+        }
+
+        .btn-color {
+            border: 1px solid rgba(206, 61, 58, 1);
+            background: rgba(206, 61, 58, 1);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .zhao {
+            width: 90px;
+            height: 54px;
+            padding: 18px 0;
+            margin-left: 15px;
+            border: 1px solid rgba(231, 231, 231, 1);
+            font-size: 12px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .zhao textarea {
+            font-size: 14px;
+        }
+
+        .zhao div {
+            margin-top: 6px;
+        }
+
+        .pb10 {
+            padding-bottom: 10px;
+        }
+
+        .mpl10 {
+            display: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="order_info"></div>
+    <script type="text/template" id="template">
+        <div class="list white flex">
+            <p>订单号：{{=it.code}}</p>
+            <p class="font-red" onclick="push()">提交</p>
+        </div>
+        {{~ it.order :item:index}}
+        <div class="item bj-color flex">
+            <img src="{{=item.g_image}}" alt="" width="88" height="88">
+            <div class="item-property flex">
+                <div class="padding-8">
+                    <h3 class="item-property-title">{{=item.g_name}}</h3>
+                    <p class="guige">{{=item.s_name}}</p>
+                </div>
+                <div class="padding-8">
+                    <p class="item-property-title">￥{{=item.price}}</p>
+                    <s>￥{{=item.yprice}}</s>
+                    <p class="number">x{{=item.num}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="white">
+            <textarea class="text" id="c{{=item.gid}}" onBlur="changeCount('c{{=item.gid}}',{{=index}})" style="resize:none" name="name" rows="8" cols="80" placeholder="请您输入对我们的建议或意见..."></textarea>
+        </div>
+        <div class="zhao-p">
+            <div class="flex-start">
+                <img class="mpl10" id="a{{=item.gid}}" alt="" width="90" height="90">
+                <div class="zhao text-center" onclick="showAction('a{{=item.gid}}','p{{=item.gid}}',{{=index}})">
+                    <img src="../image/zhao.png" alt="" width="36" height="30">
+                    <div id="p{{=item.gid}}">照片</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row evaluate white">
+            <div>商品评价</div>
+            <div class="ml10 flex assess" id="m{{=item.gid}}">
+                <img src="../image/assess_star_hov.png" onclick="star('m{{=item.gid}}',{{=index}},0)" class="star" width="16" height="16">
+                <img src="../image/assess_star_hov.png" onclick="star('m{{=item.gid}}',{{=index}},1)" class="star" width="16" height="16">
+                <img src="../image/assess_star_hov.png" onclick="star('m{{=item.gid}}',{{=index}},2)" class="star" width="16" height="16">
+                <img src="../image/assess_star_hov.png" onclick="star('m{{=item.gid}}',{{=index}},3)" class="star" width="16" height="16">
+                <img src="../image/assess_star_hov.png" onclick="star('m{{=item.gid}}',{{=index}},4)" class="star" width="16" height="16">
+            </div>
+            <div class="ml10">满意请给五星哦~</div>
+        </div>
+        {{~}}
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam, num = 5,
+        assess = [],
+        list;
+    apiready = function() {
+        pageParam = api.pageParam;
+        console.log(JSON.stringify(pageParam))
+        fnAjax('user/evaluate', 'GET', {
+            values: {
+                did: pageParam.did
+            }
+        }).then(res => {
+            var data = res.data;
+            for (var i = 0; i < data.order.length; i++) {
+                assess.push({
+                    gid: data.order[i].gid,
+                    num: 5,
+                    content: "",
+                    image: ""
+                })
+            }
+
+            fnDataToView("order_info", data, "template");
+
+
+
+        })
+    }
+
+    function star(id, index, i) {
+        var starList = $api.domAll($(id), '.star');
+        num = parseInt(i) + 1;
+
+        starList.forEach(items => {
+            $api.attr(items, 'src', '../image/assess_star_no.png');
+        })
+        for (var i = 0; i < num; i++) {
+            $api.attr(starList[i], 'src', '../image/assess_star_hov.png');
+        }
+        assess[index].num = num;
+    }
+
+    function changeCount(id, index) {
+        var content = $(id).value;
+        assess[index].content = content;
+    }
+
+    function push() {
+        did = pageParam.did;
+        // fnAjax('user/add_assess','POST',{
+        //   values:{
+        //     did:did,
+        //     assess:assess
+        //   }
+        // }).then(res =>{
+        //   if(res.error_code === 0){
+        //     api.toast({msg:res.msg});
+        //     setTimeout(function(){
+        //       closeWin();
+        //     },1000)
+        //   }else{
+        //     api.toast({msg:res.msg});
+        //     console.log(JSON.stringify(res))
+        //   }
+        // })
+        // console.log(JSON.stringify(assess))
+        // console.log(Array.isArray(assess))
+        console.log(JSON.stringify(assess))
+        api.ajax({
+            url: 'http://ypk.dd371.com/api/user/add_assess',
+            method: 'POST',
+            headers: {
+                token: '50a00a9b8d3402ed4f1b3ed4b890294b',
+                uid: $api.getStorage('uid') || null
+            },
+            traditional: true,
+            dataType: 'JSON',
+            data: {
+                values: {
+                    did: did,
+                    assess: assess
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                api.toast({
+                    msg: ret.msg
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000)
+            } else {
+                api.toast({
+                    msg: ret.msg
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000)
+            }
+        });
+
+
+    }
+
+    function sendPicture(data, index) {
+        fnAjax('user/upload_img', 'POST', {
+            files: {
+                image: data
+            }
+        }).then(res => {
+            if (res.error_code === 0) {
+                assess[index].image = res.data;
+            }
+        })
+    }
+
+    function showAction(aid, pid, index) {
+        api.actionSheet({
+            title: '添加图片',
+            cancelTitle: '取消',
+            buttons: ['拍照', '从手机相册选择']
+        }, function(ret, err) {
+            if (ret) {
+                getPicture(ret.buttonIndex, aid, pid, index);
+            }
+        });
+    }
+
+    function getPicture(sourceType, aid, pid, index) {
+        if (sourceType == 1) { // 拍照
+            //获取一张图片
+            api.getPicture({
+                sourceType: 'camera',
+                encodingType: 'png',
+                mediaValue: 'pic',
+                allowEdit: false,
+                quality: 90,
+                saveToPhotoAlbum: true
+            }, function(ret, err) {
+                // 获取拍照数据并处理
+                if (ret) {
+                    var imgSrc = ret.data;
+                    if (imgSrc != "") {
+                        console.log(JSON.stringify(imgSrc))
+                        var ele = $api.dom('#' + aid),
+                            picture = $api.byId(pid);
+                        $api.attr(ele, 'src', imgSrc);
+                        $api.attr(ele, 'style', 'display:block');
+                        $api.text(picture, '更换照片');
+                        sendPicture(imgSrc, index);
+
+                    }
+                }
+            });
+        } else if (sourceType == 2) {
+            api.getPicture({
+                sourceType: 'library',
+                encodingType: 'jpg',
+                mediaValue: 'pic',
+                destinationType: 'base64',
+                allowEdit: true,
+                quality: 50,
+                targetWidth: 100,
+                targetHeight: 100,
+                saveToPhotoAlbum: false
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.data) {
+                        var ele = $api.dom('#' + aid),
+                            picture = $api.byId(pid);
+                        $api.attr(ele, 'src', ret.base64Data);
+                        $api.attr(ele, 'style', 'display:block');
+                        $api.text(picture, '更换照片');
+                        sendPicture(ret.data, index);
+                    }
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+
+        }
+    }
+</script>
+
+</html>

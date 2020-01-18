@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        /*已完成订单*/
+
+        .top {
+            padding: 0 60px;
+            font-size: 14px;
+            color: rgba(17, 17, 17, 1);
+            border-bottom: 1px solid rgba(229, 229, 229, 1);
+        }
+
+        .top-item {
+            padding: 14px;
+        }
+
+        .border-bottom {
+            border-bottom: 2px solid rgba(235, 73, 73, 1);
+        }
+
+        .p20 {
+            /*display: none;*/
+            padding: 14px 10px;
+            border-bottom: 1px solid rgba(229, 229, 229, 1);
+        }
+
+        .font {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .color {
+            margin-top: 4px;
+            font-size: 14px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .width {
+            width: 234px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .integral{
+          display: none;
+        }
+        .integral.active{
+          display: block;
+          height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex top">
+        <div onclick="changeNav(0)" class="top-item border-bottom">积分明细</div>
+        <div onclick="changeNav(1)" class="top-item">兑换记录</div>
+    </div>
+    <div class="integral active" id="integ_detail"></div>
+    <div class="integral" id="record"></div>
+    <!-- 积分明细 -->
+    <script type="text/template" id="integ_temp">
+      {{~it :item}}
+      <div class="p20 flex">
+          <div class="font">
+              <div>{{=item.describe}}</div>
+              <div class="color">{{=item.create}}</div>
+          </div>
+          <div class="font-red flex-center">
+            {{? item.type == 0}}
+            +
+            {{??}}
+            -
+            {{?}}
+            {{=item.price}}
+          </div>
+      </div>
+      {{~}}
+    </script>
+    <!-- 兑换记录 -->
+    <script type="text/template" id="record_temp">
+      {{~it :items}}
+      <div class="p20 flex">
+          <div class="font">
+              <div class="width">{{=items.describe}}</div>
+              <div class="color">单价：{{=items.price}}积分</div>
+          </div>
+          <div class="font-red flex-center">已兑换</div>
+      </div>
+      {{~}}
+    </script>
+
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript" src="../script/utils.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var pageParam
+    apiready = function() {
+      pageParam = api.pageParam;
+      console.log(JSON.stringify(pageParam))
+      fnAjax('Integral/integ_detail', 'POST').then(res => {
+          if (res.error_code === 0) {
+            var data = res.data;
+            // console.log(JSON.stringify(res))
+            data.integ_detail.forEach(item => {
+              item.create = utilsDate(item.create * 1000);
+            });
+            data.record.forEach(item => {
+              item.create = utilsDate(item.create * 1000);
+            });
+            // console.log(JSON.stringify(data))
+            fnDataToView("integ_detail", data.integ_detail, "integ_temp");
+            fnDataToView("record", data.record, "record_temp");
+            if(pageParam.statu == "兑换记录"){
+              changeNav(1)
+            }else{
+              changeNav(0)
+            }
+          }
+      })
+    }
+    function changeNav(i) {
+      var list = $api.domAll('.integral'),
+      nav_list = $api.domAll('.top-item'),
+      other = i == '1' ? '0' : '1';
+      $api.removeCls(nav_list[other], 'border-bottom');
+      $api.addCls(nav_list[i], 'border-bottom');
+      $api.removeCls(list[other], 'active');
+      $api.addCls(list[i], 'active');
+    }
+</script>
+
+</html>

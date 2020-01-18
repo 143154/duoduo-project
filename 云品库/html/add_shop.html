@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <style>
+        /*加入购物车*/
+
+        .shop-add {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /*height: 100%;*/
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .shop-add-top {
+            /*height: 324px;*/
+            background-color: #000;
+            opacity: 0.7;
+        }
+
+        .shop-add-shop {
+          position: relative;
+            /*height: 288px;*/
+            padding: 15px 10px 20px;
+            background-color: #fff;
+            box-shadow: -2px 0 1px 1px #f0f0f0;
+        }
+
+        .shop-add-shop-right {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+        }
+
+        .shop-add-shop-padding8 {
+            padding: 4px 0;
+        }
+
+        .shop-add-shop-text p {
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .shop-add-shop-text s {
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .shop-add-shop-text {
+            height: 88px;
+            margin-left: 10px;
+            padding: 10px 0;
+        }
+
+        .explain p {
+            /*width: 52px;*/
+            height: 28px;
+            background-color: #fff;
+            color: rgba(206, 61, 58, 1);
+            border-radius: 5px;
+            line-height: 28px;
+            text-align: center;
+            padding: 0 5px;
+            border: 1px solid rgba(206, 61, 58, 1);
+            margin: 5px 0 5px 10px;
+        }
+
+        .explain-bj {
+            color: rgba(255, 255, 255, 1) !important;
+            background: rgba(206, 61, 58, 1) !important;
+        }
+
+        .count {
+            width: 20%;
+            padding: 6px 12px;
+            margin-bottom: 10px;
+            color: rgba(80, 80, 80, 1);
+            border: 1px solid rgba(193, 193, 193, 1);
+            border-radius: 5px;
+        }
+
+        .add-vehicle {
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 1);
+            background: rgba(206, 61, 58, 1);
+            border-radius: 44px;
+        }
+
+        .spec_arr.noshow,
+        .spec_arr-img.noshow {
+            display: none;
+        }
+
+        .w-100 {
+            width: 100%
+        }
+
+        .mb10 {
+            margin-bottom: 60px;
+        }
+
+        .shop-add-shop {
+            background: #fff;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            ;
+            align-items: center;
+        }
+
+        .flex-row {
+            display: flex;
+            justify-content: flex-start;
+            /*align-items: center;*/
+            /*flex-direction: row;*/
+            flex-wrap: wrap;
+        }
+
+        .padding10 {
+            padding: 5px 10px;
+        }
+
+        .padding-top10 {
+            padding-top: 10px;
+        }
+
+        .margin-left10 {
+            margin-left: 10px;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .red {
+            color: rgba(206, 61, 58, 1) !important;
+        }
+        .spec_arr-item{
+          transition: .5s;
+        }
+    </style>
+</head>
+
+<!-- 加入购物车 -->
+
+<div class="shop-add display-none" id="shop_add"></div>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript" src="../script/utils.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam, count = 1,
+        sid = 0
+        gather = [];
+    apiready = function() {
+        pageParam = api.pageParam;
+
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+          closeFrame()
+        });
+
+
+        // console.log(JSON.stringify(pageParam))
+        fnAjax('goods/get_goods_spec_lister', 'GET', {
+            values: {
+                gid: pageParam.gid
+            }
+        }).then(res => {
+            if (res.error_code === 0) {
+              var data = res.data;
+                data.goods.g_xprice = data.goods.g_xprice.toFixed(2);
+                fnDataToView("shop_add", data, "shop_temp");
+                if(pageParam.buyNow){
+                   $('to_next').innerHTML = "下一步";
+                }else{
+                  $('to_next').innerHTML = "加入购物车";
+                }
+                // 切换规格
+                var list = $api.domAll('.spec_arr-item');
+                list.forEach(item => {
+                    item.onclick = function() {
+                      var type = this.dataset.type;
+                      var idx = this.dataset.idx;
+                      gather[idx] = type;
+                      console.log(JSON.stringify(gather));
+                      if($api.hasCls(this, 'explain-bj')){
+                        $api.removeCls(this, 'explain-bj');
+                        fnAjax('goods/get_goods_spec_lister', 'GET', {
+                            values: {
+                                gid: pageParam.gid
+                            }
+                        }).then(res => {
+                          if(res.error_code === 0){
+                            var goods = res.data.goods;
+                            sid = 0;
+                            $api.html($('price'), goods.g_image);
+                            // $api.html($('g_name'), goods.g_name);
+                            $api.html($('xprice'), "¥"+goods.g_xprice.toFixed(2));
+                          }
+                        })
+                        return;
+                      }
+                        list.forEach(items => {
+                            $api.removeCls(items, 'explain-bj')
+                        })
+                        fnAjax('goods/get_spec_group', 'POST', {
+                            values: {
+                                gid: pageParam.gid,
+                                gather: ',' + gather.join(',')
+                            }
+                        }).then(res => {
+                          if(res.error_code === 0){
+
+                            var gathers = res.data.gather;
+                            if (gathers) {
+                              gathers = gathers.split(",")
+                              list.forEach(i => {
+                                gathers.forEach(j => {
+                                  if (i.dataset.type == j) {
+                                    $api.addCls(i, 'explain-bj');
+                                  }
+                                })
+                              })
+                            }
+                            
+                            var data =  res.data.spec;
+                            sid = data.sid;
+                            $api.html($('price'), data.s_image);
+                            // $api.html($('g_name'), data.s_name);
+                            $api.html($('xprice'), "¥"+data.s_xprice.toFixed(2));
+                          }else{
+                            api.toast({msg:"sorry,此规格产品暂无库存"})
+                            fnAjax('goods/get_goods_spec_lister', 'GET', {
+                                values: {
+                                    gid: pageParam.gid
+                                }
+                            }).then(res => {
+                              if(res.error_code === 0){
+                                var goods = res.data.goods;
+                                sid = 0;
+                                $api.html($('price'), goods.g_image);
+                                // $api.html($('g_name'), goods.g_name);
+                                $api.html($('xprice'), "¥"+goods.g_xprice.toFixed(2));
+                              }
+                            })
+                          }
+                        })
+                    }
+                })
+                $('to_next').onclick = function() {
+                  // console.log(sid);
+                  if(sid == 0){
+                    api.toast({msg:'请选择规格'})
+                    return;
+                  }
+                    isLogin().then(res => {
+                        if (this.innerHTML == '下一步') {
+                            openNavTabWin('order_details', 'order_details.html', '确认订单', {
+                                values: {
+                                    gid: pageParam.gid,
+                                    sid: sid,
+                                    num: count
+                                }
+                            })
+                        } else {
+                            fnAjax('car/add_car', 'POST', {
+                                values: {
+                                    gid: pageParam.gid,
+                                    sid: sid,
+                                    num: count
+                                }
+                            }).then(res => {
+                                if (res.error_code === 0) {
+                                    api.toast({
+                                        msg: res.msg
+                                    })
+                                }
+                            })
+                        }
+                    }, () => {
+                        api.toast({
+                            msg: '请先登录'
+                        });
+                    })
+                }
+            }
+
+1213
+        })
+    }
+
+    function number(num) {
+        count = parseInt($('number').innerHTML);
+        if (count >= 1 && count <= 99) {
+            count += parseInt(num);
+            if (count < 1) {
+                count = 1
+            }
+            if (count > 99) {
+                count = 99
+            }
+            $('number').innerHTML = count;
+        }
+    }
+    // $api.attr($('shop_add'), 'style', 'margin-top:' + (api.frameHeight - 400) + "px");
+</script>
+
+</html>

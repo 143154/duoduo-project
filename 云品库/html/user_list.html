@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+    .m10 {
+      font-size:14px;
+      color:rgba(80,80,80,1);
+      line-height:24px;
+    }
+    .ml6 {
+      margin-left: 6px;
+    }
+    .mo {
+      display: inline-block;
+      padding: 0 5px;
+      background:rgba(206,61,58,1);
+      border-radius:3px;
+      font-size:12px;
+      color:rgba(255,255,255,1);
+    }
+    </style>
+</head>
+
+<body>
+    <div class="m10 p12 flex white">
+      <div>
+        <div>测试 <span class="ml10">××××××××××</span><span class="mo ml10">默认</span></div>
+        <div>河南省郑州市金水区测试测试测试地址</div>
+      </div>
+      <div class="flex-center">
+        <img src="../image/icon_setting.png" alt="" width="14" height="14">
+        <div class="ml6" onclick="openWin('user_siteAdd.html')">编辑</div>
+      </div>
+    </div>
+    <div class="sub" onclick="openWin('user_siteAdd.html')">
+        <button>新建地址</button>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    }
+</script>
+
+</html>

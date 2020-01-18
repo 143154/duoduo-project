@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        .bj-a {
+            height: 174px;
+            border-radius: 10px;
+            background: url(../image/bj-a.png) no-repeat left;
+            background-size: cover;
+        }
+
+        .nav-list {
+            padding: 15px 0;
+        }
+
+        .nav-item {
+            text-align: center;
+        }
+        /*.list {
+          padding: 15px 30px;
+          border-bottom: 1px solid rgba(229, 229, 229, 1);
+      }*/
+
+        .total-title {
+            padding: 10px 0;
+        }
+
+        .total-title,
+        .seckill-title {
+            font-size: 16px;
+            color: rgba(239, 28, 30, 1);
+        }
+
+        .total-left {
+            width: 75%;
+            margin-right: 10px;
+        }
+
+        .total-right {
+            width: 25%;
+        }
+
+        .seckill-item-text,
+        .seckill-item-parameter {
+            width: 100%;
+            /*padding: 0 6px 4px;*/
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .item-text,
+        .seckill-item-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .seckill-item-parameter {
+            padding: 0 0 4px;
+        }
+
+        .seckill-item-parameter p {
+            font-size: 12px;
+            line-height: 26px;
+        }
+
+        .seckill-item-parameter s {
+            font-size: 12px;
+            line-height: 29px;
+        }
+
+        .bj-b {
+            height: 163px;
+            background: url(../image/bj-a.png) no-repeat left;
+            background-size: cover;
+        }
+
+        .padding {
+            padding: 10px 15px
+        }
+
+        .mt10 {
+            margin-top: 4px;
+        }
+
+        .mt-5 {
+            margin-top: .75rem;
+        }
+
+        .pb-5 {
+            padding-bottom: 1rem;
+        }
+
+        .p10 {
+            padding: 6px 0;
+        }
+
+        .index_item {
+            width: 48%;
+        }
+
+        .index_bj {
+            width: 48px;
+            height: 22px;
+            background: rgba(206, 61, 58, 1);
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 22px;
+            text-align: center;
+            color: rgba(255, 255, 255, 1);
+        }
+        /*.nav-item p {
+          font-weight: 700
+      }*/
+
+        .fw {
+            flex-wrap: wrap;
+        }
+
+        .seckill-item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .nav-item-title {
+            margin-top: 10px;
+        }
+
+        .ipt input {
+            width: 100%;
+            height: 30px;
+            padding: 0 14px;
+            background: rgba(243, 243, 243, 1);
+            border: 1px solid rgba(238, 238, 238, 1);
+            border-radius: 15px;
+        }
+
+        .index_title_box {
+            position: relative;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            ;
+            width: 100%;
+            height: 40px;
+            margin: 10px 0;
+        }
+
+        .index_title_box span {
+            display: block;
+            width: 25%;
+            height: 20px;
+            border-top: 1px solid #b3b3b3;
+        }
+
+        .index_beautiful_title {
+            width: 120px;
+            height: 23px;
+            line-height: 23px;
+            border: 1px solid #b3b3b3;
+            box-sizing: border-box;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .index_beautiful_subtitle {
+            color: #8C8C8C;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        .mt-20 {
+            margin-top: 40px;
+        }
+
+        .opacity-0 {
+            opacity: 0
+        }
+
+        .mt-10 {
+            margin-top: 20px;
+        }
+
+        .lmx_search {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 99
+        }
+
+        #picture {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div id="page"></div>
+        <div id="seckill"></div>
+        <div id="bottom"></div>
+        <script type="text/template" id="template">
+            <ul class="flex-around nav-list fw">
+                {{~it.type_arr :item}}
+                <li class="nav-item mt-5" onclick="fnToClass({{=item.type_id}})">
+                    <img src="{{=item.type_image}}" alt="" width="50" height="50">
+                    <p class="nav-item-title">{{=item.type_name}}</p>
+                </li>
+                {{~}}
+            </ul>
+            <div>
+                <div class="index_title_box mt-10">
+                    <span></span>
+                    <div>
+                        <div class="index_beautiful_title">积分兑换</div>
+                        <div class="index_beautiful_subtitle">免费领积分兑换商品</div>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="flex mt-10">
+                    <div class="total-left" onclick="openNavTabWin('integral_sign','integral_sign.html','积分商城')">
+                        <img src="{{=it.big_img.image}}" alt="" width="100%" height="105">
+                    </div>
+                    <div class="total-right" onclick="openNavTabWin('integral_sign','integral_store.html','积分商城')">
+                        <img src="{{=it.small_img.image}}" alt="" width="100%" height="105">
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/template" id="seckill_tem">
+            <div class="seckill">
+
+                <div class="index_title_box mt-10">
+                    <span></span>
+                    <div>
+                        <div class="index_beautiful_title">好家购秒杀</div>
+                        <div class="index_beautiful_subtitle">秒杀限时抢购</div>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="flex" onclick="openNavTabWin('integral_time','integral_time.html','秒杀活动')">
+                    <div class="flex-center">
+                        <p>距活动结束</p>
+                        <div class="p10">
+                            <span class="seckill-time">{{=it.activity.endTime[0]}}</span>
+                            <span>天</span>
+                            <span class="seckill-time">{{=it.activity.endTime[1]}}</span>
+                            <span>:</span>
+                            <span class="seckill-time">{{=it.activity.endTime[2]}}</span>
+                            <span>:</span>
+                            <span class="seckill-time">{{=it.activity.endTime[3]}}</span>
+                            <!-- <img class="seckill-img" src="../image/right.png" alt="" width="8" height="12"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/template" id="bottom_tem">
+            <div class="flex">
+                {{~it.activitys.goods :items}}
+                <div class="seckill-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})">
+                    <div class="seckill-item-img" style="background:url('{{=items.g_image}}') no-repeat;background-size:cover;">
+                        <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="auto"> -->
+                    </div>
+                    <p class="seckill-item-text">{{=items.g_name}}</p>
+                    <div class="seckill-item-parameter flex">
+                        <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                        <s>￥{{=items.g_yprice}}</s>
+                    </div>
+                </div>
+                {{~}} {{? it.activitys.goods.length
+                < 3}} <div class="seckill-item opacity-0">
+                    <div class="seckill-item-img">
+                        <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="auto"> -->
+                    </div>
+                    <p class="seckill-item-text">占位</p>
+                    <div class="seckill-item-parameter flex">
+                        <p class="font-red margin-top2">占位</p>
+                        <s>占位</s>
+                    </div>
+            </div>
+            {{?}}
+            </div>
+            <div class="bj-b">
+                <img src="{{=it.center_img.image}}" width="100%" height="100%">
+            </div>
+            {{~it.goods_type :item}}
+            <div class="index_title_box mt-20" onclick="openNavTabWin('index_classify_details','index_classify_details.html','分类详情',{type_id:{{=item.type_id}}})">
+                <span></span>
+                <div>
+                    <div class="index_beautiful_title">{{=item.type_name}}</div>
+                    <div class="index_beautiful_subtitle {{=item.type_desc ? '' : 'opacity-0'}}">{{=item.type_desc}}</div>
+                </div>
+                <span></span>
+            </div>
+            <section class="flex fw mb-10">
+                {{~ item.recommend_goods :items}}
+                <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})">
+                    <img src="{{=items.g_image}}" alt="" width="100%" height="200">
+                    <p class="item-text">{{=items.g_name}}</p>
+                    <div class="item-parameter flex">
+                        <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                        <p class="bj">马上抢</p>
+                    </div>
+                </div>
+                {{~}}
+            </section>
+            {{~}}
+        </script>
+    </section>
+</body>
+<script src="../script/api.js"></script>
+<script src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnAjax('index/index', 'GET').then(res => {
+            if (res.error_code === 0) {
+                var banner = res.data.home_banner.map(item => item.image);
+                // console.log(JSON.stringify(res.data.activitys.activity))
+                var endTime = timeFn(res.data.activitys.activity.end * 1000);
+                res.data.activitys.activity.endTime = endTime;
+                // console.log(JSON.stringify(res.data))
+
+                var goods = res.data.goods_type;
+                goods.forEach(item => {
+                    if (item.recommend_goods.length % 2 != 0) {
+                        item.recommend_goods.pop();
+                    }
+                })
+                fnDataToView('page', res.data, 'template');
+                fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+                fnDataToView('bottom', res.data, 'bottom_tem');
+                setInterval(function() {
+                    endTime = timeFn(res.data.activitys.activity.end * 1000);
+                    res.data.activitys.activity.endTime = endTime;
+                    fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+                    // console.log(endTime)
+                }, 1000)
+            }
+        });
+    };
+
+    function timeFn(d1) {  
+        var dateBegin = new Date(),
+            dateEnd = new Date(d1),
+            dateDiff, dayDiff, leave1, hours, leave2, minutes, leave3, seconds, endTime;  
+        dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
+        if (dateDiff < 0) {
+            endTime = ["00", "00", "00", "00"] ;
+            return endTime;  
+        }
+        dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天
+        if (dayDiff < 10) {
+            dayDiff = "0" + dayDiff
+        }
+        leave1 = dateDiff % (24 * 3600 * 1000);   //计算天数后剩余的毫秒数
+        hours = Math.floor(leave1 / (3600 * 1000)); //计算出小时数
+        if (hours < 10) {
+            hours = "0" + hours
+        }
+        //计算相差分钟数
+        leave2 = leave1 % (3600 * 1000);   //计算小时数后剩余的毫秒数
+        minutes = Math.floor(leave2 / (60 * 1000)); //计算相差分钟数
+        if (minutes < 10) {
+            minutes = "0" + minutes
+        }
+        //计算相差秒数
+        leave3 = leave2 % (60 * 1000);    //计算分钟数后剩余的毫秒数    
+        seconds = Math.round(leave3 / 1000); 
+        if (seconds < 10) {
+            seconds = "0" + seconds
+        }
+        endTime = [dayDiff, hours, minutes, seconds] ;
+        // console.log(endTime)
+        return endTime;  
+    }
+
+    function fnToClass(_id) {
+        // console.log(_id)
+        api.setTabBarAttr({
+            index: 1
+        });
+        api.sendEvent({
+            name: 'myEvent',
+            extra: {
+                type_id: _id
+            }
+        });
+    }
+
+    function showLogin() {
+        api.toast({
+            msg: '请先登录'
+        })
+    }
+</script>
+
+</html>

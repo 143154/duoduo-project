@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        /*购物车列表*/
+
+        body {
+            background: #f7f8f9;
+        }
+
+        .top {
+            padding: 15px 10px;
+            line-height: 22px;
+        }
+
+        .top-checkbox {
+            font-size: 16px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .top-checkbox p {
+            margin-left: 10px;
+        }
+
+        .top-checkbox-color {
+            color: rgba(255, 99, 51, 1);
+        }
+
+        .remove {
+            height: 100px;
+            padding: 0 13px;
+            background: rgba(206, 61, 58, 1);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .item-details-count {
+            width: 100px;
+            padding: 6px;
+            font-size: 16px;
+            font-family: MicrosoftYaHei-Bold;
+            font-weight: bold;
+            color: rgba(80, 80, 80, 1);
+            border: 1px solid rgba(193, 193, 193, 1);
+            border-radius: 5px;
+            line-height: 26px;
+        }
+
+        .item-details-count span {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+  <div id="shop_edit"></div>
+  <script type="text/template" id="template">
+    <div class="top flex">
+        <div class="top-checkbox flex">
+            <label onclick="checkAll({{=it.all_selection}})">
+              <input type="checkbox" {{=it.all_selection  == 1 ? 'checked' : ''}} >
+            </label>
+            <p>全部</p>
+        </div>
+        <div class="top-checkbox-color" onclick="closeWin()">完成</div>
+    </div>
+    <div>
+      {{~ it.car :item}}
+        <div class="item flex">
+            <div class="top-checkbox flex-row">
+                <div class="flex-center">
+                    <label for="check_all" onclick="changeStatus({{=item.status}},{{=item.cid}})">
+                      <input type="checkbox" {{=item.status  == 1 ? 'checked' : ''}} >
+                    </label>
+                    <img src="{{=item.c_image}}" alt="" width="88" height="88">
+                </div>
+                <div class="item-details">
+                    <div class="item-details-count flex-around">
+                        <span onclick="changeNum(-1,{{=item.cid}})">-</span>
+                        <span id="c{{=item.cid}}">{{=item.num}}</span>
+                        <span onclick="changeNum(+1,{{=item.cid}})">+</span>
+                    </div>
+                    <p>{{=item.s_name}}</p>
+                    <div class="red">￥{{=item.price}}</div>
+                </div>
+            </div>
+            <!-- <div class="remove flex-center" onclick="del({{=item.cid}})">删除</div> -->
+        </div>
+      {{~}}
+    </div>
+    <footer class="flex footer">
+        <div class="top-checkbox  flex-center">
+            <!-- <label for="check_all"><input type="checkbox" id="check_all"></label>
+            <p>全部</p> -->
+        </div>
+        <div class="flex-row">
+            <p class="flex-center">合计： <span>￥</span><span>{{=it.a_price || 0}}</span></p>
+            <div class="btn" onclick="del()">删除选中</div>
+        </div>
+    </footer>
+  </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnAjax('car/get_user_car', 'GET').then(res => {
+            if (res.error_code === 0) {
+                // console.log(JSON.stringify(res.data))
+                var data = res.data,a_price = 0;
+                data.car.forEach(item => {
+                  if(item.status == 1){
+                    a_price += parseFloat(item.price) * parseInt(item.num)
+                  }
+                })
+                data.a_price = a_price;
+                fnDataToView("shop_edit", res.data, "template");
+            } else {
+                fnDataToView("shop_edit", res.data, "template");
+            }
+        })
+    }
+    function changeNum(number,cid) {
+      var num = parseInt(number),
+        count = parseInt($('c'+cid).innerHTML) + num;
+        if(count < 1){count = 1}
+        if(count > 99){count = 99}
+        $('c'+cid).innerHTML = count;
+        fnAjax('car/set_num','GET',{
+          values:{
+            cid:cid,
+            num:count
+          }
+        }).then(res => {
+          // 测试用，上传前记得注释或删除掉
+          api.toast({msg:res.msg})
+        })
+    }
+    function del(cid){
+      fnAjax('car/del_car','POST').then(res => {
+        if(res.error_code === 0){
+          api.toast({msg:'删除成功'})
+          window.location.reload();
+        }else{
+          api.toast({msg:res.msg})
+        }
+
+      })
+    }
+    function changeStatus(status,cid){
+      status = status === 0 ? 1 : 0;
+      console.log(status);
+      fnAjax('car/set_car_selection','GET',{
+        values:{
+          type:2,
+          status:status,
+          cid:cid
+        }
+      }).then(res => {
+        // window.location.reload();
+        fnAjax('car/get_user_car', 'GET').then(res => {
+            if (res.error_code === 0) {
+                // console.log(JSON.stringify(res.data))
+                var data = res.data,a_price = 0;
+                data.car.forEach(item => {
+                  if(item.status == 1){
+                    a_price += parseFloat(item.price) * parseInt(item.num)
+                  }
+                })
+                data.a_price = a_price;
+                fnDataToView("shop_edit", res.data, "template");
+            } else {
+                fnDataToView("shop_edit", res.data, "template");
+            }
+        })
+      })
+    }
+    function checkAll(status){
+      status = status === 0 ? 1 : 0;
+      fnAjax('car/set_car_selection','GET',{
+        values:{
+          type:1,
+          status:status
+        }
+      }).then(res => {
+        // window.location.reload();
+        fnAjax('car/get_user_car', 'GET').then(res => {
+            if (res.error_code === 0) {
+                // console.log(JSON.stringify(res.data))
+                var data = res.data,a_price = 0;
+                data.car.forEach(item => {
+                  if(item.status == 1){
+                    a_price += parseFloat(item.price) * parseInt(item.num)
+                  }
+                })
+                data.a_price = a_price;
+                fnDataToView("shop_edit", res.data, "template");
+            } else {
+                fnDataToView("shop_edit", res.data, "template");
+            }
+        })
+      })
+    }
+</script>
+
+</html>

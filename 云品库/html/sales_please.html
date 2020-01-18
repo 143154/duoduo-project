@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .relative {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: url('../img/bg.png') no-repeat;
+            background-position: center top;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        .p_text {
+            position: absolute;
+            bottom: 62%;
+            left: calc(50% - 100px);
+            width: 200px;
+            height: 28px;
+            border: 2px solid rgba(255, 255, 255, 1);
+            border-radius: 6px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 1);
+            line-height: 24px;
+        }
+
+        .code {
+            position: absolute;
+            top: 60vh;
+            left: 50%;
+            width: 35vw;
+            height: 35vw;
+            background: black;
+            transform: translateX(-50%);
+        }
+
+        #qr {
+            width: 100%;
+            height: 100vh;
+        }
+        #imgs{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: auto;
+
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <img id="imgs" src="" width="100%" height="auto" alt="">
+    <!-- <div class="relative">
+        <div id="qrCode"></div>
+    </div> -->
+    <!-- <img src="../img/bg.png" alt="" width="100%" height="auto"> -->
+    <script type="text/template" id="template">
+        <div class="flex-center">
+            <div class="p_text flex-center">分销员:{{=it.codeing}}</div>
+        </div>
+        <div class="flex-center">
+            <div class="code flex-center">
+                <img src="{{=it.qr_code_url}}" width="100%" height="100%">
+            </div>
+        </div>
+    </script>
+    <script>
+    </script>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var imgSrc = "";
+    apiready = function() {
+        var can = $api.byId('myCanvas');
+        $api.attr(can, 'width', api.frameWidth);
+        $api.attr(can, 'height', api.frameHeight);
+        // console.log(api.frameWidth)
+        fnAjax('Finance/invite', 'POST').then(res => {
+            if (res.error_code === 0) {
+                // console.log(JSON.stringify(res.data))
+                    // fnDataToView("qrCode", res.data, "template");
+                var bg = {
+                    width: api.frameWidth,
+                    height: api.frameHeight,
+                    src: "../img/bg.png"
+                }
+                var code = {
+                    width: 100,
+                    height: 100,
+                    src: res.data.qr_code_url
+                }
+                var userInfo = {
+                    name: "分销员：" + res.data.codeing
+                        // width: 130,
+                        // height: 130
+                        // src: "user1.jpg"
+                }
+                var image = new Image();
+                var image1 = new Image();
+                // var image2 = new Image();
+                image.src = bg.src;
+                image1.src = code.src;
+                var height = api.frameHeight - (api.frameHeight * 0.43)
+                    // image2.src = userInfo.src;
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                image.onload = function() {
+                    ctx.drawImage(image, 0, 0, bg.width, bg.height);
+                    ctx.drawImage(image1, api.frameWidth / 2 - 50, height, code.width, code.height);
+                    ctx.save();
+                    ctx.arc(185, 1235, 65, 0, Math.PI * 2, false);
+                    ctx.clip();
+                    // ctx.drawImage(image2, 120, 1171, userInfo.width, userInfo.height); // 在刚刚裁剪的园上画图
+                    ctx.restore(); // 还原状态
+                    ctx.font = "14px Georgia";
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(userInfo.name, api.frameWidth / 2 - 100, 30);
+                    convertCanvasToImage(c);
+                }
+            }
+        })
+        api.addEventListener({
+            name: 'longpress'
+        }, function(ret, err) {
+            var screenClip = api.require('screenClip');
+            screenClip.screenShot({
+              album:true
+            },function(ret, err) {
+                if (ret.status) {
+                    api.toast({msg:"保存成功"})
+                }
+            });
+        });
+    }
+
+    function convertCanvasToImage(canvas) {
+        imgSrc = canvas.toDataURL("image/png", 1.0);
+        // console.log(imgSrc)
+        $api.attr($api.byId('imgs'), 'src', imgSrc);
+
+    }
+</script>
+
+</html>

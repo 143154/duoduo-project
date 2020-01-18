@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        .p12 {
+            display: none;
+            font-size: 16px;
+            color: rgba(206, 61, 58, 1);
+        }
+
+        .p12.show {
+            display: flex !important;
+        }
+
+        .white {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="white">
+        <div class="ipt">
+            <label class="mr10" for="">联系人</label>
+            <input type="text" id="addr_name" placeholder="收货人姓名" required>
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">联系方式</label>
+            <input type="text" id="addr_tel" placeholder="收货人手机号">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">地区</label>
+            <input type="text" id="addr_field" placeholder="选择省/市/区" readonly onclick="setCity()">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">收货地址</label>
+            <input type="text" id="addr_detail" placeholder="详细楼号/门牌号/楼层">
+        </div>
+        <div class="ipt flex">
+            <label class="flex-center" for="">设为默认收货地址</label>
+            <div class="addr_switch" id="default" onclick="defaultaddr()">
+                <div class="addr_circle"></div>
+            </div>
+        </div>
+        <div class="sub" onclick="save()">
+            <button type="button">保存地址</button>
+        </div>
+    </form>
+    <div class="p12 flex-reverse" id="addr_del">
+        <div class="flex-center" onclick="del()">
+            <img src="../image/delet.png" alt="" width="14" height="14">
+            <div class="ml10">删除</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    var addr_name = $api.byId('addr_name'),
+        addr_tel = $api.byId('addr_tel'),
+        addr_field = $api.byId('addr_field'),
+        addr_detail = $api.byId('addr_detail'),
+        addr_default = $api.byId('default'),
+        addr_del = $api.byId('addr_del');
+    var pageParam;
+    apiready = function() {
+        pageParam = api.pageParam;
+        console.log(JSON.stringify(pageParam))
+            // 获取要修改的地址详情
+        if (pageParam.aid) {
+            fnAjax('addr/addr_detail?aid=' + pageParam.aid, 'get').then(res => {
+                if (res.error_code === 0) {
+                    var data = res.data.res;
+                    addr_name.value = data.username;
+                    addr_tel.value = data.phone;
+                    addr_field.value = data.addr;
+                    addr_detail.value = data.addrs;
+                    if (data.default) {
+                        $api.addCls(addr_default, 'active');
+                    }
+                    $api.addCls(addr_del, 'show');
+                }
+            })
+        }
+    }
+
+    // 省市县三级联动
+    function setCity() {
+        var UIActionSelector = api.require('UIActionSelector');
+        UIActionSelector.open({
+            datas: 'widget://res/city_code.json',
+            layout: {
+                row: 5,
+                col: 3,
+                height: 30,
+                size: 12,
+                sizeActive: 14,
+                rowSpacing: 5,
+                colSpacing: 10,
+                maskBg: 'rgba(0,0,0,0.2)',
+                bg: '#fff',
+                color: '#888',
+                colorActive: '#f00',
+                colorSelected: '#f00'
+            },
+            animation: true,
+            cancel: {
+                text: '取消',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            ok: {
+                text: '确定',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            title: {
+                text: '请选择',
+                size: 12,
+                h: 44,
+                bg: '#eee',
+                color: '#888'
+            },
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+                // alert(JSON.stringify(ret));
+                var address = ret.level1 + ret.level2 + ret.level3;
+                // console.log(html)
+                console.log(addr_field)
+                $api.val(addr_field,address);
+
+            } else {
+                // alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function defaultaddr() {
+        $api.toggleCls(addr_default, 'active');
+    }
+
+    function del() {
+        fnAjax('addr/del_addr?aid=' + pageParam.aid, 'get').then(res => {
+            api.toast({
+                msg: res.msg
+            })
+            api.sendEvent({
+                name: 'viewappear',
+                extra: {
+                    state: 'true'
+                }
+            });
+            setTimeout(function() {
+                api.closeWin();
+            }, 1500)
+        })
+    }
+
+    function save() {
+        var fromData = {
+            username: addr_name.value,
+            phone: addr_tel.value,
+            addr: addr_field.value,
+            addrs: addr_detail.value,
+            default: $api.hasCls(addr_default, 'active') ? 1 : 0
+        }
+
+        var flag = true;
+        for (var k in fromData) {
+            if (fromData[k] === '') {
+                api.toast({
+                    msg: '请填写信息'
+                })
+                flag = false;
+                return
+            }
+        }
+        let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // 验证手机号格式
+        if (!reg.test(fromData.phone)) {
+            api.toast({
+                msg: "手机号码格式错误"
+            })
+            return
+        }
+        console.log(JSON.stringify(fromData))
+        if (pageParam.aid) {
+            fromData.aid = pageParam.aid;
+            fnAjax('addr/set_user_addr', 'post', {
+                values: fromData
+            }).then(res => {
+                if (res.error_code === 0) {
+                    api.toast({
+                        msg: res.msg
+                    });
+                    api.sendEvent({
+                        name: 'viewappear',
+                        extra: {
+                            state: 'true'
+                        }
+                    });
+                    setTimeout(function() {
+                        api.closeWin();
+                    }, 1500)
+                } else if (res.error_code === 1) {
+                    alert(res.msg);
+                }
+            })
+        } else {
+            fnAjax('addr/add_addr', 'post', {
+                values: fromData
+            }).then(res => {
+                if (res.error_code === 0) {
+                    api.toast({
+                        msg: res.msg
+                    });
+                    api.sendEvent({
+                        name: 'viewappear',
+                        extra: {
+                            state: 'true'
+                        }
+                    });
+                    setTimeout(function() {
+                        api.closeWin();
+                    }, 1500)
+                } else if (res.error_code === 1) {
+                    alert(res.msg);
+                }
+            })
+        }
+    }
+</script>
+
+</html>

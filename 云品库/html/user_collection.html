@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <style>
+        /*购物车*/
+        body{
+          height: 100vh;
+          background: #fff;
+        }
+        .load {
+            padding: 30% 0 5%;
+        }
+
+        .page p {
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(127, 127, 127, 1);
+        }
+
+        .btn {
+            width: 200px;
+            height: 48px;
+            margin: 20px auto 0;
+            background: rgba(206, 61, 58, 1);
+            border-radius: 24px;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 1);
+        }
+    </style>
+</head>
+
+<body>
+  <div id="collection"></div>
+  <script type="text/template" id="template">
+    {{? it.length > 0}}
+    <section class="flex-wrap">
+        {{~ it :item}}
+        <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=item.g_id}}})">
+            <img src="{{=item.g_image}}" alt="" width="180" height="180">
+            <p class="item-text">{{=item.g_name}}</p>
+            <div class="item-parameter flex">
+                <p class="font-red margin-top2">￥{{=item.g_xprice}}</p>
+                <p class="bj">马上抢</p>
+            </div>
+        </div>
+        {{~}}
+    </section>
+
+    {{??}}
+    <section>
+        <div class="flex-center load">
+            <img src="../image/user_site.png" alt="" width="180px" height="157px">
+        </div>
+        <div class="page">
+            <p class="text-center">您的收藏夹是空的，快去添加商品吧</p>
+        </div>
+        <div class="btn flex-center" onclick="closeWin();">去首页</div>
+    </section>
+    {{?}}
+  </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+      api.addEventListener({
+          name: 'viewappear'
+      }, function(ret, err) {
+        fnAjax('user/get_user_collection', 'GET').then(res => {
+          // console.log(JSON.stringify(res))
+            if (res.error_code === 0) {
+              let data = res.data;
+              data.goods.forEach(item => {
+                if(item.g_xprice){
+                  item.g_xprice = item.g_xprice.toFixed(2);
+                }
+              });
+              fnDataToView("collection", data.goods, "template");
+            }else{
+              var data = [];
+              fnDataToView("collection", data, "template");
+            }
+        })
+      })
+      fnAjax('user/get_user_collection', 'GET').then(res => {
+        // console.log(JSON.stringify(res))
+          if (res.error_code === 0) {
+            let data = res.data;
+            data.goods.forEach(item => {
+              if(item.g_xprice){
+                item.g_xprice = item.g_xprice.toFixed(2);
+              }
+            });
+            fnDataToView("collection", data.goods, "template");
+          }else{
+            var data = [];
+            fnDataToView("collection", data, "template");
+          }
+      })
+    }
+</script>
+
+</html>

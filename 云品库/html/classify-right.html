@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/index.css" />
+      <link rel="stylesheet" type="text/css" href="../css/style.css" />
+      <style>
+        
+
+
+      </style>
+  </head>
+  <body>
+    <div id="classify"></div>
+
+    <script type="text/template" id="template">
+      <div class="c_list">
+        <div class="c_list">
+            <div class="left">
+                <ul>
+                    {{~ it.type_arr :item:index}} {{? it.this_type.type_id === item.type_id }}
+                    <li class="left-item bj">{{=item.type_name}}</li>
+                    {{??}}
+                    <li class="left-item" onclick="changeNav({{=item.type_id}}, {{=index}})">{{=item.type_name}}</li>
+                    {{?}} {{~}}
+                </ul>
+            </div>
+        <div class="right">
+          {{~ it.type_arr :items}} {{? it.this_type.type_id === items.type_id }}
+          <img src="{{=items.type_img}}" width="100%" height="100" style="border-radius:5px;">
+          {{? items.two_type.length > 0}} {{~ items.two_type :t_item}}
+          <div class="list">
+            <h3 class="total-title">{{=t_item.type_name}}</h3>
+            <div class="flex-wrap">
+                {{~ t_item.three_type :g_item}}
+                <!-- <div class="seckill-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=g_item.gid}}})"> -->
+                <div class="seckill-item" onclick="openNavTabWin('index_classify_details','index_classify_details.html','分类详情',{type_id:{{=g_item.type_id}}})">
+                    <div class="seckill-items-img" style="background:url('{{=g_item.type_image}}') no-repeat;background-size:cover;"></div>
+                    <p class="seckill-item-text max-one-line">{{=g_item.type_name}}</p>
+                </div>
+                {{~}} {{? t_item.three_type.length % 3 == 2}}
+                <div class="seckill-item opacity-0">
+                    <img src="" alt="" width="100%" height="76">
+                    <p class="seckill-item-text max-one-line">占位</p>
+                </div>
+                {{?}}
+            </div>
+          </div>
+          {{~}} {{?}} {{?}} {{~}}
+        </div>
+      </div>
+    </script>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/global.js"></script>
+  <script src="../script/doT.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+
+      var data, index = 0;
+      apiready = function(){
+        var pageParam = api.pageParam
+
+        fnAjax('goods/type', 'GET').then(res => {
+            if (res.error_code === 0) {
+              data = res.data;
+              fnDataToView("classify", res.data, "template");
+            }
+        })
+
+        api.addEventListener({
+            name:'scrolltobottom',
+            extra:{
+                threshold:0            //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err){
+            // alert('已滚动到底部');
+            if(index < data.type_arr.length) {
+              changeNav(data.type_arr[index++].type_id, index)
+            }
+        });
+      };
+
+      function changeNav(type, _index) {
+          index = _index;
+          // console.log(type_id)
+          fnAjax('goods/type', 'GET', {
+              values: {
+                  type_id: type
+              }
+          }).then(res => {
+              if (res.error_code === 0) {
+                fnDataToView("classify", res.data, "template");
+              }
+          })
+      }
+  </script>
+  </html>

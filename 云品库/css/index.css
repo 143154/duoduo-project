@@ -1,0 +1,133 @@
+.top {
+    position: relative;
+    /*padding: 8px 0;*/
+    /*border-bottom: 1px solid rgba(238, 238, 238, 1);*/
+}
+.ipt {
+  height: 50px;
+}
+/*.dingbu{
+  width: 100%;
+  padding-top: 20px;
+}*/
+.ipt input {
+    width: 80%;
+    height: 30px;
+    padding: 0 14px;
+    background: rgba(243, 243, 243, 1);
+    border: 1px solid rgba(238, 238, 238, 1);
+    border-radius: 15px;
+}
+
+.ipt-text {
+    position: absolute;
+    top: 27%;
+    left: 35%;
+    color: rgba(158, 158, 158, 1);
+}
+
+.ipt-img {
+    margin-top: 4px;
+    margin-right: 8px;
+}
+/*商品*/
+.shop-item {
+    width: 48%;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 27px 0px rgba(211,211,211,0.43);
+}
+
+.shop-item>img {
+  width: 100%;
+  height: 180px;
+}
+
+.shop-item:nth-child(2n) {
+    /*margin-left: 20px;*/
+}
+
+.shop-item{
+    color: rgba(80, 80, 80, 1);
+    line-height: 22px;
+}
+
+.item-text,
+.item-parameter {
+    /*width: 100%;*/
+    padding: 0 6px 4px;
+}
+
+.item-parameter img {
+  margin-top: 2px;
+}
+
+.margin-top2 {
+    margin-top: 2px;
+}
+
+.bj {
+    padding: 2px 10px;
+    color: rgba(255, 255, 255, 1);
+    background: rgba(206, 61, 58, 1);
+    border-radius: 13px;
+}
+
+/*.bj-b {
+  padding: 2px 10px;
+  color:rgba(206,61,58,1);
+  border:1px solid rgba(206,61,58,1);
+  border-radius: 13px;
+}*/
+/*倒计时*/
+.seckill {
+    margin-top: 10px;
+    color: rgba(80, 80, 80, 1);
+}
+
+.seckill-top {
+    padding: 10px 0;
+}
+
+.seckill-title,
+.seckill-top p {
+    line-height: 32px;
+}
+
+.seckill-top p {
+    margin-right: 10px;
+}
+
+.seckill-text {
+    color: rgba(80, 80, 80, 1);
+}
+
+.seckill-time {
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 1);
+    border: 1px solid rgba(78, 78, 78, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 4px;
+}
+
+.seckill-img {
+    margin-left: 10px;
+}
+
+.seckill-item {
+    min-width: 30%;
+    max-width: 30%;
+    /*flex: 1;*/
+    /*background: #000;*/
+    padding: 10px 0;
+    font-size: 12px;
+    color: rgba(102, 102, 102, 1);
+}
+.max-two-line{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

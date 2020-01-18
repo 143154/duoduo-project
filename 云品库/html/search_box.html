@@ -1,0 +1,66 @@
+<style>
+    .ipt input {
+        width: 100%;
+        height: 30px;
+        padding: 0 14px;
+        background: rgba(243, 243, 243, 1);
+        border: 1px solid rgba(238, 238, 238, 1);
+        border-radius: 15px;
+    }
+
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ipt-text {
+        position: absolute;
+        top: 27%;
+        left: 35%;
+        color: rgba(158, 158, 158, 1);
+    }
+
+    .clearfix:after {
+        content: ' ';
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
+
+    .pull-left {
+        float: left !important;
+    }
+
+  .lmx_margin_right-5{
+    margin-right: 5px;
+  }
+    .lmx_search_info {
+        position: absolute;
+        top: -5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<header onclick="openNavTabWin('index_search','index_search.html','搜索')" class="lmx_search">
+    <div class="ipt flex-center">
+        <input type="text" placeholder="" disabled>
+    </div>
+    <div class="ipt-text lmx_search_info">
+        <img class="lmx_margin_right-5" src="../image/search.png" alt="" width="14" height="14">
+        <p class="">请输入搜索关键词</p>
+    </div>
+</header>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    };
+</script>

@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script src="../script/TouchSlide.1.1.js" charset="utf-8"></script>
+    <style>
+        .margin-right6 {
+            margin-right: 6px;
+        }
+
+        .shop {
+            padding: 10px 15px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+            line-height: 24px;
+            border-bottom: 1px solid rgba(240, 241, 243, 1);
+        }
+
+        .shop-title {
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 20px;
+            color: rgba(68, 68, 68, 1);
+            -webkit-line-clamp: 3;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        .price {
+            font-size: 14px;
+            padding-bottom: 8px;
+            color: rgba(206, 61, 58, 1);
+        }
+
+        .shop-style {
+            color: rgba(51, 136, 255, 1);
+        }
+
+        .shop-style img {
+            margin-top: 4px;
+            margin-right: 4px;
+        }
+
+        .mode {
+            padding: 10px;
+            color: rgba(102, 102, 102, 1);
+            border-bottom: 1px solid rgba(240, 241, 243, 1);
+        }
+
+        .mode-list {
+            padding: 14px 0;
+        }
+
+        .mode-item {
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .mode-item p {
+            margin-top: 10px;
+        }
+        /*商品详情*/
+
+        .property-shop-details {
+            width: 100%;
+            min-height: 800px;
+            /*padding-bottom: 50px;*/
+            /*margin-top: 20px;*/
+        }
+
+        .property-shop-details img {
+            width: 100%;
+            height: auto;
+        }
+
+        .property {
+            padding-bottom: 60px;
+            color: rgba(68, 68, 68, 1);
+            /*border-top: 10px solid rgba(240, 241, 243, 1);*/
+        }
+
+        .property-title {
+            /*padding: 10px 24px 0;*/
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: .5s;
+        }
+
+        .property-title.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .property-title p {
+            height: 50px;
+            line-height: 50px;
+            box-sizing: border-box;
+            padding: 0 10px;
+            font-size: 16px;
+            margin: 0 10px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .property-title .p-border {
+            border-bottom: 2px solid rgba(206, 61, 58, 1);
+        }
+        /*销量评价*/
+
+        .property-appraise {
+            padding: 10px 15px;
+            /*border-bottom: 1px solid rgba(240, 241, 243, 1);*/
+        }
+
+        .shop_msg {
+            font-size: 13px;
+            color: #505050;
+        }
+
+        .look_all_msg {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .property-right {
+            margin-left: 10px;
+            padding: 6px 0;
+        }
+
+        .property-time {
+            line-height: 44px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .property-right p {
+            margin-bottom: 2px;
+        }
+
+        .property-right img {
+            margin-right: 2px;
+        }
+
+        .property-img {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .property-img img {
+            margin-bottom: 10px;
+        }
+
+        .property-text {
+            padding: 10px 0;
+        }
+
+        .property-bottom20 {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .padding8 {
+            padding: 8px 0;
+        }
+
+        .padding-lr-15 {
+            padding-left: 15px;
+            padding-right: 15px;
+            /*box-sizing: border-box;*/
+        }
+
+        .box-border-box {
+            box-sizing: border-box;
+        }
+        /*底部样式*/
+
+        .foot {
+            padding-left: 10px;
+            font-size: 12px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add,
+        .buy {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 120px;
+            /*padding: 10px 0;*/
+            /*text-align: center;*/
+            font-size: 14px;
+            color: rgba(248, 248, 248, 1);
+            border-radius: 50px;
+        }
+
+        .add {
+            /*background: rgba(255, 68, 68, 1);*/
+            background: linear-gradient(to right, #f50302, #ff4814);
+        }
+
+        .buy {
+            /*background: rgba(255, 151, 106, 1);*/
+            background: linear-gradient(to right, #fea700, #feba00);
+        }
+
+        .font-szie-12 {
+            font-size: 12px;
+            color: #4c4c4c;
+        }
+
+        .padding-tb-10 {
+            padding-top: 10px;
+            padding-bottom: 5px;
+        }
+
+        .padding6 {
+            padding: 0 3px;
+        }
+
+        .padding-lr-10 {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .padding6 img {
+            margin-top: 6px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+        }
+        /*加入购物车*/
+
+        .shop-add {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /*height: 100%;*/
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .shop-add-top {
+            /*height: 324px;*/
+            background-color: #000;
+            opacity: 0.7;
+        }
+
+        .shop-add-shop {
+            /*height: 288px;*/
+            padding: 15px 10px 12px;
+            background-color: #fff;
+            box-shadow: -2px 0 1px 1px #f0f0f0;
+        }
+
+        .shop-add-shop-right {
+            width: 16px;
+            height: 16px;
+            margin: 10px;
+        }
+
+        .shop-add-shop-padding8 {
+            padding: 4px 0;
+        }
+
+        .spec_arr-img {
+            position: relative;
+            top: -30px;
+            border: 1px solid #D9D9D9;
+            padding: 3px;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .shop-add-shop-text {
+            max-width: 65%;
+        }
+
+        .shop-add-shop-text p {
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .shop-add-shop-text s {
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .shop-add-shop-text {
+            /*height: 0px;*/
+            margin-left: 10px;
+            padding: 10px 0 0;
+        }
+
+        .explain p {
+            /*width: 52px;*/
+            height: 28px;
+            background-color: #fff;
+            color: #333;
+            border-radius: 5px;
+            line-height: 28px;
+            text-align: center;
+            padding: 0 5px;
+            border: 1px solid #F5F5F5;
+            background: #F5F5F5;
+        }
+
+        .explain-bj {
+            color: #F55756 !important;
+            background: #FFF4F6 !important;
+            border: 1px solid #F55756 !important;
+        }
+
+        .count {
+            width: 20%;
+            padding: 6px 12px;
+            margin-bottom: 10px;
+            color: rgba(80, 80, 80, 1);
+            border: 1px solid rgba(193, 193, 193, 1);
+            border-radius: 5px;
+        }
+
+        .add-vehicle {
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 1);
+            background: rgba(206, 61, 58, 1);
+            border-radius: 44px;
+        }
+
+        .spec_arr.noshow,
+        .spec_arr-img.noshow {
+            display: none;
+        }
+
+        .w-100 {
+            width: 100%
+        }
+
+        .bb-10 {}
+
+        .user_img {
+            border-radius: 50%
+        }
+
+        #p2_details {
+            padding: 0 15px;
+            margin-top: 100px;
+            box-sizing: border-box;
+        }
+
+        .w-20 {
+            width: 20%;
+            align-items: flex-start;
+            justify-content: flex-end;
+        }
+
+        .manjian {
+            border-top: 1px solid rgba(240, 241, 243, 1);
+            align-items: center;
+        }
+
+        .manjian img {
+            vertical-align: middle;
+        }
+
+        .plr-15 {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .pt-2 {
+            padding-top: 5px;
+        }
+
+        .pb-5 {
+            padding-bottom: 10px;
+        }
+
+        .focus {
+            /*height: 375px;*/
+            /*margin: 0 -15px;*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        .focus .hd {
+            width: 100%;
+            height: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 20px;
+            text-align: center;
+            font-size: 0;
+        }
+
+        .focus .hd ul {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            height: 10px;
+            /*width: 50px;*/
+            margin: 0 auto;
+            background-color: rgba(51, 51, 51, 0.0);
+        }
+
+        .focus .hd ul li {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #7B7B7B;
+            margin: 0 2px;
+        }
+
+        .focus .hd ul .on {
+            background: #D9D9D9;
+        }
+
+        .focus .bd {
+            position: relative;
+            z-index: 0;
+        }
+
+        .focus .bd li .slider_img {
+            width: 100%;
+            padding-top: 100%;
+        }
+
+        .focus .bd li a {
+            display: block;
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            /* 取消链接高亮 */
+        }
+
+        #top_nav_bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            height: 50px;
+            /*padding: 0 15px;*/
+            transition: .5s;
+        }
+
+        #top_nav_bar.active {
+            background: #fff;
+            border-bottom: 1px solid #f0f1f3;
+        }
+
+        #back_img {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            width: 30px;
+            height: 30px;
+            background: url('../image/go_back.png') no-repeat center center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            transition: .5s;
+            opacity: .6;
+        }
+
+        #back_img.active {
+            background: url('../image/go_back_after.png') no-repeat center center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            opacity: 1;
+        }
+
+        .shop_top_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shop_now_price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #CE3D3A;
+        }
+
+        .shop_old_price {
+            font-size: 14px;
+            color: #9A9A9A;
+            text-decoration: line-through;
+        }
+
+        .shop_service {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            height: 45px;
+            padding: 0 15px;
+            font-size: 12px;
+            border-top: 5px solid #f0f1f3;
+            border-bottom: 5px solid #f0f1f3;
+            color: #333;
+        }
+
+        .shop-subtitle {
+            min-width: 30px;
+            color: #999;
+            margin-right: 15px;
+        }
+
+        .flex-row {
+            display: flex;
+            justify-content: flex-start;
+            /*align-items: center;*/
+            /*flex-direction: row;*/
+            flex-wrap: wrap;
+        }
+
+        .border-0 {
+            border: 0 !important;
+        }
+
+        .detail_info {
+            position: relative;
+            border-bottom: 5px solid #f0f1f3;
+        }
+
+        .border-bottom-5 {
+            border-bottom: 5px solid #f0f1f3;
+        }
+
+        .shop-more-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            /*display: flex;
+            justify-content: center;
+            align-items: center;*/
+        }
+
+        .shop-more-item {
+            width: 3px;
+            height: 3px;
+            margin: 0 1px;
+            border-radius: 50%;
+            background: #B3B3B3;
+        }
+
+        .w-70 {
+            max-width: 70%;
+        }
+
+        .seckill-item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .shop_img_list {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 45px;
+            margin-left: 60px;
+        }
+
+        .shop_img_list img {
+            margin-left: 10px;
+        }
+
+        .shop_img_title {
+            height: 28px;
+            line-height: 28px;
+            font-size: 10px;
+            padding: 0 5px;
+            text-align: center;
+            color: #999;
+            background: #F6F6F6;
+        }
+
+        .shop_rec {
+            padding: 10px 15px;
+        }
+
+        .seckill-item {
+            width: 30%;
+        }
+
+        .seckill-item-parameter {
+            padding: 0 0 4px;
+        }
+
+        .seckill-item-parameter p {
+            font-size: 14px;
+            line-height: 26px;
+        }
+
+        .seckill-item-parameter s {
+            font-size: 10px;
+            line-height: 29px;
+            color: #999;
+        }
+
+        .mypopup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 9999;
+            width: 100%;
+            height: 0;
+            background: rgba(0, 0, 0, .6);
+            overflow: hidden;
+            transition: .5s;
+        }
+
+        .mypopup_inner {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            /*max-height: 70%;*/
+            /*overflow-y: hidden;*/
+            background: #fff;
+        }
+
+        .type_box {
+            /*margin-top: -20px;*/
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        .config_box {
+            max-height: 500px;
+            padding: 35px 15px 0;
+            overflow-y: scroll;
+        }
+
+        .config_box.big {
+            max-height: none;
+        }
+
+        .config_title {
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+
+        .config_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 17px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .config_item+.config_item {
+            border-top: 1px solid #f0f1f3;
+        }
+
+        .config_left {
+            min-width: 80px;
+            text-align: left;
+        }
+
+        .config_right {
+            /*width: 70%;*/
+            text-align: right;
+        }
+
+        .config_btn {
+            width: 100%;
+            height: 44px;
+            line-height: 44px;
+            margin: 20px 0 12px;
+            text-align: center;
+            background: #CE3D3A;
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .add.big,
+        .buy.big {
+            width: 45%;
+            height: 40px !important;
+            line-height: 40px;
+            margin: 0 5px;
+        }
+
+        .h-80 {
+            height: 80%;
+        }
+
+        .margin3 {
+            margin: 0 3px;
+        }
+
+        .spec_arr-item {
+            margin: 5px;
+            font-size: 12px;
+        }
+
+        .font-size-14 {
+            font-size: 14px;
+        }
+
+        .fr {
+            flex-wrap: wrap;
+        }
+        /*.bg-00{
+          background: #000;
+        }*/
+
+        .to_buy_box {
+            padding-top: 10px;
+            background: #fff;
+        }
+
+        #find_more {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 30px;
+            height: 30px;
+            background: url('../image/fenxiang.png') no-repeat center center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            transition: .5s;
+            opacity: .6;
+        }
+
+        #find_more.active {
+            background: url('../image/fenxiang_after.png') no-repeat center center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            opacity: 1;
+        }
+
+        #p1_details img {
+            display: block !important;
+        }
+
+        .seckill-item-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dingbu"></div>
+    <!-- <div id="picture"></div> -->
+    <div id="top_nav_bar">
+        <div id="back_img" onclick="closeWin()"></div>
+        <div id="property-box" class="property-title">
+            <p class="p-border" id="p1">商品</p>
+            <p id="p2">评价</p>
+            <p id="p3">参数</p>
+        </div>
+        <div id="find_more" onclick="fenxiang()"></div>
+    </div>
+    <!-- <img src="../img/img_k.png" alt="" width="100%" height="auto"> -->
+    <div id="page">
+
+    </div>
+    <script type="text/template" id="template">
+        <div id="pros_details">
+
+            <div id="focus" class="focus">
+                <div class="hd">
+                    <ul></ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        {{~ it.goods_img_arr :s_item :index}}
+                        <li onclick="show_price({{=index}})">
+                            <a href="#">
+                                <!-- <img src="{{= s_item.image}}" /> -->
+                                <div class="slider_img" style="background: url({{= s_item.image}}) no-repeat center center;background-size:cover;"></div>
+                            </a>
+                        </li>
+                        {{~}}
+                    </ul>
+                </div>
+            </div>
+            <div class="shop">
+                <div class="shop_top_box">
+                    <div class="shop_top_price">
+                        <p class="shop_now_price">￥{{=it.goods.g_xprice}}</p>
+                        <p class="shop_old_price">价格：￥{{=it.goods.g_yprice || it.goods.g_xprice * 2}}</p>
+                    </div>
+                    <div class="flex w-20" onclick="follow()">
+                        {{? it.follow_type == 0}}
+                        <img src="../image/c_sh.png" alt="" width="24" height="24"> {{??}}
+                        <img src="../image/s_c.png" alt="" width="24" height="24"> {{?}}
+                    </div>
+                </div>
+                <p class="shop-title">{{=it.goods.g_name}}</p>
+                <div class="flex">
+                    <div>运费:￥{{=it.goods.g_freight || 0}}</div>
+                    <div>剩余:{{=it.goods.g_kc || 0}}</div>
+                    <div>销量:{{=it.goods.g_sales || 0}}</div>
+                </div>
+            </div>
+            {{? it.goods.g_serve}}
+            <div class="shop_service box-border-box">
+                <span class="shop-subtitle">服务</span>
+                <p>
+                    {{~ it.goods.g_serve :serve}} {{=serve}} {{~}}
+                </p>
+            </div>
+            {{?}}
+            <div class="detail_info">
+                <div class="shop_service border-0 box-border-box" onclick="config_info()">
+                    <span class="shop-subtitle">参数</span>
+                    <p class="max-one-line w-70">
+                        {{~ it.goods_configs :st_item:index}} {{? index
+                        < 2}} {{=st_item[0]}} {{?}} {{~}} ... </p>
+                            <div class="shop-more-icon">
+                                <span class="shop-more-item"></span>
+                                <span class="shop-more-item"></span>
+                                <span class="shop-more-item"></span>
+                            </div>
+                </div>
+                <div class="shop_service border-0 box-border-box" onclick="add_and_buy()">
+                    <span class="shop-subtitle">选择</span>
+                    <p class="max-one-line w-70">请选择分类</p>
+                    <div class="shop-more-icon">
+                        <span class="shop-more-item"></span>
+                        <span class="shop-more-item"></span>
+                        <span class="shop-more-item"></span>
+                    </div>
+                </div>
+                {{? it.goods_type.length}}
+                <div class="shop_img_list box-border-box" onclick="add_and_buy()">
+                    <div class="shop_img_title"> 共{{=it.goods_type.length}}种分类可选</div>
+                    {{~ it.goods_type :gt_item:index}} {{? index
+                    < 4}} <img src="{{=gt_item.s_image}}" width="30" height="30" alt="">
+                        {{?}} {{~}}
+                </div>
+                {{?}}
+            </div>
+            <!-- 商品评价 -->
+            <div class="border-bottom-5">
+                <div class="property-appraise flex box-border-box">
+                    <p class="shop_msg">商品评价 ({{=it.assess_arr.count}})</p>
+                    <p class="look_all_msg">查看全部</p>
+                </div>
+                {{? it.assess_arr.count != 0}}
+                <div class="flex padding8 padding-lr-15 box-border-box">
+                    <div class="flex-row">
+                        <img src="../image/user_thumb.png" class="user_img" alt="" width="44" height="44">
+                        <div class="property-right">
+                            <p>{{=it.assess_arr.assess_find.user_name || "匿名"}}</p>
+                            <div class="flex-row">
+                                <img src="../image/xing.png" alt="" width="9" height="9">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-time">{{=it.assess_arr.assess_find.addtime}}</div>
+                </div>
+                <p class="property-text padding-lr-15 box-border-box">{{=it.assess_arr.assess_find.content}}</p>
+                {{?}}
+            </div>
+
+            <!-- 商品推荐 -->
+            {{? it.detail_recommend.length}}
+            <div class="shop_rec box-border-box">
+                <div class="shop_msg">商品推荐</div>
+                <div class="flex fr mt-10">
+                    {{~ it.detail_recommend :d_items}}
+                    <div class="seckill-item bg-00" onclick="openWin('./index_shop_details.html', 'index_shop_{{=d_items.gid}}', {gid: {{=d_items.gid}}})">
+                        <div class="seckill-item-img" style="background:url({{=d_items.g_image}}) no-repeat;background-size:cover;">
+                        </div>
+                        <p class="seckill-item-text">{{=d_items.g_name}}</p>
+                        <div class="seckill-item-parameter flex">
+                            <p class="font-red margin-top2">￥{{=d_items.g_xprice}}</p>
+                            <s>￥{{=d_items.g_yprice}}</s>
+                        </div>
+                    </div>
+                    {{~}}
+                </div>
+            </div>
+            {{?}}
+        </div>
+        <section class="property">
+
+            <!-- 商品详情 -->
+            <div class="property-shop-details" id="p1_details">
+                {{=it.goods.g_content}}
+            </div>
+            <!-- 销量评价 -->
+            <div id="p2_details" class="display-none">
+                <div class="property-appraise">商品评价（{{=it.assess.legnth||0}}）</div>
+
+                {{~ it.assess :item}}
+                <div class="property-bottom20">
+                    <div class="flex padding8">
+                        <div class="flex-row">
+                            {{? item.user}}
+                            <img src="{{=item.user.image}}" class="user_img" alt="" width="44" height="44">
+                            <div class="property-right">
+                                <p>{{=item.user.nickname}}</p>
+                                <div class="flex-row">
+                                    {{for(var i = 0;i
+                                    < item.number ; i++ ) { }} <img src="../image/xing.png" alt="" width="9" height="9">
+                                        {{ } }}
+                                </div>
+                            </div>
+                            {{?}}
+                        </div>
+                        <div class="property-time">{{=item.addTime}}</div>
+                    </div>
+                    <p class="property-text">{{=item.content}}</p>
+                    <div class="property-img">
+                        {{? item.image}}
+                        <img src="{{=item.image}}" alt="" width="100" height="100"> {{?}}
+                    </div>
+                </div>
+                {{~}}
+
+            </div>
+
+
+        </section>
+    </script>
+    <div id="p3_details" class="display-none">
+
+    </div>
+    <script type="text/template" id="p3_details_temp">
+        {{? it}}
+        <div class="config_box big">
+            <div class="config_title">产品参数</div>
+            {{~ it :item}}
+            <div class="config_item">
+                <div class="config_left">{{=item[0]}}</div>
+                <div class="config_right">{{=item[1]}}</div>
+            </div>
+            {{~}}
+        </div>
+        {{?}}
+    </script>
+    <footer class="flex foot w-100">
+        <div class="flex-between w-100 padding-lr-10">
+            <div class="text-center padding6" onclick="call()">
+                <img src="../image/font-c.png" alt="" width="25" height="25">
+                <p class="font-szie-12">客服</p>
+            </div>
+            <div class="text-center padding6" onclick="openNavTabWin('shop_list','shop_list.html','购物车')">
+                <img src="../image/font-b.png" alt="" width="25" height="25">
+                <p class="font-szie-12">购物车</p>
+            </div>
+            <div class="flex h-80">
+                <div class="add margin3" onclick="add_and_buy()">加入购物车</div>
+                <div class="buy margin3" onclick="add_and_buy()">立即购买</div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div id="mypopup" class="mypopup" onclick="closeMypop()">
+        <div class="mypopup_inner" id="popinner">
+
+        </div>
+    </div>
+    <script type="text/template" id="config_temp">
+        {{? it}}
+        <div class="config_box">
+            <div class="config_title">产品参数</div>
+            {{~ it :item}}
+            <div class="config_item">
+                <div class="config_left">{{=item[0]}}</div>
+                <div class="config_right">{{=item[1]}}</div>
+            </div>
+            {{~}}
+            <div class="config_btn" onclick="closeMypop()">确定</div>
+        </div>
+        {{?}}
+    </script>
+    <script type="text/template" id="shop_temp">
+        <div class="shop-add-shop">
+            <div class="flex">
+                <div class="flex-row">
+                    {{~ it.spec_arr :p_item:p_item_index}}{{?p_item_index === 0}}
+                    <img onclick="show_price1()" class="spec_arr-img img13" id="price" src="{{=it.goods.g_image}}" alt="" width="88" height="88">{{?}} {{~}}
+                    <div class="shop-add-shop-text">
+                        <p class="max-two-line" id="g_name">{{=it.goods.g_name}}</p>
+                        <p class="red shop-add-shop-padding" id="xprice">￥{{= it.goods.g_xprice}}</p>
+                        <!-- <s>原价:￥29.90</s> -->
+                    </div>
+                </div>
+                <div class="shop-add-shop-right">
+                    <img src="../image/close.png" alt="" width="20" height="20" onclick="closeMypop()">
+                </div>
+            </div>
+            <div class="type_box">
+                {{~ it.spec_arr :items:index}}
+                <div class="padding10 padding-top10 font-size-14">{{=items.name}}</div>
+                <div class="flex-row explain">
+                    {{~ items.child :sp_item}}
+                    <p class="spec_arr-item max-one-line" data-type="{{=sp_item.id}}" data-idx="{{=index}}">{{=sp_item.name}}</p>
+                    {{~}}
+                </div>
+                {{~}}
+                <div class="flex padding-top10">
+                    <div class="padding10 padding-top10 font-size-14">购买数量：</div>
+                    <div class="count flex">
+                        <span onclick="number('-1')">-</span>
+                        <span id="number">1</span>
+                        <span onclick="number('+1')">+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="to_buy_box">
+                <div class="flex-center">
+                    <div class="add big to_next">加入购物车</div>
+                    <div class="buy big to_next">立即购买</div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript" src="../script/utils.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    var pageParam, count = 1,
+        sid = 0,
+        imgIndex = 0,
+        gather = [],
+        imgList1 = [],
+        newArr = [],
+        imgList = [];
+    newArr4 = [],
+        arr = []
+        img1 = ""
+
+    apiready = function() {
+            var header = $api.dom('#top_nav_bar'); // 获取 header 标签元素
+            // var footer = $api.dom('footer'); // 获取 footer 标签元素
+
+            // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+            // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+            // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+            var headerH = $api.fixStatusBar(header);
+            // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+            // var footerH = $api.fixTabBar(footer);
+            // $api.attr($api.byId('mypopup'), 'style', 'height:'+api.winHeight+"px");
+
+            pageParam = api.pageParam;
+            fnAjax('goods/goods_detail', 'GET', {
+                values: {
+                    gid: pageParam.gid
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+
+                    var data = res.data;
+                    // console.log(JSON.stringify(data))
+                        // var banner = res.data.goods_img_arr.map(item => item.image);
+
+
+
+
+                    data.assess.forEach(item => {
+                        item.addTime = utilsDate(item.addTime * 1000)
+                    });
+
+
+                    if (data.assess_arr.count != 0) {
+                        data.assess_arr.addTime = utilsDate(data.assess_arr.addTime * 1000);
+                    }
+
+
+                    data.goods.g_xprice = data.goods.g_xprice.toFixed(2);
+
+                    // fnInitUIScrollPicture(banner);
+                    if (data.goods.g_serve) {
+                        data.goods.g_serve = data.goods.g_serve.split("@");
+                    }
+                    var goods_config = data.goods.g_config,
+                        goods_configs = [];
+                    if (goods_config) {
+                        goods_config = goods_config.replace(/：/g, ":");
+                        goods_config = goods_config.split('@');
+                        for (var i = 0; i < goods_config.length - 1; i++) {
+                            goods_configs[i] = goods_config[i].split(':');
+                        }
+                    }
+                    data.goods_configs = goods_configs;
+                    // console.log(JSON.stringify(goods_configs))
+                    fnDataToView("page", data, "template");
+                    fnDataToView("p3_details", goods_configs, "p3_details_temp");
+                    $api.byId('focus').style.width = api.winWidth + "px";
+                    // fnDataToView("shop_add", data, "shop_temp");
+
+                    // console.log(JSON.stringify(res.data))
+                    // console.log();
+                    res.data.goods_img_arr.forEach(item => {
+                        imgList.push(item.image)
+                    });
+                    img1 = res.data.goods_img_arr[0].image
+                    arr = res.data.goods_type
+                    imgList1 = res.data.goods_type
+                        // newArr = []
+
+                    // console.log(JSON.stringify(newArr))
+                    // console.log(JSON.stringify(imgList))
+                    // 轮播图
+                    TouchSlide({
+                        slideCell: "#focus",
+                        titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                        mainCell: ".bd ul",
+                        effect: "leftLoop",
+                        autoPlay: true, //自动播放
+                        autoPage: true //自动分页
+                    });
+
+                    var call_of = document.querySelector('.shop-add-shop-right');
+
+                    $api.byId('popinner').onclick = function(event) {
+                        event.stopPropagation();
+                    }
+
+                    // 商品详情
+                    $('p1').onclick = function fn() {
+                        $('p1_details').style.display = "block";
+                        $('p2_details').style.display = "none";
+                        $('p3_details').style.display = "none";
+                        $('pros_details').style.display = "block";
+                        this.className = "p-border";
+                        $('p2').className = '';
+                        $('p3').className = '';
+                        $api.removeCls($api.byId('top_nav_bar'), 'active');
+                        $api.removeCls($api.byId('back_img'), 'active');
+                        $api.removeCls($api.byId('find_more'), 'active');
+                        $api.removeCls($api.byId('property-box'), 'active');
+
+
+                    }
+
+                    // 商品评价
+                    $('p2').onclick = function fn() {
+                        $('p2_details').style.display = "block";
+                        $('p1_details').style.display = "none";
+                        $('p3_details').style.display = "none";
+                        $('pros_details').style.display = "none";
+                        this.className = "p-border";
+                        $('p1').className = '';
+                        $('p3').className = '';
+                    }
+
+                    // 商品参数
+                    $('p3').onclick = function fn() {
+                        $('p3_details').style.display = "block";
+                        $('p2_details').style.display = "none";
+                        $('p1_details').style.display = "none";
+                        $('pros_details').style.display = "none";
+                        this.className = "p-border";
+                        $('p1').className = '';
+                        $('p2').className = '';
+                    }
+                    var look_more = $api.dom(document, '.look_all_msg');
+                    look_more.onclick = function fn() {
+                        $('p2_details').style.display = "block";
+                        $('p1_details').style.display = "none";
+                        $('p3_details').style.display = "none";
+                        $('pros_details').style.display = "none";
+                        $('p2').className = "p-border";
+                        $('p1').className = '';
+                        $('p3').className = '';
+                    }
+
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    })
+                }
+            })
+
+            window.onscroll = function() {
+                var scrollT = document.documentElement.scrollTop || document.body.scrollTop,
+                    top_nav_bar = $api.byId('top_nav_bar'),
+                    back_img = $api.byId('back_img'),
+                    find_more = $api.byId('find_more'),
+                    property = $api.byId('property-box');
+                if (scrollT > 50) {
+                    $api.addCls(top_nav_bar, 'active');
+                    $api.addCls(back_img, 'active');
+                    $api.addCls(find_more, 'active');
+                    $api.addCls(property, 'active');
+                } else {
+                    if ($api.hasCls($api.byId('p1'), 'p-border')) {
+                        $api.removeCls(top_nav_bar, 'active');
+                        $api.removeCls(back_img, 'active');
+                        $api.removeCls(find_more, 'active');
+                        $api.removeCls(property, 'active');
+                    }
+                }
+
+            }
+
+
+
+        }
+        // 收藏
+    function follow() {
+        isLogin().then(res => {
+            fnAjax('goods/follow', 'POST', {
+                values: {
+                    id: pageParam.gid
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    api.toast({
+                        msg: res.msg
+                    });
+                    apiready();
+                }
+            })
+        }, () => {
+            api.toast({
+                msg: '请先登录'
+            });
+        })
+
+    }
+
+    // 分享
+    function fenxiang() {
+        var dialogBox = api.require('dialogBox');
+        dialogBox.actionMenu({
+            tapClose: true,
+            rect: {
+                h: 150
+            },
+            texts: {
+                cancel: '取消'
+            },
+            items: [{
+                text: '微信好友',
+                icon: 'widget://image/wx.png'
+            }, {
+                text: '朋友圈',
+                icon: 'widget://image/pyq.png'
+            }],
+            styles: {
+                bg: '#FFF',
+                column: 4,
+                itemText: {
+                    color: '#000',
+                    size: 12,
+                    marginT: 8
+                },
+                itemIcon: {
+                    size: 40
+                },
+                cancel: {
+                    // bg: 'fs://icon.png',
+                    color: '#000',
+                    h: 44,
+                    size: 14
+                }
+            }
+        }, function(ret) {
+            // alert(JSON.stringify(ret));
+            if (ret.eventType == "click") {
+                wxfenXiang(ret.index)
+            }
+            if (ret.eventType == 'cancel') {
+                dialogBox.close();
+            }
+        });
+    }
+
+    function wxfenXiang(code) {
+        // code
+        code == '0' ? 'session' : 'timeline';
+        var wx = api.require('wx');
+        wx.isInstalled(function(ret, err) {
+            if (ret.installed) {
+                wx.shareWebpage({
+                    scene: code,
+                    title: '测试分享',
+                    description: '猜猜我在好家购找到了啥！',
+                    thumb: 'widget://image/logo.png',
+                    contentUrl: 'http://ypk.dd371.com/index/index/register_success'
+                }, function(ret, err) {
+                    if (ret.status) {
+                        alert('分享成功');
+                    } else {
+                        alert(err.code);
+                    }
+                });
+                // alert("当前设备已安装微信客户端");
+            } else {
+                alert('当前设备未安装微信客户端');
+            }
+        });
+    }
+
+    function call() {
+        // 微信二维码
+        api.openFrame({
+            name: 'wx_code',
+            url: './wx_code.html',
+            bgColor: 'rgba(0,0,0,.6)',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+
+            }
+        });
+    }
+
+    function canshu() {
+        $api.attr($api.byId('mypopup'), 'style', 'height:' + api.winHeight + 'px');
+        document.getElementsByTagName('body')[0].style.position = 'fixed';
+
+    }
+
+    function closeMypop() {
+        $api.attr($api.byId('mypopup'), 'style', 'height:0');
+        document.getElementsByTagName('body')[0].style.position = '';
+        gather = [];
+    }
+
+    function show_price(index) {
+        // console.log(imgList);
+        var photoBrowser = api.require('photoBrowser');
+        photoBrowser.open({
+            images: imgList,
+            atime: 0.3,
+            activeIndex: index,
+            placeholderImg: 'widget://res/img/apicloud.png',
+            bgColor: 'rgba(255,255,255,1)'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType === 'click') {
+                    photoBrowser.close();
+                }
+                // alert(JSON.stringify(ret));
+            } else {
+                // alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function show_price1() {
+      var price = document.querySelector("#price");
+      var arr7 =[];
+      arr7.push(price.src)
+      var photoBrowser = api.require('photoBrowser');
+        photoBrowser.open({
+            images: arr7,
+            atime: 0.3,
+            activeIndex: 0,
+            placeholderImg: 'widget://res/img/apicloud.png',
+            bgColor: 'rgba(255,255,255,1)'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType === 'click') {
+                    photoBrowser.close();
+                }
+                // alert(JSON.stringify(ret));
+            } else {
+                // alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    function add_and_buy() {
+        fnAjax('goods/get_goods_spec_lister', 'GET', {
+            values: {
+                gid: pageParam.gid
+            }
+        }).then(res => {
+            console.log(JSON.stringify(res.data));
+            res.data.spec_arr[0].child.forEach(item => {
+                newArr4.push(item.name)
+            })
+            if (res.error_code === 0) {
+                var data = res.data;
+                data.goods.g_xprice = data.goods.g_xprice.toFixed(2);
+                fnDataToView("popinner", data, "shop_temp");
+                canshu();
+
+
+
+
+                // 切换规格
+                var list = $api.domAll('.spec_arr-item');
+                list.forEach((item, index) => {
+                    var newArr3 = [];
+                    newArr3.push()
+                    item.onclick = function() {
+                        var type = this.dataset.type;
+                        var idx = this.dataset.idx;
+                        imgIndex = index
+                        gather[idx] = type;
+
+                        if ($api.hasCls(this, 'explain-bj')) {
+
+                            $api.removeCls(this, 'explain-bj');
+                            gather[idx] = "";
+                            //get_spec_group
+                            fnAjax('goods/get_goods_spec_lister', 'GET', {
+                                values: {
+                                    gid: pageParam.gid
+                                }
+                            }).then(res => {
+
+                                if (res.error_code === 0) {
+                                    var goods = res.data.goods;
+                                    sid = 0;
+                                    $api.attr($('price'), 'src', goods.g_image);
+                                    // imgList1 = goods.map(item => {
+                                    //     newArr.push(item.g_image)
+                                    // })
+                                    // console.log(JSON.stringify(res))
+
+                                    // $api.html($('g_name'), goods.g_name);
+                                    $api.html($('xprice'), "¥" + goods.g_xprice.toFixed(2));
+                                } else {
+                                    // console.log(JSON.stringify(res))
+                                }
+                            })
+                            return;
+                        }
+
+                        list.forEach(items => {
+                            $api.removeCls(items, 'explain-bj')
+                        })
+                        fnAjax('goods/get_spec_group', 'POST', {
+                            values: {
+                                gid: pageParam.gid,
+                                gather: ',' + gather.join(',')
+                            }
+                        }).then(res => {
+                            if (res.error_code === 0) {
+
+                                var gathers = res.data.gather;
+                                if (gathers) {
+                                    gathers = gathers.split(",")
+                                    list.forEach(i => {
+                                        gathers.forEach(j => {
+                                            if (i.dataset.type == j) {
+                                                $api.addCls(i, 'explain-bj');
+                                            }
+                                        })
+                                    })
+                                }
+                                var data = res.data.spec;
+                                sid = data.sid;
+                                // console.log(JSON.stringify(data.s_image))
+                                $api.attr($('price'), 'src', data.s_image);
+                                // $api.html($('g_name'), data.s_name);
+                                $api.html($('xprice'), "¥" + data.s_xprice.toFixed(2));
+                            } else {
+                                api.toast({
+                                    msg: "sorry,此规格产品暂无库存"
+                                })
+                                fnAjax('goods/get_goods_spec_lister', 'GET', {
+                                    values: {
+                                        gid: pageParam.gid
+                                    }
+                                }).then(res => {
+                                    if (res.error_code === 0) {
+                                        var goods = res.data.goods;
+                                        sid = 0;
+                                        $api.html($('price'), goods.g_image);
+                                        // $api.html($('g_name'), goods.g_name);
+                                        $api.html($('xprice'), "¥" + goods.g_xprice.toFixed(2));
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+                var to_next = $api.domAll(document, '.to_next');
+                to_next.forEach(item => {
+                    item.onclick = function() {
+                        // console.log(sid);
+                        if (sid == 0) {
+                            api.toast({
+                                msg: '请选择规格'
+                            })
+                            return;
+                        }
+                        isLogin().then(res => {
+                            if (this.innerHTML == '立即购买') {
+                                openNavTabWin('order_details', 'order_details.html', '确认订单', {
+                                    values: {
+                                        gid: pageParam.gid,
+                                        sid: sid,
+                                        num: count
+                                    }
+                                })
+                            } else {
+                                fnAjax('car/add_car', 'POST', {
+                                    values: {
+                                        gid: pageParam.gid,
+                                        sid: sid,
+                                        num: count
+                                    }
+                                }).then(res => {
+                                    if (res.error_code === 0) {
+                                        api.toast({
+                                            msg: res.msg
+                                        })
+                                    }
+                                })
+                            }
+
+                        }, () => {
+                            api.toast({
+                                msg: '请先登录'
+                            });
+                        })
+                    }
+
+                })
+            }
+
+        })
+    }
+
+    function number(num) {
+        count = parseInt($('number').innerHTML);
+        if (count >= 1 && count <= 99) {
+            count += parseInt(num);
+            if (count < 1) {
+                count = 1
+            }
+            if (count > 99) {
+                count = 99
+            }
+            $('number').innerHTML = count;
+        }
+    }
+
+    function config_info() {
+        fnAjax('goods/goods_detail', 'GET', {
+            values: {
+                gid: pageParam.gid
+            }
+        }).then(res => {
+            if (res.error_code === 0) {
+                var goods_config = res.data.goods.g_config,
+                    goods_configs = [];
+                if (goods_config) {
+                    goods_config = goods_config.replace(/：/g, ":");
+                    goods_config = goods_config.split('@');
+                    for (var i = 0; i < goods_config.length - 1; i++) {
+                        goods_configs[i] = goods_config[i].split(':');
+                    }
+                    // console.log(JSON.stringify(goods_configs))
+                }
+                fnDataToView("popinner", goods_configs, "config_temp");
+                canshu();
+            }
+        })
+    }
+</script>
+
+</html>

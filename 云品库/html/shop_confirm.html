@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        .top {
+            padding: 15px 0;
+        }
+
+        .top-img {
+            margin-right: 20px;
+        }
+
+        .top-imgs {
+            margin-top: 15px;
+        }
+
+        .bj {
+            height: 2px;
+            background: url(../image/line.png) no-repeat left;
+            background-size: cover;
+        }
+
+        .item {
+            background: rgba(247, 248, 249, 1);
+        }
+
+        .ipt {
+            /*width: 88%;*/
+            margin-left: 10px;
+            color: rgba(153, 153, 153, 1);
+            border: none;
+        }
+
+        label {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .amount {
+            margin-bottom: 65px;
+            background: rgba(255, 255, 255, 1);
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .amount-top {
+            margin-top: 30px;
+        }
+        /*地址选中状态*/
+
+        .top-font {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .margin-right {
+            margin-right: 10px;
+        }
+
+        .site {
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .top-coord {
+            margin-right: 20px;
+            margin-top: 10px;
+        }
+
+        .top-line {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="back">
+            <img src="../image/back.png" onclick="closeWin()">
+        </div>
+        <div class="title">
+            购物车
+        </div>
+    </header>
+    <section>
+        <div class="top flex" onclick="openWin('user_list.html')">
+            <!-- 未选择收货地址状态 -->
+            <!-- <div class="flex-center">
+                <img class="top-img" src="../image/add.png" alt="" width="60px" height="60px">
+                <span>添加联系人</span>
+            </div>
+            <div class="flex-center">
+                <img src="../image/right.png" alt="" width="8px" height="16px">
+            </div> -->
+            <!-- 选择收货地址状态 -->
+            <div class="flex-center">
+                <img class="pull-left top-coord" src="../image/icon_location.png" alt="" width="24px" height="24px">
+                <div class="flex top-height">
+                    <div class="top-font margin-right">
+                        <div class="flex top-line">
+                            <p>收货人：<span>测试</span> </p>
+                            <p>×××××××××</p>
+                        </div>
+                        <p class="site">地址：<span>河南省郑州市金水区国基路测试地址</span> </p>
+                    </div>
+
+                </div>
+            </div>
+            <img class="top-imgs" src="../image/right.png" alt="" width="10px" height="20px">
+        </div>
+    </section>
+    <div class="bj"></div>
+
+    <div>
+        <div class="item-title">全部</div>
+        <div class="item flex">
+            <div class="top-checkbox flex-center">
+                <label for="check_all"><input type="checkbox" id="check_all"></label>
+                <img src="../img/img-a.png" alt="" width="88" height="88">
+            </div>
+            <div class="item-details">
+                <h3>商品名称参数等一系列的描述显示...</h3>
+                <p>单风机</p>
+                <div class="flex">
+                    <p>￥299.00</p>
+                    <div>×1</div>
+                </div>
+            </div>
+        </div>
+        <div class="item flex">
+            <div class="top-checkbox flex-center">
+                <label for="check_all"><input type="checkbox" id="check_all"></label>
+                <img src="../img/img-a.png" alt="" width="88" height="88">
+            </div>
+            <div class="item-details">
+                <h3>商品名称参数等一系列的描述显示...</h3>
+                <p>单风机</p>
+                <div class="flex">
+                    <p>￥299.00</p>
+                    <div>×1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section>
+
+        <div class="all flex-reverse">
+            <div>
+                <span class="all-shop">共一件商品</span>
+                <span>小计:</span>
+                <span class="font-red">￥</span>
+                <span class="font-red">18.90</span>
+            </div>
+        </div>
+        <div class="padding10 bj-color">
+            <div>
+                <label>订单备注</label>
+                <input class="ipt" type="text" placeholder="选填，给商家留言">
+            </div>
+        </div>
+        <div class="amount">
+            <div class="flex padding10">
+                <p>商品金额</p>
+                <p>￥18.90</p>
+            </div>
+            <div class="amount-top flex-right">
+                <span>合计:</span>
+                <span class="font-red">￥18.90</span>
+            </div>
+        </div>
+    </section>
+    <footer class="flex footer">
+        <div></div>
+        <div class="flex-row">
+            <p class="flex-center">合计： <span>￥</span><span>30.50</span></p>
+            <div class="btn" onclick="openWin('shop_good.html')">提交订单</div>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    }
+</script>
+
+</html>

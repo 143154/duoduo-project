@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        input {
+            text-align: right;
+        }
+
+        .ipt {
+            position: relative;
+        }
+
+        .ipt input {
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        .get_code_ipt {
+            width: 55%;
+        }
+
+        .get_code {
+            position: absolute;
+            /*top: 5px;*/
+            right: 10px;
+            display: block;
+            width: 100px;
+            height: 35px;
+            /*line-height: 35px;*/
+            border-radius: 5px;
+            text-align: center;
+            color: #CE3D3A;
+        }
+
+        .ipt {
+            position: relative;
+            transition: .5s;
+        }
+
+        .ipt::after {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 0;
+            height: 100%;
+            content: "";
+            text-align: center;
+            transition: .5s;
+            border-bottom: 1px solid #f2f0f0;
+        }
+
+        .ipt.active::after {
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid #CE3D3A;
+        }
+
+        .login_in_bg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+
+        .login_btn {
+            width: 100%;
+            /*height: 40px;*/
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .login_btn button {
+            width: 100%;
+            height: 40px;
+            margin: 30px 0 10px;
+            line-height: 40px;
+            border-radius: 50px;
+            background: #CE3D3A;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <header>
+        <div class="back">
+            <img src="../image/back.png">
+        </div>
+        <div class="title">
+            个人中心
+        </div>
+    </header> -->
+    <div class="login_in_bg">
+        <img src="../image/login.png" width="70" height="70" alt="">
+    </div>
+    <form>
+        <div class="ipt">
+            <label class="mr10" for="">手机号</label>
+            <input class="login_form_input" data-i="0" id="phone" type="phone" placeholder="请输入手机号">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">验证码</label>
+            <input class="login_form_input" data-i="1" id="code" class="get_code_ipt" type="phone" placeholder="请输入验证码">
+            <span class="get_code" id="send_code">获取验证码</span>
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">密码</label>
+            <input class="login_form_input" data-i="2" id="pwd" type="password" placeholder="请输入密码">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">确认密码</label>
+            <input class="login_form_input" data-i="3" id="pwd2" type="password" placeholder="再次确认密码">
+        </div>
+        <div class="login_btn">
+            <button type="button" onclick="login()">同意协议并注册</button>
+        </div>
+
+    </form>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+      var iptList = $api.domAll(document, '.ipt');
+      var input_list = $api.domAll(document, '.login_form_input');
+      input_list.forEach(item => {
+        item.onfocus = function(){
+          var i = this.dataset.i;
+          $api.addCls(iptList[i], 'active');
+        }
+        item.onblur = function() {
+          var i = this.dataset.i;
+          $api.removeCls(iptList[i], 'active');
+        }
+      })
+
+
+
+        // 发送验证码
+        let code_statu = true; // true 可发送
+        $('send_code').onclick = function() {
+            if (!code_statu) {
+                return;
+            }
+            let phone = $api.val($api.byId('phone')),
+                reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            if (!phone) {
+                api.toast({
+                    msg: "请先输入手机号"
+                });
+                return
+            }
+            // 验证手机号格式
+            if (!reg.test(phone)) {
+                api.toast({
+                    msg: "手机号码格式错误"
+                });
+                return
+            }
+            // 修改发送状态
+            code_statu = false;
+            let _this = this,
+                count = 60,
+                countdown = setInterval(function() {
+                    count--;
+                    $api.html(_this, count + "s后重试");
+                    if (count === 0) {
+                        clearInterval(countdown);
+                        $api.html(_this, "重新发送");
+                        code_statu = true;
+                    }
+                }, 1000);
+            fnAjax('login/short', 'POST', {
+                values: {
+                    phone: phone
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    api.toast({
+                        msg: '发送成功'
+                    });
+                }
+            })
+        }
+    }
+
+    function login() {
+        // 获取输入的内容
+        var fromData = {
+                phone: $api.val($api.byId('phone')),
+                code: $api.val($api.byId('code')),
+                pwd: $api.val($api.byId('pwd')),
+                pwd2: $api.val($api.byId('pwd2'))
+            }
+            // 验证手机是否为空
+        var flag = true;
+        if (!fromData.phone.length) {
+            api.toast({
+                msg: "请先输入手机号"
+            })
+            return
+        }
+        let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // 验证手机号格式
+        if (!reg.test(fromData.phone)) {
+            api.toast({
+                msg: "手机号码格式错误"
+            });
+            return
+        }
+        // 检查必填内容是否为空
+        for (let k in fromData) {
+            if (!fromData[k]) {
+                api.toast({
+                    msg: $api.attr($api.byId(k), 'placeholder')
+                });
+                flag = false;
+                break;
+            }
+        }
+        if (!flag) return;
+        // 判断两次密码是否一致
+        if (fromData.pwd != fromData.pwd2) {
+            api.toast({
+                msg: "两次密码不一致"
+            });
+            return
+        }
+        // 限制密码长度为6~12位
+        if (fromData.pwd.length < 6 || fromData.pwd.length > 12) {
+            api.toast({
+                msg: "密码应在6~12位"
+            });
+            return
+        }
+        fnAjax('login/register', 'POST', {
+            values: {
+                phone: fromData.phone,
+                password: fromData.pwd,
+                code: fromData.code
+            }
+        }).then(res => {
+            api.toast({
+                msg: res.msg
+            });
+            setTimeout(function() {
+                if (res.error_code === 0) {
+                    api.historyBack({}, function(ret, err) {
+                        if (!ret.status) {
+                            api.closeWin();
+                        }
+                    });
+                }
+            }, 1000)
+        })
+    }
+</script>
+
+</html>

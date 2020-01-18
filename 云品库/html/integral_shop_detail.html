@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        .btn {
+            padding: 16px 36px;
+        }
+        /*商品详情*/
+
+        .property-shop-details {
+            width: 100%;
+            height: 800px;
+        }
+        .property-shop-details img{
+          width: 100%;
+          height: auto;
+        }
+        .footer{
+          padding: 0;
+          background: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="property-shop-details" id="details"></div>
+    <!-- <img src="../img/img-a.png" alt=""> -->
+    <script type="text/template" id="template">
+      {{=it.goods.g_content}}
+    </script>
+    <footer class="flex footer">
+        <div></div>
+        <div class="flex-row">
+            <div class="btn" onclick="tobuy()">确认兑换</div>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam;
+    apiready = function() {
+      pageParam = api.pageParam;
+      fnAjax('goods/goods_detail','GET',{
+        values:{
+          gid: pageParam.gid
+        }
+      }).then(res => {
+        if(res.error_code === 0){
+          console.log(JSON.stringify(res))
+          fnDataToView('details', res.data, 'template');
+        }
+      })
+    }
+    function tobuy() {
+      isLogin().then(res => {
+        openNavTabWin('order_details','order_details.html','确认订单',{
+          values:{
+            gid:pageParam.gid,
+            num:1
+          }
+        })
+      },()=>{
+        api.toast({msg:'请先登录'});
+      })
+    }
+</script>
+
+</html>

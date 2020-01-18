@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        .white {
+            margin-top: 0;
+        }
+
+        input {
+            text-align: right;
+        }
+
+        .title {
+            margin-bottom: 12px;
+        }
+
+        .idea {
+            padding: 6px 12px;
+            border: 1px solid rgba(153, 153, 153, 1);
+            border-radius: 5px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+        }
+
+        .active {
+            background: rgba(206, 61, 58, 1);
+            color: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(206, 61, 58, 1);
+        }
+
+        .text {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            font-size: 12px;
+            color: rgba(153, 153, 153, 1);
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+        }
+
+        .ipt {
+            margin-top: 20px;
+            border-bottom: none;
+        }
+
+        input {
+            text-align: left;
+        }
+
+        .zhao {
+            width: 90px;
+            height: 54px;
+            padding: 18px 0;
+            margin-left: 15px;
+            border: 1px solid rgba(231, 231, 231, 1);
+            font-size: 12px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .zhao textarea {
+            font-size: 14px;
+        }
+
+        .zhao div {
+            margin-top: 6px;
+        }
+
+        .pb10 {
+            padding-bottom: 10px;
+        }
+
+        .mpl10 {
+            display: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="../img/banner.png" alt="" width="100%" height="auto">
+    <div id="question"></div>
+    <script type="text/template" id="template">
+        <div class="p12 white">
+            <div class="title">问题类型</div>
+            <div class="flex-row">
+                {{~ it :item}}
+                <div data-type="{{=item.name}}" class="idea ml10">{{=item.name}}</div>
+                {{~}}
+            </div>
+        </div>
+    </script>
+    <div class="white pb10">
+        <textarea id="content" class="text" style="resize:none" name="name" rows="8" cols="80" placeholder="请您输入对我们的建议或意见..."></textarea>
+        <div class="flex-start">
+            <img class="mpl10" id="avatar" alt="" width="90" height="90">
+            <div class="zhao text-center" onclick="showAction()">
+                <img src="../image/zhao.png" alt="" width="36" height="30">
+                <div id="picture">照片</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="sub" onclick="submit()">
+        <button>提交</button>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var type, list, path;
+    apiready = function() {
+        fnAjax('user/get_problem', 'GET').then(res => {
+                if (res.error_code === 0) {
+                    // 渲染页面
+                    fnDataToView("question", res.data, "template");
+                    // 问题类型切换，list保存所有问题类型
+                    list = $api.domAll($api.byId("question"), ".idea")
+                        // 默认选中第一种
+                    $api.addCls(list[0], 'active');
+                    type = list[0].dataset.type;
+                    for (item of list) {
+                        // 为所有类型添加点击事件
+                        item.onclick = function() {
+                            // 取消所有类型的样式active
+                            for (k of list) {
+                                $api.removeCls(k, 'active');
+                            }
+                            // 保存当前选中的类型id
+                            type = this.dataset.type;
+                            // 为当前类型添加active样式
+                            $api.addCls(this, 'active');
+                        }
+                    }
+                }
+            })
+            // 提交反馈
+    }
+
+    function showAction() {
+        api.actionSheet({
+            title: '添加图片',
+            cancelTitle: '取消',
+            buttons: ['拍照', '从手机相册选择']
+        }, function(ret, err) {
+            if (ret) {
+                getPicture(ret.buttonIndex);
+            }
+        });
+    }
+
+    function getPicture(sourceType) {
+        if (sourceType == 1) { // 拍照
+            //获取一张图片
+            api.getPicture({
+                sourceType: 'camera',
+                encodingType: 'png',
+                mediaValue: 'pic',
+                allowEdit: false,
+                quality: 90,
+                saveToPhotoAlbum: true
+            }, function(ret, err) {
+                // 获取拍照数据并处理
+                if (ret) {
+                    var imgSrc = ret.data;
+                    if (imgSrc != "") {
+                        var ele = $api.dom('#avatar'),
+                            picture = $api.byId('picture');
+                        $api.attr(ele, 'src', imgSrc);
+                        $api.attr(ele, 'style', 'display:block');
+                        $api.text(picture, '更换照片');
+                        path = imgSrc;
+                    }
+                }
+            });
+        } else if (sourceType == 2) {
+            api.getPicture({
+                sourceType: 'library',
+                encodingType: 'jpg',
+                mediaValue: 'pic',
+                destinationType: 'base64',
+                allowEdit: true,
+                quality: 50,
+                targetWidth: 100,
+                targetHeight: 100,
+                saveToPhotoAlbum: false
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.data) {
+                        var ele = $api.dom('#avatar'),
+                            picture = $api.byId('picture');
+                        $api.attr(ele, 'src', ret.base64Data);
+                        $api.attr(ele, 'style', 'display:block');
+                        $api.text(picture, '更换照片');
+                        path = ret;
+                    }
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+
+        }
+    }
+
+    function submit() {
+        var content = $api.val($api.byId('content'));
+        // console.log(type)
+        console.log(JSON.stringify(path))
+        if (path) {
+            fnAjax('user/upload_img', 'POST', {
+                files: {
+                    image: path.data
+                }
+            }).then(res => {
+              console.log(JSON.stringify(res.data))
+                if (res.error_code === 0) {
+                    fnAjax('user/save_message', 'POST', {
+                        values: {
+                            type: type,
+                            content: content,
+                            image: res.data
+                        }
+                    }).then(res => {
+                        if (res.error_code === 0) {
+                            api.toast({
+                                msg: res.msg
+                            })
+                        }else{
+                          api.toast({
+                              msg: res.msg
+                          })
+                        }
+                    })
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    })
+                }
+            })
+        } else {
+            fnAjax('user/save_message', 'POST', {
+                values: {
+                    type: type,
+                    content: content
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    api.toast({
+                        msg: res.msg
+                    })
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    })
+                }
+            })
+        }
+    }
+</script>
+
+</html>

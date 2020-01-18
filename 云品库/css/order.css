@@ -1,0 +1,133 @@
+body {
+    background: rgba(247, 248, 249, 1);
+}
+.top {
+    padding: 0 15px;
+    font-size: 14px;
+    color: rgba(17, 17, 17, 1);
+}
+
+.top-item {
+    padding: 15px 10px;
+}
+
+.active {
+    border-bottom: 2px solid rgba(235, 73, 73, 1);
+}
+.shop {
+    padding: 15px 0;
+}
+
+.list {
+    margin-top: 6px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: rgba(102, 102, 102, 1);
+    line-height: 24px;
+    background: rgba(255, 255, 255, 1);
+}
+
+.item {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: rgba(153, 153, 153, 1);
+    overflow: hidden;
+}
+
+.shop-list {
+    padding: 10px 15px;
+    overflow: hidden;
+}
+
+.shop-item {
+    float: left;
+    margin-right: 4px;
+
+}
+
+.bj-color {
+    background: rgba(247, 248, 249, 1);
+}
+
+.item-property {
+  max-width: 60%;
+    padding: 8px 0;
+    font-size: 14px;
+    color: rgba(153, 153, 153, 1);
+}
+
+.padding-8 {
+    padding: 0 8px;
+}
+
+.item-property-title {
+    width: 170px;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+
+}
+
+.guige,
+s {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.number {
+    margin-top: 8px;
+    text-align: right;
+}
+
+.all {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(80, 80, 80, 1);
+}
+
+.all-shop {
+    margin-right: 10px;
+    font-size: 12px;
+    color: rgba(153, 153, 153, 1);
+}
+
+/*textarea*/
+.zhao-p {
+  padding: 16px 0;
+}
+.zhao {
+  width:90px;
+  height:54px;
+  padding: 18px 0;
+  margin-left: 15px;
+  border:1px solid rgba(231,231,231,1);
+  font-size:12px;
+  color:rgba(80,80,80,1);
+}
+textarea {
+  width: 100%;
+  padding: 15px 10px;
+  box-sizing:border-box;
+  border: none;
+  outline: none;
+  font-size:14px;
+  color:rgba(153,153sx,153,1);
+  font-size: 14px;
+}
+.zhao div {
+  margin-top: 6px;
+}
+.evaluate {
+  padding: 15px 10px;
+  font-size:14px;
+  color:rgba(80,80,80,1);
+}
+.assess {
+  width: 30%;
+}

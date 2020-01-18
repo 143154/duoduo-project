@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css"> -->
+	<script src="../script/TouchSlide.1.1.js" charset="utf-8"></script>
+
+	<style>
+		/*主页面*/
+
+		body {
+			padding: 0 15px;
+		}
+
+		.bj-a {
+			height: 174px;
+			border-radius: 10px;
+			background: url(../image/bj-a.png) no-repeat left;
+			background-size: cover;
+		}
+
+		.nav-list {
+			/*position: absolute;
+              top: 0;
+              left: 0;*/
+			padding: 6px 0;
+			border-radius: 10px;
+			background: #fff;
+			box-shadow: 0px 0px 12px 1px rgba(4, 0, 0, 0.14);
+		}
+
+		.nav-list ul {
+			display: flex;
+			justify-content: flex-start;
+			/*flex-wrap: wrap;*/
+		}
+
+		li.nav-item {
+			float: left;
+			/*width: 10%;*/
+			width: 20%;
+			/*border: 1px solid red;*/
+			text-align: center;
+		}
+
+		.nav-list-bot {
+			padding: 15px 0;
+		}
+
+		.index_inner {
+			position: relative;
+			top: -70px;
+			left: 0;
+		}
+
+
+
+		.total-title {
+			padding: 10px 0;
+		}
+
+		.total-title,
+		.seckill-title {
+			font-size: 16px;
+			color: rgba(239, 28, 30, 1);
+		}
+
+		.total-left {
+			width: 75%;
+			margin-right: 10px;
+		}
+
+		.total-right {
+			width: 25%;
+		}
+
+		.seckill-item-text,
+		.seckill-item-parameter {
+			width: 100%;
+			/*padding: 0 6px 4px;*/
+			margin-top: 5px;
+			font-size: 12px;
+		}
+
+		.item-text,
+		.seckill-item-text {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+		}
+
+		.seckill-item-parameter {
+			padding: 0 0 4px;
+		}
+
+		.seckill-item-parameter p {
+			font-size: 12px;
+			line-height: 26px;
+		}
+
+		.seckill-item-parameter s {
+			font-size: 12px;
+			line-height: 29px;
+		}
+
+		.bj-b {
+			border-radius: 5px;
+			height: 163px;
+			/*background: url(../image/bj-a.png) no-repeat left;*/
+			/*background-size: cover;*/
+		}
+
+		.padding {
+			padding: 10px 15px
+		}
+
+		.mt10 {
+			margin-top: 4px;
+		}
+
+		.m-5 {
+			margin-top: .3rem;
+			margin-bottom: .3rem;
+		}
+
+		.pb-5 {
+			padding-bottom: 1rem;
+		}
+
+		.p10 {
+			padding: 6px 0;
+		}
+
+		.index_item {
+			width: 48%;
+		}
+
+		.item-text {
+			font-size: 12px;
+		}
+
+		.index_bj {
+			width: 48px;
+			height: 22px;
+			background: rgba(206, 61, 58, 1);
+			border-radius: 10px;
+			font-size: 12px;
+			line-height: 22px;
+			text-align: center;
+			color: rgba(255, 255, 255, 1);
+		}
+
+		/*.nav-item p {
+            font-weight: 700
+        }*/
+
+		.fw {
+			flex-wrap: wrap;
+		}
+
+		.seckill-item-img {
+			width: 100%;
+			padding-top: 100%;
+			margin: 0 auto;
+			overflow: hidden;
+			border-radius: 5px;
+		}
+
+		.nav-item-title {
+			margin-top: 5px;
+			font-size: 12px;
+			font-weight: 200;
+			color: #333;
+		}
+
+		.ipt input {
+			width: 100%;
+			height: 30px;
+			padding: 0 14px;
+			background: rgba(243, 243, 243, 1);
+			border: 1px solid rgba(238, 238, 238, 1);
+			border-radius: 15px;
+		}
+
+		.index_title_box {
+			position: relative;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			width: 100%;
+			height: 40px;
+			margin: 10px 0;
+		}
+
+		.index_title_box span {
+			display: block;
+			width: 25%;
+			height: 20px;
+			border-top: 1px solid #b3b3b3;
+		}
+
+		.index_beautiful_title {
+			width: 120px;
+			height: 23px;
+			line-height: 23px;
+			border: 1px solid #b3b3b3;
+			box-sizing: border-box;
+			border-radius: 5px;
+			text-align: center;
+		}
+
+		.index_beautiful_subtitle {
+			color: #8C8C8C;
+			font-size: 12px;
+			text-align: center;
+			margin-top: 5px;
+		}
+
+		.mb-10 {
+			margin-bottom: 10px;
+		}
+
+		.mt-20 {
+			margin-top: 40px;
+		}
+
+		.opacity-0 {
+			opacity: 0
+		}
+
+		.mt-10 {
+			margin-top: 20px;
+		}
+
+		.lmx_search {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 99;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 44px;
+			padding: 0 15px;
+			box-sizing: border-box;
+		}
+
+		.lmx_search input {
+			width: 100%;
+			height: 30px;
+			background: #fff;
+			border-radius: 50px;
+		}
+
+		/*====================================*/
+
+		.focus {
+			height: 284px;
+			margin: 0 -15px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.focus .hd {
+			width: 100%;
+			height: 5px;
+			position: absolute;
+			z-index: 1;
+			bottom: 90px;
+			text-align: center;
+			font-size: 0;
+		}
+
+		.focus .hd ul {
+			overflow: hidden;
+			display: flex;
+			justify-content: center;
+			height: 10px;
+			width: 50px;
+			margin: 0 auto;
+			background-color: rgba(51, 51, 51, 0.0);
+		}
+
+		.focus .hd ul li {
+			width: 15px;
+			height: 2px;
+			/*border-radius: 50%;*/
+			background: #fff;
+		}
+
+		.focus .hd ul .on {
+			background: #F55756;
+		}
+
+		.focus .bd {
+			position: relative;
+			z-index: 0;
+		}
+
+		.focus .bd li img {
+			width: 100%;
+			height: 284px;
+		}
+
+		.focus .bd li a {
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			/* 取消链接高亮 */
+		}
+
+		.lmx_margin_right-5 {
+			margin-right: 5px;
+		}
+
+		.lmx_search_info {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 44px;
+		}
+
+		header {
+			background: rgba(0, 0, 0, 0.0);
+		}
+
+		.w-100 {
+			width: 100%;
+		}
+
+		.lmx_skill_box span {
+			margin-left: 5px;
+		}
+
+		.margin-h-10 {
+			/*margin-left: 10px;*/
+			margin-right: 15px;
+		}
+
+		#menu-box {
+			height: 85px;
+		}
+
+		#menu {
+			/*position: absolute;*/
+			margin-left: -15px;
+			flex-wrap: nowrap;
+			overflow-x: scroll;
+			border-bottom: 1px solid #F0F1F3;
+			background: #fff;
+			padding-top: 10px;
+		}
+
+		.top-item {
+			flex: 0 0 auto;
+			padding: 20px 10px 10px;
+			font-size: 14px;
+			text-align: center;
+			color: #4d4d4d;
+		}
+
+		.top-item.active {
+			border-bottom: 2px solid rgba(235, 73, 73, 1);
+		}
+
+		.item-teg {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 30px;
+			height: 18px;
+			padding: 0 5px !important;
+			margin: 0 5px !important;
+			/*line-height: 15px;*/
+			font-size: 10px;
+			font-weight: bold;
+			border-radius: 2px;
+			box-sizing: border-box;
+			color: #fff;
+			background: #D5B98A;
+			overflow: hidden;
+		}
+
+		.item-img {
+			width: 100%;
+			padding-top: 100%;
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		/*倒三角*/
+
+		.triangle-down {
+			margin-left: 4px;
+			width: 0;
+			height: 0;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-top: 6px solid rgba(160, 160, 160, 1);
+		}
+
+		.triangle-up {
+			margin-left: 4px;
+			width: 0;
+			height: 0;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-bottom: 6px solid rgba(160, 160, 160, 1);
+		}
+
+		.bottom_list_title {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 10px -15px 0;
+			border-top: 10px solid #F0F1F3;
+			border-bottom: 1px solid #F0F1F3;
+		}
+
+		.bottom_list_item {
+			width: 30%;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			padding: 5px 0;
+			font-size: 14px;
+			color: #4d4d4d;
+		}
+
+		.assess_count {
+			padding: 0 10px;
+			box-sizing: border-box;
+			font-size: 12px;
+			color: #B3B3B3;
+		}
+
+		.shop-item {
+			border-radius: 5px;
+		}
+
+		.item-img {
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+		}
+
+		.seckill-item-box {
+			overflow: hidden;
+		}
+
+		.scroll-x {
+			overflow-x: scroll;
+		}
+
+		.scroll-x .seckill-item {
+			margin: 0 5px;
+		}
+
+		.myflag-top {
+			padding-top: 120px;
+		}
+
+		#group.fixed {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #fff;
+			z-index: 9999;
+		}
+
+		.pros_list {
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="dingbu"></div>
+
+	<div id="focus" class="focus"></div>
+	<!-- 轮播图 -->
+	<script type="text/template" id="slider_temp">
+		<header onclick="openNavTabWin('index_search','index_search.html','搜索')" class="lmx_search">
+        <div class="w-100">
+            <input type="text" placeholder="" disabled>
+        </div>
+        <div class="ipt-text lmx_search_info">
+            <img class="lmx_margin_right-5" src="../image/search.png" alt="" width="14" height="14">
+            <p class="">请输入搜索关键词</p>
+        </div>
+      </header>
+      <div class="hd">
+        <ul></ul>
+      </div>
+      <div class="bd">
+        <ul>
+          {{~ it :s_item}}
+          <li onclick="openNavTabWin('new_activity','new_activity.html','热门产品',{type_id: 27})">
+              <a href="#"><img src="{{= s_item.image}}" /></a>
+          </li>
+          {{~}}
+        </ul>
+      </div>
+    </script>
+
+	<section class="index_inner">
+		<div id="page"></div>
+		<div id="seckill"></div>
+		<div id="bottom"></div>
+		<div id="group">
+			<div id="pros_title"></div>
+			<div id="pros_list"></div>
+		</div>
+
+		<!-- 九宫格&积分兑换 -->
+
+		<script type="text/template" id="template">
+			<div id="leftTabBox" class="nav-list tabBox">
+            <div class="bd">
+              <!-- flex-around fw -->
+              {{~it.type_arr :item}}
+                <ul class="">
+                  {{~item :menu}}
+                  <li class="nav-item m-5" onclick="openNavTabWin('new_classify','new_classify.html','{{=menu.type_name}}',{type_id:{{=menu.type_id}}})">
+                      <img src="{{=menu.type_image}}" alt="" width="60%" height="auto">
+                      <p class="nav-item-title">{{=menu.type_name}}</p>
+                  </li>
+                  {{~}}
+                </ul>
+              {{~}}
+            </div>
+          </div>
+
+
+            <div>
+                <div class="index_title_box mt-10">
+                    <span></span>
+                    <div>
+                        <div class="index_beautiful_title">积分兑换</div>
+                        <div class="index_beautiful_subtitle">免费领积分兑换商品</div>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="flex mt-10">
+                    <div class="total-left" onclick="openNavTabWin('integral_sign','integral_sign.html','积分商城')">
+                        <img src="{{=it.big_img.image}}" alt="" width="100%" height="105">
+                    </div>
+                    <div class="total-right" onclick="openNavTabWin('integral_sign','integral_store.html','积分商城')">
+                        <img src="{{=it.small_img.image}}" alt="" width="100%" height="105">
+                    </div>
+                </div>
+            </div>
+        </script>
+		<script type="text/javascript">
+			setTimeout(function () {
+				TouchSlide({
+					slideCell: "#leftTabBox"
+				});
+			}, 800)
+		</script>
+		<!-- 秒杀 -->
+		<script type="text/template" id="seckill_tem">
+			<div class="seckill">
+                <div class="index_title_box mt-10">
+                    <span></span>
+                    <div>
+                        <div class="index_beautiful_title">好家购秒杀</div>
+                        <div class="index_beautiful_subtitle">秒杀限时抢购</div>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="flex" onclick="openNavTabWin('integral_time','integral_time.html','秒杀活动')">
+                    <div class="flex-center">
+                        <p class="margin-h-10">距活动结束</p>
+                        <div class="p10 lmx_skill_box">
+                            <span class="seckill-time">{{=it.activity.endTime[0]}}</span>
+                            <span>天</span>
+                            <span class="seckill-time">{{=it.activity.endTime[1]}}</span>
+                            <span>:</span>
+                            <span class="seckill-time">{{=it.activity.endTime[2]}}</span>
+                            <span>:</span>
+                            <span class="seckill-time">{{=it.activity.endTime[3]}}</span>
+                            <!-- <img class="seckill-img" src="../image/right.png" alt="" width="8" height="12"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+		<script type="text/template" id="bottom_tem">
+			<!-- 秒杀商品 -->
+			<div class="seckill-item-box">
+				<div class="flex scroll-x">
+					{{~it.activitys.goods :items}}
+					<!-- <div class="seckill-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+					<div class="seckill-item"
+						onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+						<div class="seckill-item-img" style="background:url('{{=items.g_image}}') no-repeat;background-size:cover;">
+							<!-- <img src="{{=items.g_image}}" alt="" width="100%" height="auto"> -->
+						</div>
+						<p class="seckill-item-text">{{=items.g_name}}</p>
+						<div class="seckill-item-parameter flex">
+							<p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+							<s>￥{{=items.g_yprice}}</s>
+						</div>
+					</div>
+					{{~}}
+				</div>
+			</div>
+			<!-- 中间轮播图 -->
+			<div class="bj-b">
+				<img src="{{=it.center_img.image}}" width="100%" height="100%"
+					onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{= it.center_img.gid}}})"
+					style="border-radius:5px;">
+			</div>
+		</script>
+
+		<script type="text/template" id="temp_pros">
+			<div id="menu-box">
+        <div class="flex top white" id="menu">
+            <div class="top-item active" onclick="selected(0,0)">推荐</div>
+            {{~ it :p_title:index}}
+            <div class="top-item" onclick="selected({{= p_title.type_id}},{{= index + 1}})">{{= p_title.type_name}}</div>
+            {{~}}
+        </div>
+      </div>
+    </script>
+		<script type="text/template" id="temp_pros_list">
+			{{? !it.isZero}} {{~ it.all_type :a_item}} {{? a_item.type_id == it.tid}}
+            <ul id="proslist" class="flex-start nav-list-bot fw">
+                {{~ a_item.child_type :item}}
+                <li class="nav-item m-5" onclick="openNavTabWin('classify','classify_list.html','{{= item.type_name}}',{tid:{{=item.type_id}}})">
+                    <img src="{{=item.type_img}}" alt="" width="80%" height="auto">
+                    <p class="nav-item-title">{{=item.type_name}}</p>
+                </li>
+                {{~}}
+            </ul>
+            {{?}} {{~}} {{?}}
+
+            <!-- <ul>
+              <li>1231</li>
+            </ul> -->
+
+             {{? it.isZero}}
+            <!-- 底部商品 -->
+            {{~it.goods_type :item}}
+              <!-- {{? item.recommend_goods}} -->
+            <div class="index_title_box mt-20" onclick="openNavTabWin('index_classify_details','index_classify_details.html','分类详情',{type_id:{{=item.type_id}}})">
+                <span></span>
+                <div>
+                    <div class="index_beautiful_title">{{=item.type_name}}</div>
+                    <div class="index_beautiful_subtitle {{=item.type_desc ? '' : 'opacity-0'}}">{{=item.type_desc}}</div>
+                </div>
+                <span></span>
+            </div>
+            <section class="flex fw mb-10">
+                {{~ it.goods_type :items}}
+                <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+                <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+                    <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+                    <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+                    <p class="item-text">{{=items.g_name}}</p>
+                    {{? items.tag != ""}}
+                    <p class="item-teg">{{=items.tag}}</p>
+                    {{?}}
+                    <div class="item-parameter flex">
+                        <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                        <!-- <p class="bj">马上抢</p> -->
+                        <p class="assess_count">{{=items.assess_count}} 条评论</p>
+                    </div>
+                </div>
+                {{~}}
+            </section>
+            <!-- {{?}} -->
+            {{~}}
+            <section class="flex fw mb-10">
+            {{~ it.goods_type :items}}
+            <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+            <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+                <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+                <!-- <img src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+                <p class="item-text">{{=items.g_name}}</p>
+                {{? items.tag != ""}}
+                <p class="item-teg">{{=items.tag}}</p>
+                {{?}}
+                <div class="item-parameter flex">
+                    <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                    <p class="bj">马上抢</p>
+                    <!-- <p class="assess_count">{{=items.assess_count}} 条评论</p> -->
+                </div>
+            </div>
+            {{~}}
+            {{?}}
+            </section>
+
+            {{? !it.isZero}}
+
+            <div class="bottom_list_title" id="myflag">
+                <div class="bottom_list_item">
+                    {{? it.key_sort == 0}}
+                    <span onclick="sortlist(0,0)" class="red">热门</span> {{??}}
+                    <span onclick="sortlist(0,0)">热门</span> {{?}}
+                </div>
+                <div class="bottom_list_item">
+                    {{? it.key_sort == 1}}
+                    <span onclick="sortlist(1,0)" class="red">销量</span> {{??}}
+                    <span onclick="sortlist(1,0)">销量</span> {{?}}
+                </div>
+                <div class="bottom_list_item">
+                    {{? it.key_sort == 2}} {{? it.key_price == 0}}
+                    <span onclick="sortlist(2,1)" class="red">价格</span><span class="triangle-up"></span> {{?? it.key_price == 1}}
+                    <span onclick="sortlist(2,0)" class="red">价格</span><span class="triangle-down"></span> {{?}} {{??}}
+                    <span onclick="sortlist(2,0)">价格</span><span class="triangle-up"></span> {{?}}
+                </div>
+            </div>
+            <div class="flex fw mb-10">
+                {{~ it.sort_goods :items}}
+                <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+                <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+                    <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+                    <p class="item-text">{{=items.g_name}}</p>
+                    {{? items.tag != ""}}
+                    <p class="item-teg">{{=items.tag}}</p>
+                    {{?}}
+                    <div class="item-parameter flex">
+                        <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+
+                        <!-- <p class="bj">马上抢</p> -->
+                        <p class="assess_count">{{=items.assess_count}} 条评论</p>
+                    </div>
+                </div>
+                {{~}}
+            </div>
+            {{?}}
+        </script>
+	</section>
+</body>
+<script src="../script/api.js"></script>
+<script src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script src="../script/jquery.2.1.4.min.js" charset="utf-8"></script>
+<script src="../script/swipeslider.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var pageParam, item, key_tid, proslist, menu;
+	apiready = function () {
+		var header = $api.dom('.dingbu'); // 获取 header 标签元素
+		// var footer = $api.dom('footer'); // 获取 footer 标签元素
+
+		// 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+		// 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+		// 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+		var headerH = $api.fixStatusBar(header);
+		// 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+		// var footerH = $api.fixTabBar(footer);
+
+		$api.byId('focus').style.width = api.winWidth + "px";
+
+		//  $('#full_feature').swipeslider();
+		api.setStatusBarStyle({
+			style: 'dark',
+			color: 'transparent'
+		});
+		var menu = $api.byId('menu');
+		// console.log(menu, 123)
+
+
+		// 下拉刷新
+		api.setCustomRefreshHeaderInfo({
+			bgColor: '#fff',
+			image: {
+				pull: 'widget://image/pull/pull.png',
+				transform: [
+					'widget://image/pull/pull_end_image_frame_01.png',
+					'widget://image/pull/pull_end_image_frame_02.png',
+					'widget://image/pull/pull_end_image_frame_03.png',
+					'widget://image/pull/pull_end_image_frame_04.png',
+					'widget://image/pull/pull_end_image_frame_05.png'
+				],
+				load: [
+					'widget://image/pull/refreshing_image_frame_01.png',
+					'widget://image/pull/refreshing_image_frame_02.png',
+					'widget://image/pull/refreshing_image_frame_03.png',
+					'widget://image/pull/refreshing_image_frame_04.png',
+					'widget://image/pull/refreshing_image_frame_05.png',
+					'widget://image/pull/refreshing_image_frame_06.png'
+				]
+			}
+		}, function () {
+			//下拉刷新被触发，自动进入加载状态，使用 api.refreshHeaderLoadDone() 手动结束加载中状态
+			//下拉刷新被触发，使用 api.refreshHeaderLoadDone() 结束加载中状态
+			// alert('开始加载刷新数据，摇一摇停止加载状态');
+			fnAjax('index/index', 'GET').then(res => {
+				if (res.error_code === 0) {
+					// var banner = res.data.home_banner.map(item => item.image);
+					// console.log(JSON.stringify(res.data.activitys.activity))
+
+					var endTime = timeFn(res.data.activitys.activity.end * 1000);
+					res.data.activitys.activity.endTime = endTime;
+					// console.log(JSON.stringify(res.data))
+					res.data.type_arr = [
+						res.data.type_arr.slice(0, 10),
+						res.data.type_arr.slice(10, 20)
+					]
+					fnDataToView('page', res.data, 'template');
+					// TouchSlide({
+					// 	slideCell: "#leftTabBox"
+					// });
+					setTimeout(function () {
+						TouchSlide({
+							slideCell: "#leftTabBox"
+						});
+					}, 10)
+
+					fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+					fnDataToView('bottom', res.data, 'bottom_tem');
+					fnDataToView('focus', res.data.home_banner, 'slider_temp');
+					console.log(JSON.stringify(res.data.home_banner));
+					proslist = $api.byId('proslist')
+					setInterval(function () {
+						endTime = timeFn(res.data.activitys.activity.end * 1000);
+						res.data.activitys.activity.endTime = endTime;
+						fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+						// console.log(endTime)
+					}, 1000)
+
+					// 轮播图
+					TouchSlide({
+						slideCell: "#focus",
+						titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+						mainCell: ".bd ul",
+						effect: "leftLoop",
+						autoPlay: true, //自动播放
+						autoPage: true //自动分页
+					});
+					// fnInitUIScrollPicture(banner);
+					setTimeout(function () {
+						api.refreshHeaderLoadDone()
+					}, 1000)
+				}
+			});
+
+
+			getIndexData()
+
+		});
+
+		api.addEventListener({
+			name: 'shake'
+		}, function (ret, err) {
+			api.refreshHeaderLoadDone()
+		});
+
+
+		api.addEventListener({
+			name: 'keyback'
+		}, function (ret, err) {
+			api.confirm({
+				title: '提示',
+				msg: '是否退出应用',
+				buttons: ['确定', '取消']
+			}, function (ret, err) {
+				if (ret.buttonIndex == 1) {
+					api.closeWidget({
+						silent: true
+					});
+				}
+			});
+		});
+
+
+		pageParam = api.pageParam;
+
+
+		getIndexData()
+
+
+	}
+
+	// 首页数据请求
+	function getIndexData() {
+
+		fnAjax('index/index', 'GET').then(res => {
+			if (res.error_code === 0) {
+				// var banner = res.data.home_banner.map(item => item.image);
+				// console.log(JSON.stringify(res.data.activitys.activity))
+				var endTime = timeFn(res.data.activitys.activity.end * 1000);
+				res.data.activitys.activity.endTime = endTime;
+				// console.log(JSON.stringify(res.data))
+
+				res.data.type_arr = [
+					res.data.type_arr.slice(0, 10),
+					res.data.type_arr.slice(10, 20)
+				]
+				//   console.log(res.data.type_arr[1].length)
+				fnDataToView('page', res.data, 'template');
+
+				fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+				fnDataToView('bottom', res.data, 'bottom_tem');
+
+				fnDataToView('focus', res.data.home_banner, 'slider_temp');
+				proslist = $api.byId('proslist');
+
+				// 轮播图
+				TouchSlide({
+					slideCell: "#focus",
+					titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+					mainCell: ".bd ul",
+					effect: "leftLoop",
+					autoPlay: true, //自动播放
+					autoPage: true //自动分页
+				});
+
+				setInterval(function () {
+					endTime = timeFn(res.data.activitys.activity.end * 1000);
+					res.data.activitys.activity.endTime = endTime;
+					fnDataToView('seckill', res.data.activitys, 'seckill_tem');
+					// console.log(endTime)
+				}, 1000)
+				// fnInitUIScrollPicture(banner);
+			}
+		});
+
+		// 延时获取底部分类商品
+		fnAjax('index/get_home_recommend_goods', 'POST').then(res => {
+			if (res.error_code === 0) {
+				// console.log(JSON.stringify(res.data))
+				proslist = res.data.all_type;
+
+				fnDataToView('pros_title', res.data.all_type, 'temp_pros');
+				item = $api.domAll(document, '.top-item');
+				myflag = $api.byId('myflag');
+
+				var menuObj = $api.byId('menu'),
+					myflag = $api.byId('myflag'),
+					body = $api.dom('body'),
+					group = $api.byId('group'),
+					this_bottom = $api.offset(menuObj),
+					fixed_top = this_bottom.t + 28,
+					_top = api.safeArea.top - 10;
+				var parent = menuObj.offsetParent.offsetTop;
+				var menuTop = menuObj.offsetTop
+				var flag = true
+				var index = 0,
+					len = proslist.length;
+				getData(0);
+				// console.log(menuTop)
+				window.onscroll = function () {
+					// console.log(menuObj.offsetTop, menuObj.clientHeight)
+					if (flag) {
+						menuTop = menuObj.offsetTop
+						flag = false
+					}
+
+					var winH = document.body.clientHeight;
+					var scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+
+					if (scrollT < 250) {
+						$api.removeCls(body, 'myflag-top')
+						$api.removeAttr(menuObj, 'style');
+					}
+					if (scrollT > parent + menuTop) {
+
+						// $api.addCls(group, 'fixed');
+
+						$api.attr(menuObj, 'style', 'position:fixed;top:0;padding-top:' + _top +
+							'px;left:0;z-index:9900;margin-left: 0');
+
+
+						api.addEventListener({
+							name: 'swipeleft'
+						}, function (ret, err) {
+							//  alert('向左轻扫');
+							// console.log(JSON.stringify(proslist[index++]));
+							if (index >= len) {
+								return
+							}
+							selected(proslist[index++].type_id, index)
+						});
+
+						api.addEventListener({
+							name: 'swiperight'
+						}, function (ret, err) {
+							//  alert('向左轻扫');
+							// console.log(JSON.stringify(proslist[index++]));
+							if (index <= 0) {
+								return
+							}
+							selected(proslist[index--].type_id, index)
+						});
+
+					} else {
+						$api.removeAttr(menuObj, 'style');
+						// $api.removeCls(group, 'fixed');
+					}
+				}
+			}
+		})
+	}
+
+	// 推荐商品切换
+	function selected(_id, index) {
+		var menu = $api.byId('menu');
+		var list = document.querySelectorAll('.top-item')
+		var screenWidth = document.body.offsetWidth;
+		// 点击的到屏幕的距离
+		var offsetLeft = list[index].offsetLeft - menu.scrollLeft
+		//   点击的宽度
+		var itemWidth = list[index].offsetWidth
+		//   要移动的宽度
+		var moveLeft = offsetLeft - screenWidth / 2 + itemWidth / 2
+		if (offsetLeft >= screenWidth / 2) {
+			menu.scrollLeft += moveLeft
+		} else {
+			menu.scrollLeft += moveLeft
+		}
+		getData(_id, true);
+		// console.log(JSON.stringify(menu));
+		for (let i = 0; i < item.length; i++) {
+			$api.removeCls(item[i], 'active');
+			if (index == i) {
+				$api.addCls(item[i], 'active');
+			}
+		}
+	}
+
+	//获取分类数据
+	function getData(_id, flag) {
+		// console.log(_id)
+		key_tid = _id;
+		fnAjax('index/get_home_recommend_goods', 'POST', {
+			values: {
+				key_tid: _id
+			}
+		}).then(res => {
+			if (res.error_code === 0) {
+				if (_id === 0) {
+					res.data.isZero = true;
+				} else {
+					res.data.isZero = false;
+				}
+
+				fnDataToView('pros_list', res.data, 'temp_pros_list');
+
+				if (flag) {
+					// document.body.scrollTop = 1200;
+					// document.body.scrollTop = <div class="aui-btn">默认按钮</div>
+
+					// var menuObj = $api.byId('menu'),
+					//     myflag = $api.byId('myflag'),
+					//     body = $api.dom('body'),
+					//     this_bottom = $api.offset(menuObj),
+					//     fixed_top = this_bottom.t,
+					//     _top = api.safeArea.top+10;
+					//   $api.addCls(body, 'myflag-top')
+					// window.onscroll = function() {
+					//     var scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+					//     if(scrollT < 250) {
+					//       $api.removeCls(body, 'myflag-top')
+					//       // $api.removeAttr(menuObj, 'style');
+					//     }
+					//
+					//     if (scrollT > fixed_top) {
+					//       $api.attr(menuObj, 'style', 'position:fixed;top:0;padding-top:' + _top + 'px;left:0;z-index:9900');
+					//     } else {
+					//       $api.removeAttr(menuObj, 'style');
+					//   }
+					//
+					// }
+
+					var menuObj = $api.byId('menu'),
+						myflag = $api.byId('myflag'),
+						body = $api.dom('body'),
+
+						this_bottom = $api.offset(myflag),
+						fixed_top = this_bottom && this_bottom.t,
+						_top = api.safeArea.top + 10;
+
+					document.body.scrollTop = fixed_top
+					// $api.attr(menuObj, 'style', 'position:fixed;top:0;padding-top:' + _top + 'px;left:0;z-index:9900');
+					$api.addCls(body, 'myflag-top')
+				}
+			}
+		})
+	}
+
+	// 排序
+	function sortlist(key_sort, key_price) {
+		fnAjax('index/get_home_recommend_goods', 'GET', {
+			values: {
+				key_tid: key_tid,
+				key_sort: key_sort,
+				key_price: key_price
+			}
+		}).then(res => {
+			// console.log(JSON.stringify(res))
+			if (res.error_code === 0) {
+				res.data.isZero = false;
+				res.data.tid = key_tid;
+				// console.log(JSON.stringify(res))
+				fnDataToView('pros_list', res.data, 'temp_pros_list');
+			}
+		})
+	}
+
+	function timeFn(d1) {
+		var dateBegin = new Date(),
+			dateEnd = new Date(d1),
+			dateDiff, dayDiff, leave1, hours, leave2, minutes, leave3, seconds, endTime;
+		dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
+		if (dateDiff < 0) {
+			endTime = ["00", "00", "00", "00"];
+			return endTime;
+		}
+		dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天
+		if (dayDiff < 10) {
+			dayDiff = "0" + dayDiff
+		}
+		leave1 = dateDiff % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
+		hours = Math.floor(leave1 / (3600 * 1000)); //计算出小时数
+		if (hours < 10) {
+			hours = "0" + hours
+		}
+		//计算相差分钟数
+		leave2 = leave1 % (3600 * 1000); //计算小时数后剩余的毫秒数
+		minutes = Math.floor(leave2 / (60 * 1000)); //计算相差分钟数
+		if (minutes < 10) {
+			minutes = "0" + minutes
+		}
+		//计算相差秒数
+		leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数    
+		seconds = Math.round(leave3 / 1000);
+		if (seconds < 10) {
+			seconds = "0" + seconds
+		}
+		endTime = [dayDiff, hours, minutes, seconds];
+		// console.log(endTime)
+		return endTime;
+	}
+
+	function showLogin() {
+		api.toast({
+			msg: '请先登录'
+		})
+	}
+</script>
+
+</html>

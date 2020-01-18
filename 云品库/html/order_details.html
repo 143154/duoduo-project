@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/order.css" />
+    <style>
+        .shopping {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 1);
+            font-size: 16px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .btn {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 30px;
+            margin-left: 10px;
+            margin-right: 20px;
+            color: rgba(255, 254, 254, 1);
+            background: rgba(206, 61, 58, 1);
+            font-size: 14px;
+            border-radius: 50px;
+        }
+
+        .priceAll {
+            color: rgba(255, 57, 57, 1);
+        }
+
+        .top {
+            padding: 10px 0;
+        }
+
+        .top-height {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-img {
+            margin-right: 20px;
+        }
+
+        .bj {
+            height: 2px;
+            background: url(../image/line.png) no-repeat left;
+            background-size: cover;
+        }
+
+        .comment {
+            padding: 15px 0;
+        }
+
+        .form {
+            padding: 15px;
+            background: #fff;
+        }
+
+        .ipt {
+            /*width: 88%;*/
+            margin-left: 10px;
+            font-size: 14px;
+            color: rgba(153, 153, 153, 1);
+            border: none;
+        }
+
+        .form label {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .amount {
+            margin-bottom: 65px;
+            background: rgba(255, 255, 255, 1);
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+            border-radius: 5px;
+        }
+
+        .amount-size {
+            font-size: 14px;
+        }
+
+        .amount-top {
+            margin-top: 30px;
+        }
+        /*地址选中状态*/
+
+        .top-font {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .margin-right {
+            margin-right: 10px;
+        }
+
+        .site {
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .top-coord {
+            margin-right: 10px;
+            /*margin-top: 5px;*/
+        }
+
+        .top-line {
+            margin-bottom: 10px;
+        }
+
+        .fu15 {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        .fu {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            font-size: 16px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .fu p {
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .add_site {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f1f3;
+            padding: 10px 15px;
+        }
+
+        .pl-10 {
+            padding-left: 8px;
+        }
+
+        .plr-15 {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .text-right-15 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 20%;
+            /*padding-right: 15px;*/
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+        .addr_box {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 10px;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .right_icon {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #goods {
+            /*margin: 10px;*/
+            /*border-radius: 5px;*/
+            /*background: #fff;*/
+        }
+
+        .white {
+            margin: 10px;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .detail_img {
+            min-width: 88px;
+            border-radius: 5px;
+        }
+
+        .shop_price{
+          margin: 10px;
+          border-radius: 5px;
+          background: #fff;
+        }
+        select{
+          border: none;
+          background: transparent;
+          outline: none;
+          text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="" id="addr"></div>
+    <script type="text/template" id="addr_temp">
+        {{? it.aid}}
+        <div class="top clearfix plr-15 addr_box" onclick="openNavTabWin('user_site','user_site.html','选择地址',{statu:0})">
+            <!-- 选择收货地址状态 -->
+            <img class="pull-left top-coord" src="../image/icon_location.png" alt="" width="40" height="40">
+            <div class="flex top-height">
+                <div class="top-font margin-right ">
+                    <div class="flex top-line">
+                        <p>收货人：<span>{{=it.username}}</span> </p>
+                        <p>{{=it.phone}}</p>
+                    </div>
+                    <p class="site">地址：<span>{{=it.addr}}{{=it.addrs}}</span> </p>
+                </div>
+            </div>
+            <img class="right_icon" src="../image/right.png" alt="" width="10" height="20">
+        </div>
+        {{??}}
+        <div class="clearfix addr_box" onclick="openNavTabWin('user_site','user_site.html','选择地址',{statu:0})">
+            <!-- 选择收货地址状态 -->
+            <div class="flex add_site">
+                <img src="../image/add.png" width="44" height="44">
+                <p>添加收货地址</p>
+            </div>
+        </div>
+        {{?}}
+    </script>
+    <div id="goods"></div>
+    <script type="text/template" id="goods_temp">
+        <!-- <div class="bj"></div> -->
+        <div class="white">
+            <div class="shop">
+                <div class="list">
+                    全部
+                </div>
+                <div class="item flex">
+                    <img src="{{=it.goods.g_image}}" alt="" class="detail_img" width="88" height="88">
+                    <div class="item-property flex">
+                        <div class="padding-8">
+                            <h3 class="item-property-title max-two-line">{{=it.goods.g_name}}</h3>
+                            <p class="guige">{{=it.spec.s_name}}</p>
+                        </div>
+                    </div>
+                    <div class="padding-8 text-right-15">
+                        <p class="item-property-title">￥{{=it.spec.s_xprice}}</p>
+                        <!-- <s>￥19.90</s> -->
+                        <p class="number">x{{=it.goods.num}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page all">
+                <!-- <span class="all-shop">共一件商品</span> -->
+                <span>小计:</span>
+                <span class="font-red">￥</span>
+                <span class="font-red">{{=it.spec.s_xprice}}</span>
+            </div>
+            <div class="comment">
+                <div class="form">
+                    <label>买家留言</label>
+                    <input id="content" class="ipt" type="text" placeholder="选填，给商家留言">
+                </div>
+            </div>
+        </div>
+
+        <div class="shop_price">
+          <div class="page amount bt-10">
+              <div class="flex pl-10 ">
+                  <p>商品金额</p>
+                  <p class="amount-size">￥{{=it.spec.s_xprice}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>运费</p>
+                  <p class="amount-size font-red">+&nbsp;￥{{=it.freight || 0}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>满减</p>
+                  <p class="amount-size font-red">-&nbsp;￥{{=it.reductions_money || 0}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>优惠券</p>
+                  {{? it.voucher.length >= 1}}
+                  <select id="card" class="font-red" onchange="choose({{=it.all_price}})">
+                    <option value="0">可用优惠券</option>
+                    {{~it.voucher : item}}
+                    <option value="{{=item.amount}}">-&nbsp;￥{{=item.amount}}</option>
+                    {{~}}
+                  </select>
+                  {{??}}
+                  <p class="amount-size font-red">无</p>
+                  {{?}}
+              </div>
+
+              <div class="amount-top flex-right">
+                  <span>合计:</span>
+                  <span class="font-red" id="all_price">￥{{=it.all_price}}</span>
+              </div>
+          </div>
+        </div>
+
+        <div class="shopping">
+            <div class="flex-right">
+                <div class="flex-center">
+                    <span>合计：</span>
+                    <span class="font-red" id="all_price1">¥{{=it.all_price}}</span>
+                </div>
+                <div class="btn" onclick="tobuy(0)">去支付</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="integral_temp">
+        <!-- <div class="bj"></div> -->
+        <div class="white">
+            <div class="shop">
+                <div class="list">
+                    全部
+                </div>
+                <div class="item flex">
+                    <img src="{{=it.goods.g_image}}" alt="" class="detail_img" width="88" height="88">
+                    <div class="item-property flex">
+                        <div class="padding-8">
+                            <h3 class="item-property-title max-two-line">{{=it.goods.g_name}}</h3>
+                        </div>
+                    </div>
+                    <div class="padding-8 text-right-15">
+                        <p class="item-property-title">{{=it.goods.conversion}}积分</p>
+                        <!-- <s>￥19.90</s> -->
+                        <p class="number">x{{=it.num}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page all">
+                <!-- <span class="all-shop">共一件商品</span> -->
+                <span>小计:</span>
+                <span class="font-red">{{=it.goods.conversion}}</span>
+                <span class="font-red">积分</span>
+            </div>
+            <div class="comment">
+                <div class="form">
+                    <label>买家留言</label>
+                    <input id="content" class="ipt" type="text" placeholder="选填，给商家留言">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="shop_price">
+          <div class="page amount bt-10">
+            <div class="flex">
+              <p>商品积分</p>
+              <p class="amount-size">{{=it.goods.conversion}}</p>
+            </div>
+            <div class="amount-top flex-right">
+              <span>合计:</span>
+              <span class="font-red">{{=it.all_conversion}}</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="shopping">
+            <div class="flex-right">
+                <div class="flex-center">
+                    <span>合计：</span>
+                    <span class="font-red">{{=it.all_conversion}}积分</span>
+                </div>
+                <div class="btn" onclick="tobuy(2)">去支付</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="template">
+        <!-- <div class="bj"></div> -->
+        <div class="white">
+            <div class="shop">
+                <div class="list">
+                    全部
+                </div>
+                {{~ it.car :item}}
+                <div class="item flex">
+                    <img src="{{=item.c_image}}" alt="" class="detail_img" width="88" height="88">
+                    <div class="item-property flex">
+                        <div class="padding-8">
+                            <h3 class="item-property-title">{{= item.c_name}}</h3>
+                            <p class="guige">{{=item.s_name}}</p>
+                        </div>
+                    </div>
+                    <div class="padding-8 text-right-15">
+                        <p class="item-property-title">￥{{=item.price}}</p>
+                        <!-- <s>￥19.90</s> -->
+                        <p class="number">x{{=item.num}}</p>
+                    </div>
+                </div>
+                {{~}}
+            </div>
+            <div class="page all">
+                <span class="all-shop">共{{=it.car.length}}件商品</span>
+                <span>小计:</span>
+                <span class="font-red">￥</span>
+                <span class="font-red">{{=it.all_price}}</span>
+            </div>
+            <div class="comment">
+                <div class="form">
+                    <label>买家留言</label>
+                    <input id="content" class="ipt" type="text" placeholder="选填，给商家留言">
+                </div>
+            </div>
+        </div>
+
+        <div class="shop_price">
+          <div class="page amount mt-10 bt-10">
+              <div class="flex pl-10">
+                  <p>商品金额</p>
+                  <p class="amount-size">￥{{=it.all_price}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>运费</p>
+                  <p class="amount-size font-red">+&nbsp;￥{{=it.freight || 0}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>满减</p>
+                  <p class="amount-size font-red">-&nbsp;￥{{=it.reductions_money || 0}}</p>
+              </div>
+              <div class="flex pl-10">
+                  <p>优惠券</p>
+                  {{? it.voucher.length >= 1}}
+                  <select id="card" class="font-red" onchange="choose({{=it.all_price}})">
+                    <option value="0">可用优惠券</option>
+                    {{~it.voucher : item}}
+                    <option value="{{=item.amount}}">-&nbsp;￥{{=item.amount}}</option>
+                    {{~}}
+                  </select>
+                  {{??}}
+                  <p class="amount-size font-red">无</p>
+                  {{?}}
+              </div>
+
+              <div class="amount-top flex-right">
+                  <span>合计:</span>
+                  <span class="font-red" id="all_price">￥{{=it.all_price}}</span>
+              </div>
+          </div>
+        </div>
+
+        <div class="shopping">
+            <div class="flex-right">
+                <div class="flex-center">
+                    <span>合计：</span>
+                    <span class="font-red" id="all_price1">¥{{=it.all_price}}</span>
+                </div>
+                <div class="btn" onclick="tobuy(1)">去支付</div>
+            </div>
+        </div>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam;
+    apiready = function() {
+        pageParam = api.pageParam.values || {};
+        console.log(JSON.stringify(pageParam))
+        // pageParam.sid = 202;
+        if (pageParam.sid) {
+            // 直接购买
+            fnAjax('goods/confirm_order', 'POST', {
+                values: {
+                    gid: pageParam.gid,
+                    sid: pageParam.sid,
+                    num: pageParam.num
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    console.log(JSON.stringify(res.data))
+                    pageParam.freight = res.data.freight;
+                    fnDataToView("goods", res.data, "goods_temp");
+                }
+            })
+        } else if (pageParam.gid) {
+            // 积分兑换
+            fnAjax('Integral/affirm', 'POST', {
+                values: {
+                    gid: pageParam.gid,
+                    num: pageParam.num
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    // console.log(JSON.stringify(res))
+                    fnDataToView("goods", res.data, "integral_temp");
+                }
+            })
+        } else {
+            // 购物车购买
+            fnAjax('car/car_submit_order', 'GET').then(res => {
+                if (res.error_code === 0) {
+                    // console.log(JSON.stringify(res))
+                    fnDataToView("goods", res.data, "template");
+                }
+            })
+        }
+        fnAjax('goods/get_user_addr_order', 'GET').then(res => {
+            if (res.error_code === 0) {
+                // console.log(JSON.stringify(res))
+                pageParam.aid = res.data.aid;
+                fnDataToView("addr", res.data, "addr_temp");
+            } else {
+                fnDataToView("addr", res.data, "addr_temp");
+            }
+        })
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+            if (ret) {
+                pageParam.aid = ret.value.aid;
+                fnAjax('goods/get_user_addr_order', 'GET', {
+                    values: {
+                        aid: ret.value.aid
+                    }
+                }).then(res => {
+                    if (res.error_code === 0) {
+                        // console.log(JSON.stringify(res))
+                        fnDataToView("addr", res.data, "addr_temp");
+                    }
+                })
+            }
+        });
+
+
+    }
+    // 选择优惠券
+    function choose(oldPrice){
+      // console.log(JSON.stringify(e));
+      var value = $api.val($('card'));
+      $api.html($('all_price'), '￥' + (oldPrice - value));
+      $api.html($('all_price1'), '￥' + (oldPrice - value));
+    }
+    // 支付事件
+    function tobuy(statu) {
+        var content = $('content').value;
+        if (!pageParam.aid) {
+            api.toast({
+                msg: '请选择收货地址'
+            })
+            return;
+        }
+        if (statu == 0) {
+            fnAjax('goods/add_order', 'POST', {
+                values: {
+                    gid: pageParam.gid,
+                    sid: pageParam.sid,
+                    num: pageParam.num,
+                    aid: pageParam.aid,
+                    content: content,
+                    freight: pageParam.freight
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    var aliPayPlus = api.require('aliPayPlus');
+                    console.log(aliPayPlus);
+                    let did = res.data.did;
+                    fnAjax('pay/alipay_app', 'GET', {
+                        values: {
+                            did: did
+                        }
+                    }).then(res => {
+                      if(res.error_code === 0) {
+                        let order_string = res.data.order_string;
+                        aliPayPlus.payOrder({
+                            orderInfo: order_string
+                        }, function(ret, err) {
+                          if(ret.code == 9000) {
+                            api.openTabLayout({
+                                name: 'index',
+                                url: 'widget://html/index_main.html',
+                                hideTabBar: false,
+                                scrollEnabled:false,
+                                tabBar: {
+                                    selectedColor: '#f55756',
+                                    frames: [{
+                                      title: "首页",
+                                      name: "page1",
+                                      url: "widget://html/index_main.html"
+                                    }, {
+                                      title: "商品分类",
+                                      name: "page2",
+                                      url: "widget://html/index_classify.html"
+                                    }, {
+                                      title: "购物车",
+                                      name: "page3",
+                                      url: "widget://html/shop_list.html"
+                                    }, {
+                                      title: "我的",
+                                      name: "page4",
+                                      url: "widget://html/user.html"
+                                    }],
+                                    list: [{
+                                      text: "首页",
+                                      iconPath: "widget://img/home.png",
+                                      selectedIconPath: "widget://img/home_active.png"
+                                    }, {
+                                      text: "商品分类",
+                                      iconPath: "widget://img/class.png",
+                                      selectedIconPath: "widget://img/class_active.png"
+                                    }, {
+                                      text: "购物车",
+                                      iconPath: "widget://img/car.png",
+                                      selectedIconPath: "widget://img/car_active.png"
+                                    }, {
+                                      text: "我的",
+                                      iconPath: "widget://img/my.png",
+                                      selectedIconPath: "widget://img/my_active.png"
+                                    }]
+                                }
+                            });
+                            // api.openWin({
+                            //     name: 'page1',
+                            //     url: 'widget://html/index_main.html'
+                            // });
+
+                          }else {
+                            api.alert({
+                                title: '支付结果',
+                                msg: ret.code,
+                                buttons: ['确定']
+                            });
+                          }
+                        });
+                      }
+                    })
+
+
+
+                    // api.toast({
+                    //     msg: '订单生成成功'
+                    // });
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    });
+                }
+            })
+        } else if (statu == 1) {
+            fnAjax('car/add_car_dd', 'POST', {
+                values: {
+                    aid: pageParam.aid,
+                    content: content
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                  var aliPayPlus = api.require('aliPayPlus');
+                  let did = res.data.did;
+                  fnAjax('pay/alipay_app', 'GET', {
+                      values: {
+                          did: did
+                      }
+                  }).then(res => {
+                    if(res.error_code === 0) {
+                      let order_string = res.data.order_string;
+                      aliPayPlus.payOrder({
+                          orderInfo: order_string
+                      }, function(ret, err) {
+                        if(ret.code == 9000) {
+                          api.openTabLayout({
+                              name: 'index',
+                              url: 'widget://html/index_main.html',
+                              hideTabBar: false,
+                              scrollEnabled:false,
+                              tabBar: {
+                                  selectedColor: '#f55756',
+                                  frames: [{
+                                    title: "首页",
+                                    name: "page1",
+                                    url: "widget://html/index_main.html"
+                                  }, {
+                                    title: "商品分类",
+                                    name: "page2",
+                                    url: "widget://html/index_classify.html"
+                                  }, {
+                                    title: "购物车",
+                                    name: "page3",
+                                    url: "widget://html/shop_list.html"
+                                  }, {
+                                    title: "我的",
+                                    name: "page4",
+                                    url: "widget://html/user.html"
+                                  }],
+                                  list: [{
+                                    text: "首页",
+                                    iconPath: "widget://img/home.png",
+                                    selectedIconPath: "widget://img/home_active.png"
+                                  }, {
+                                    text: "商品分类",
+                                    iconPath: "widget://img/class.png",
+                                    selectedIconPath: "widget://img/class_active.png"
+                                  }, {
+                                    text: "购物车",
+                                    iconPath: "widget://img/car.png",
+                                    selectedIconPath: "widget://img/car_active.png"
+                                  }, {
+                                    text: "我的",
+                                    iconPath: "widget://img/my.png",
+                                    selectedIconPath: "widget://img/my_active.png"
+                                  }]
+                              }
+                          });
+
+                        }else {
+                          api.alert({
+                              title: '支付结果',
+                              msg: ret.code,
+                              buttons: ['确定']
+                          });
+                        }
+                      });
+                    }
+                  })
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    });
+                }
+            })
+        } else {
+            fnAjax('Integral/save_order', 'POST', {
+                values: {
+                    aid: pageParam.aid,
+                    gid: pageParam.gid,
+                    num: pageParam.num,
+                    content: content
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                  var aliPayPlus = api.require('aliPayPlus');
+                  let did = res.data.did;
+                  fnAjax('pay/alipay_app', 'GET', {
+                      values: {
+                          did: did
+                      }
+                  }).then(res => {
+                    if(res.error_code === 0) {
+                      let order_string = res.data.order_string;
+                      aliPayPlus.payOrder({
+                          orderInfo: order_string
+                      }, function(ret, err) {
+                          if(ret.code == 9000) {
+                            api.openTabLayout({
+                                name: 'index',
+                                url: 'widget://html/index_main.html',
+                                hideTabBar: false,
+                                scrollEnabled:false,
+                                tabBar: {
+                                    selectedColor: '#f55756',
+                                    frames: [{
+                                      title: "首页",
+                                      name: "page1",
+                                      url: "widget://html/index_main.html"
+                                    }, {
+                                      title: "商品分类",
+                                      name: "page2",
+                                      url: "widget://html/index_classify.html"
+                                    }, {
+                                      title: "购物车",
+                                      name: "page3",
+                                      url: "widget://html/shop_list.html"
+                                    }, {
+                                      title: "我的",
+                                      name: "page4",
+                                      url: "widget://html/user.html"
+                                    }],
+                                    list: [{
+                                      text: "首页",
+                                      iconPath: "widget://img/home.png",
+                                      selectedIconPath: "widget://img/home_active.png"
+                                    }, {
+                                      text: "商品分类",
+                                      iconPath: "widget://img/class.png",
+                                      selectedIconPath: "widget://img/class_active.png"
+                                    }, {
+                                      text: "购物车",
+                                      iconPath: "widget://img/car.png",
+                                      selectedIconPath: "widget://img/car_active.png"
+                                    }, {
+                                      text: "我的",
+                                      iconPath: "widget://img/my.png",
+                                      selectedIconPath: "widget://img/my_active.png"
+                                    }]
+                                }
+                            });
+
+                          }else {
+                            api.alert({
+                                title: '支付结果',
+                                msg: ret.code,
+                                buttons: ['确定']
+                            });
+                          }
+
+                      });
+                    }
+                  })
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    });
+                }
+            })
+        }
+    }
+</script>
+
+</html>

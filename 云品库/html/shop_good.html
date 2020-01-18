@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shop.css" />
+    <style>
+        /*支付成功或失败页面*/
+
+        .top {
+            position: relative;
+        }
+
+        .top-text {
+            position: absolute;
+            top: 30%;
+            left: 10%;
+        }
+
+        .top-text p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .top-size {
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        .message {
+            padding: 0 15px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+            line-height: 28px;
+        }
+
+        .message h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .message span {
+            margin-left: 14px;
+        }
+
+        .add-vehicle {
+            width: 80%;
+            padding: 14px;
+            margin-left: 6%;
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+            border-radius: 44px;
+            border: 1px solid rgba(214, 213, 214, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <!-- 支付成功图片 -->
+        <img src="../img/good.png" alt="" width="100%" height="auto">
+        <!-- 支付失败图片 -->
+        <!-- <img src="../../image/no.png" alt="" width="100%" height="auto"> -->
+        <div class="top-text">
+            <p>支付成功-买家已付款</p>
+            <p class="top-size">您的包裹正整装待发</p>
+        </div>
+    </div>
+    <!-- <div>
+        <div class="item-title">全部</div>
+        <div class="item flex">
+            <div class="top-checkbox flex-center">
+                <label for="check_all"><input type="checkbox" id="check_all"></label>
+                <img src="../img/img-a.png" alt="" width="88" height="88">
+            </div>
+            <div class="item-details">
+                <h3>商品名称参数等一系列的描述显示...</h3>
+                <p>单风机</p>
+                <div class="flex">
+                    <p>￥299.00</p>
+                    <div>×1</div>
+                </div>
+            </div>
+        </div>
+        <div class="item flex">
+            <div class="top-checkbox flex-center">
+                <label for="check_all"><input type="checkbox" id="check_all"></label>
+                <img src="../img/img-a.png" alt="" width="88" height="88">
+            </div>
+            <div class="item-details">
+                <h3>商品名称参数等一系列的描述显示...</h3>
+                <p>单风机</p>
+                <div class="flex">
+                    <p>￥299.00</p>
+                    <div>×1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="all flex-reverse">
+            <div>
+                <span class="all-shop">共一件商品</span>
+                <span>小计:</span>
+                <span class="font-red">￥</span>
+                <span class="font-red">18.90</span>
+            </div>
+        </div>
+    </section>
+    <div class="message">
+        <h3>订单信息</h3>
+        <p>订单号 <span>××××××××××××</span></p>
+        <p>收货人 <span>××××××××××</span></p>
+        <p>订单金额 <span>￥399.00</span></p>
+        <p>留言内容 <span>测试测试无</span></p>
+        <p>送货方式 <span>配送时间 2018-10-19 15:36</span></p>
+    </div> -->
+    <div class="add-vehicle flex-center btn-bj-good " onclick="openWin('shop_list.html')">继续购买</div>
+    <div class="add-vehicle flex-center margin-bottom30" onclick="openWin('index.html')">返回首页</div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    var pageParam;
+    apiready = function() {
+      pageParam = api.pageParam;
+      // fnAjax('user/dd_detail','GET',{
+      //   values:{
+      //     did:pageParam.did
+      //   }
+      // })
+    }
+</script>
+
+</html>

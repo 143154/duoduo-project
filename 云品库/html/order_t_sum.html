@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/order.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        /*空订单*/
+        .white {
+          margin-top: 0;
+        }
+        .page p {
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(127, 127, 127, 1);
+        }
+
+        .list img {
+            margin-top: 3px;
+        }
+
+
+
+        .all {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 32px;
+            margin-bottom: 4px;
+        }
+        .pages {
+          padding: 15px;
+          margin-top: 1px;
+        }
+        .font h6 {
+          font-size:14px;
+          color:rgba(80,80,80,1);
+        }
+        .font p {
+          margin-top: 10px;
+          font-size:12px;
+          color:rgba(153,153,153,1);
+        }
+        .sub button {
+          background: #fff;
+          color:rgba(80,80,80,1);
+          border:1px solid rgba(214,213,214,1);
+          border-radius:6px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="back">
+            <img src="../image/back.png" onclick="closeWin()">
+        </div>
+        <div class="title">
+            个人中心
+        </div>
+    </header>
+    <div class="p12">退款金额</div>
+    <div class="white p12 font-red">￥18.90</div>
+    <div class="p12">退款说明</div>
+    <div class="white">
+      <textarea class="text"  style="resize:none"  name="name" rows="8" cols="80" placeholder="请您输入对我们的建议或意见..."></textarea>
+    </div>
+    <div class="zhao-p flex-row">
+      <div class="zhao text-center">
+        <img src="../image/zhao.png" alt="" width="36" height="30">
+        <div>照片</div>
+      </div>
+      <span class="ml10 flex-align-end">上传凭证</span>
+    </div>
+    <div class="sub">
+        <button>提交申请</button>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    }
+</script>
+
+</html>

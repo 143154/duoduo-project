@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        .login_sub {
+            background: #f7f8f9;
+        }
+
+        .login_sub_btn {
+            color: #CE3D3A;
+            text-decoration: underline;
+        }
+
+        .login_in_bg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+
+        .login_in_bg img {
+            border-radius: 50%;
+        }
+
+        .login_btn {
+            width: 100%;
+            /*height: 40px;*/
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .login_btn button {
+            width: 100%;
+            height: 40px;
+            margin: 30px 0 10px;
+            line-height: 40px;
+            border-radius: 50px;
+            background: #CE3D3A;
+            color: #fff;
+        }
+
+        .forget_pwd {
+            position: absolute;
+            right: 0;
+            display: block;
+            width: 80px;
+            color: #CE3D3A;
+        }
+
+        .ipt {
+            position: relative;
+            transition: .5s;
+        }
+
+        .ipt::after {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 0;
+            height: 100%;
+            content: "";
+            text-align: center;
+            transition: .5s;
+            border-bottom: 1px solid #f2f0f0;
+        }
+
+        .ipt.active::after {
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid #CE3D3A;
+        }
+
+        .login_form {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login_in_bg">
+        <img src="../image/login.png" width="70" height="70" alt="">
+    </div>
+    <!-- 账号登录 -->
+    <form id="pwd_login" class="login_form show">
+        <div class="ipt">
+            <label class="mr10" for="">手机号</label>
+            <input id="phone" class="login_form_input" type="phone" data-i="0" placeholder="请输入注册时手机号">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">密码</label>
+            <input id="password" class="login_form_input" type="password" data-i="1" placeholder="请输入密码">
+            <span class="forget_pwd" onclick="openNavTabWin('user_pass','user_pass.html','忘记密码','true')">忘记密码</span>
+        </div>
+        <div class="login_btn">
+            <button type="button" onclick="login('account')">登录</button>
+        </div>
+        <div class="flex p12 login_sub">
+            <span class="login_sub_btn" onclick="show_input()">短信验证码登录</span>
+            <span class="login_sub_btn" onclick="openNavTabWin('user_reg','user_reg.html','注册','true')">立即注册</span>
+        </div>
+    </form>
+    <!-- 手机号登录 -->
+    <form id="phone_login" class="login_form">
+        <div class="ipt">
+            <label class="mr10" for="">手机号</label>
+            <input id="phone2" class="login_form_input" type="phone" data-i="2" placeholder="请输入手机号">
+        </div>
+        <div class="ipt">
+            <label class="mr10" for="">验证码</label>
+            <input id="code" class="login_form_input" type="text" data-i="3" placeholder="请输入验证码">
+            <span class="forget_pwd" onclick="getCode()" id="get_code">获取验证码</span>
+        </div>
+        <div class="login_btn">
+            <button type="button" onclick="login('phone')">登录</button>
+        </div>
+        <div class="flex p12 login_sub">
+            <span class="login_sub_btn" onclick="show_input()">账户密码登录</span>
+            <span class="login_sub_btn" onclick="openNavTabWin('user_reg','user_reg.html','注册','true')">立即注册</span>
+        </div>
+    </form>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var iptList = $api.domAll(document, '.ipt');
+        var input_list = $api.domAll(document, '.login_form_input');
+        input_list.forEach(item => {
+            item.onfocus = function() {
+                var i = this.dataset.i;
+                $api.addCls(iptList[i], 'active');
+            }
+            item.onblur = function() {
+                var i = this.dataset.i;
+                $api.removeCls(iptList[i], 'active');
+            }
+        })
+
+    }
+
+    function show_input() {
+        $api.toggleCls($('phone_login'), 'show');
+        $api.toggleCls($('pwd_login'), 'show');
+    }
+
+    function login(state) {
+        if (state == "account") {
+
+            var fromData = {
+                phone: $api.val($api.byId('phone')),
+                password: $api.val($api.byId('password'))
+            }
+            var flag = true;
+            if (!fromData.phone.length) {
+                api.toast({
+                    msg: '请先输入手机号'
+                });
+                return
+            }
+            let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            if (!reg.test(fromData.phone - 0)) {
+                api.toast({
+                    msg: '手机号码格式错误'
+                });
+                return
+            }
+            for (let k in fromData) {
+                if (!fromData[k]) {
+                    api.toast({
+                        msg: $api.attr($api.byId(k), 'placeholder')
+                    });
+                    flag = false;
+                    break;
+                }
+            }
+            if (!flag) return;
+            fnAjax('login/login', 'post', {
+                values: {
+                    phone: $api.val($api.byId('phone')),
+                    password: $api.val($api.byId('password'))
+                }
+            }).then(res => {
+                if (res.error_code === 0) {
+                    let uid = res.data.uid;
+                    if (uid) {
+                        $api.setStorage('uid', uid);
+                        // console.log(uid)
+                        api.toast({
+                            msg: res.msg
+                        });
+                        setTimeout(function() {
+                            api.historyBack({}, function(ret, err) {
+                                if (!ret.status) {
+                                    api.sendEvent({
+                                        name: 'viewappear',
+                                        extra: {
+                                            state: 'true'
+                                        }
+                                    });
+                                    api.closeWin();
+                                }
+                            });
+                        }, 1000)
+                    }
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    });
+                }
+            })
+        } else {
+            var fromData = {
+                phone: $api.val($api.byId('phone2')),
+                code: $api.val($api.byId('code'))
+            }
+            var flag = true;
+            if (!fromData.phone.length) {
+                api.toast({
+                    msg: '请先输入手机号'
+                });
+                return
+            }
+            let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            if (!reg.test(fromData.phone - 0)) {
+                api.toast({
+                    msg: '手机号码格式错误'
+                });
+                return
+            }
+            for (let k in fromData) {
+                if (!fromData[k]) {
+                    api.toast({
+                        msg: $api.attr($api.byId(k), 'placeholder')
+                    });
+                    flag = false;
+                    break;
+                }
+            }
+            if (!flag) return;
+
+            fnAjax('login/code_login', 'POST', {
+                values: {
+                    phone: $api.val($api.byId('phone2')),
+                    code: $api.val($api.byId('code'))
+                }
+            }).then(res => {
+              // console.log(JSON.stringify(res))
+                if (res.error_code === 0) {
+                    let uid = res.data.user.uid;
+                    if (uid) {
+                        $api.setStorage('uid', uid);
+                        // console.log(uid)
+                        api.toast({
+                            msg: res.msg
+                        });
+                        setTimeout(function() {
+                          api.closeWin();
+                        }, 1000)
+                    }
+                } else {
+                    api.toast({
+                        msg: res.msg
+                    });
+                }
+            })
+        }
+
+    }
+    // 发送验证码
+    let code_statu = true; // true 可发送
+    function getCode() {
+        if (!code_statu) {
+            return;
+        }
+        var phone = $('phone2').value;
+        let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        if (!phone) {
+            api.toast({
+                msg: "请先输入手机号"
+            });
+            return
+        }
+        // 验证手机号格式
+        if (!reg.test(phone)) {
+            api.toast({
+                msg: "手机号码格式错误"
+            });
+            return
+        }
+        // 修改发送状态
+        code_statu = false;
+        let _this = $('get_code'),
+            count = 60,
+            countdown = setInterval(function() {
+                count--;
+                $api.html(_this, count + "s后重试");
+                if (count === 0) {
+                    clearInterval(countdown);
+                    $api.html(_this, "重新发送");
+                    code_statu = true;
+                }
+            }, 1000);
+        fnAjax('login/short', 'POST', {
+            values: {
+                phone: phone
+            }
+        }).then(res => {
+            if (res.error_code === 0) {
+                api.toast({
+                    msg: '发送成功'
+                });
+            }
+        })
+
+    }
+</script>
+
+</html>

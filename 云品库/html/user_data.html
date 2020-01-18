@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        .white {
+            margin-top: 0;
+        }
+        .tx_img{
+          border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="user_info"></div>
+    <script type="text/template" id="user_temp">
+        <div class="p white flex" onclick="changeNick()">
+            <div class="flex-center">
+                <div>头像</div>
+            </div>
+            {{? it.image}}
+            <img src="{{=it.image}}" width="34" height="34" class="tx_img"> {{??}}
+            <img src="../image/user_thumb.png" width="34" height="34"> {{?}}
+        </div>
+        <div class="p white flex" onclick="changeNick()">
+            <div class="flex-center">
+                <div>昵称</div>
+            </div>
+            <div class="flex-center">
+                <div>{{= it.nickname||it.phone }}</div>
+                <img class="ml10" src="../image/right.png" width="6" height="12">
+            </div>
+        </div>
+    </script>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnAjax('user/get_user_data', 'GET').then(res => {
+            // console.log(JSON.stringify(res.data))
+            if (res.error_code === 0) {
+                fnDataToView("user_info", res.data, "user_temp");
+
+            }
+        })
+    }
+
+    function changeNick() {
+      api.actionSheet({
+          title: '个人资料',
+          cancelTitle: '取消',
+          buttons: ['修改头像','修改昵称']
+      }, function(ret, err) {
+        // 修改昵称
+          if (ret.buttonIndex == 2) {
+            api.prompt({
+                title:"修改昵称",
+                msg:"请输入要修改的昵称",
+                buttons: ['提交修改', '取消修改']
+            }, function(ret, err) {
+                if(ret.buttonIndex === 1){
+                  fnAjax('user/set_user_name','POST',{
+                    values:{
+                      nickname:ret.text
+                    }
+                  }).then(res => {
+                    // 如果修改成功，给出提示，并刷新页面
+                    if(res.error_code === 0){
+                      api.toast({msg:res.msg})
+                      // 刷新页面
+                      fnAjax('user/get_user_data', 'GET').then(res => {
+                        if (res.error_code === 0) {
+                          fnDataToView("user_info", res.data, "user_temp");
+                        }
+                      })
+                    }else{
+                      // 否则，给出提示
+                      api.toast({msg:res.msg})
+                    }
+                  })
+                }
+            });
+          }
+          // 修改头像
+          if (ret.buttonIndex == 1) {
+            api.getPicture({
+                sourceType: 'library',
+                encodingType: 'jpg',
+                mediaValue: 'pic',
+                destinationType: 'base64',
+                allowEdit: true,
+                quality: 50,
+                targetWidth: 100,
+                targetHeight: 100,
+                saveToPhotoAlbum: false
+            }, function(ret, err) {
+                if (ret) {
+                  if(ret.data){
+                    fnAjax('user/upload_img','POST',{
+                      files:{
+                        image:ret.data
+                      }
+                    }).then(res => {
+                      // 如果头像上传成功，保存头像
+                      if(res.error_code === 0){
+                        fnAjax('user/set_user_image', 'POST',{
+                          values:{
+                            image:res.data
+                          }
+                        }).then(res => {
+                          // console.log(JSON.stringify(res))
+                          // 如果成功，给出提示，并刷新页面
+                            if (res.error_code === 0) {
+                              // 刷新页面
+                              fnAjax('user/get_user_data', 'GET').then(res => {
+                                if (res.error_code === 0) {
+                                  fnDataToView("user_info", res.data, "user_temp");
+                                }
+                              })
+                              api.toast({msg:"修改成功"});
+                            }else{
+                              api.toast({msg:res.msg});
+                            }
+                        })
+                      }else{
+                        api.toast({msg:res.msg})
+                      }
+                    })
+                  }
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+          }
+      });
+    }
+</script>
+
+</html>

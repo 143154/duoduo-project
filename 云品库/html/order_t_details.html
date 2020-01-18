@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/order.css" />
+    <style>
+        .shopping {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 1);
+            font-size: 16px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 2px 30px;
+            margin-left: 10px;
+            color: rgba(255, 254, 254, 1);
+            background: rgba(206, 61, 58, 1);
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .priceAll {
+            color: rgba(255, 57, 57, 1);
+        }
+
+        .top {
+            padding: 10px 0;
+        }
+
+        .top-height {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-img {
+            margin-right: 20px;
+        }
+
+        .bj {
+            height: 2px;
+            background: url(../image/line.png) no-repeat left;
+            background-size: cover;
+        }
+
+        .comment {
+            padding: 15px 0;
+        }
+
+        .form {
+            padding: 15px;
+            background: #fff;
+        }
+
+        .ipt {
+            /*width: 88%;*/
+            margin-left: 10px;
+            font-size: 14px;
+            color: rgba(153, 153, 153, 1);
+            border: none;
+        }
+
+        .form label {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .amount {
+            margin-bottom: 65px;
+            background: rgba(255, 255, 255, 1);
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .amount-size {
+            font-size: 14px;
+        }
+
+        .amount-top {
+            margin-top: 30px;
+        }
+
+        .top-font {
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .margin-right {
+            margin-right: 10px;
+        }
+
+        .site {
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .top-coord {
+            margin-right: 20px;
+            margin-top: 10px;
+        }
+
+        .top-line {
+            margin-bottom: 10px;
+        }
+
+        .fu15 {
+            padding: 15px 10px;
+        }
+
+        .fu {
+            margin-left: 10px;
+            font-size: 16px;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .fu p {
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .indent {
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+            line-height: 28px;
+        }
+
+        .indent p {
+            width: 56px;
+            overflow: hidden;
+        }
+
+        .indent-title {
+            font-size: 16px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 32px;
+        }
+        .t_btn{
+          text-align: right;
+        }
+        .t_btn span {
+            border: 1px solid #999;
+            color: #999;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="order_info"></div>
+    <script type="text/template" id="template">
+        <div class="white page">
+            <div class="top clearfix">
+                <!-- 选择收货地址状态 -->
+                <img class="pull-left top-coord" src="../image/icon_location.png" alt="" width="24" height="24">
+                <div class="flex top-height">
+                    <div class="top-font margin-right">
+                        <div class="flex top-line">
+                            <p>收货人：<span>{{=it.addr.username}}</span> </p>
+                            <p>{{=it.addr.phone}}</p>
+                        </div>
+                        <p class="site">地址：<span>{{=it.addr.addr}}{{=it.addr.addrs}}</span> </p>
+                    </div>
+                    <img src="../image/right.png" alt="" width="10" height="20">
+                </div>
+            </div>
+        </div>
+        <div class="bj"></div>
+        <div class="shop">
+            <div class="list">
+                全部
+            </div>
+            {{~ it.order :item}}
+            <div class="item bj-color flex">
+                <img src="{{=item.g_image}}" alt="" width="88" height="88">
+                <div class="item-property flex">
+                    <div class="padding-8">
+                        <h3 class="item-property-title max-two-line">{{=item.g_name}}</h3>
+                        <p class="guige">{{=item.s_name}}</p>
+                        {{? it.data.status == 4}}
+                        <div class="t_btn" onclick="openNavTabWin('order_t_recede','order_t_recede.html','服务类型',{did:{{=it.data.did}}})">
+                            <span>退款/退货</span>
+                        </div>
+                        {{?}}
+                    </div>
+                    <div class="padding-8">
+                        <p class="item-property-title">￥{{=item.price}}</p>
+                        <s>￥{{=item.yprice}}</s>
+                        <p class="number">x{{=item.num}}</p>
+                    </div>
+                </div>
+            </div>
+            {{~}}
+        </div>
+        <div class="white page all">
+            <span class="all-shop">共{{=it.order.length}}件商品</span>
+            <span>小计:</span>
+            <span class="font-red">￥</span>
+            <span class="font-red">{{=it.data.zprice}}</span>
+        </div>
+        <div class="white page indent">
+            <div class="indent-title">订单信息</div>
+            <div class="flex-row">
+                <p>订单号</p>
+                <div class="ml10">{{=it.data.code}}</div>
+            </div>
+            <div class="flex-row">
+                <p>收货人</p>
+                <div class="ml10">{{=it.addr.username}}</div>
+            </div>
+            <div class="flex-row">
+                <p>订单金额</p>
+                <div class="ml10 font-red">￥{{=it.data.zprice}}</div>
+            </div>
+            <div class="flex-row">
+                <p>留言内容</p>
+                <div class="ml10">{{=it.data.content}}</div>
+            </div>
+            <div class="flex-row">
+                <!-- <p>送货方式</p>
+                <div class="ml10">配送时间 2018-10-19 15:36</div> -->
+            </div>
+        </div>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam;
+    apiready = function() {
+        pageParam = api.pageParam;
+        fnAjax('user/dd_detail', 'GET', {
+            values: {
+                did: pageParam.did
+            }
+        }).then(res => {
+            if (res.error_code === 0) {
+                console.log(JSON.stringify(res))
+                fnDataToView('order_info', res.data, 'template');
+            }
+        })
+    }
+</script>
+
+</html>

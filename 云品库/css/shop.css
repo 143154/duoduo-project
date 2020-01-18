@@ -1,0 +1,109 @@
+.top-checkbox {
+    font-size: 16px;
+    color: rgba(80, 80, 80, 1);
+}
+
+.top-checkbox p {
+    margin-left: 10px;
+}
+
+.top-checkbox-color {
+    color: rgba(255, 99, 51, 1);
+}
+
+.top-checkbox input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.top-checkbox input[type=checkbox]:after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../image/ipt-a.png) no-repeat center;
+    background-size: contain;
+}
+
+.top-checkbox input[type=checkbox]:checked:after {
+    background-image: url(../image/ipt-b.png);
+}
+.item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+    font-size: 14px;
+    color: rgba(102, 102, 102, 1);
+}
+
+.top-checkbox img {
+    margin-left: 10px;
+}
+
+.item-details {
+    padding: 6px 0;
+    padding-right: 10px;
+}
+
+
+.item-details>p {
+    margin: 6px 0 8px;
+    font-size: 12px;
+    color: rgba(153, 153, 153, 1);
+}
+
+.top-checkbox img {
+    margin: 0 10px;
+}
+.item-title {
+  padding: 10px;
+  color:rgba(80,80,80,1);
+}
+
+.all {
+    padding: 15px 0;
+    font-size: 16px;
+    color: rgba(80, 80, 80, 1);
+}
+
+.all-shop {
+    color: rgba(153, 153, 153, 1);
+}
+
+/*支付成功的背景色*/
+
+.btn-bj-good {
+    background: rgba(206, 61, 58, 1);
+    color:rgba(255,255,255,1) !important;
+}
+/*支付失败的背景色*/
+
+.btn-bj-fail {
+    background: rgba(1, 132, 188, 1);
+    color:rgba(255,255,255,1) !important;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer {
+    padding: 14px 0 0 10px;
+}
+
+.btn {
+    padding: 16px 23px;
+    margin-left: 15px;
+    background: rgba(206, 61, 58, 1);
+    font-size: 16px;
+    color: rgba(255, 254, 254, 1);
+}
+
+footer span {
+    color: rgba(255, 57, 57, 1);
+}

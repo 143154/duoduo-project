@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        .list {
+            padding: 15px 30px;
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+            border-bottom: 1px solid rgba(229, 229, 229, 1);
+        }
+
+        .item {
+            width: 48%;
+            padding-bottom: 20px;
+            margin: 10px 0 4px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 22px;
+            overflow: hidden;
+            box-shadow: 0px 0px 27px 0px rgba(211, 211, 211, 0.43);
+        }
+
+        .item-text,
+        .item-parameter {
+            padding: 0;
+        }
+
+        .item-text {
+          padding: 10px 2px 0;
+        }
+
+        .margin-top2 {
+            margin-top: 2px;
+        }
+        /*倒三角*/
+
+        .triangle-down {
+            margin-left: 4px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid rgba(160, 160, 160, 1);
+        }
+        .triangle-up{
+          margin-left: 4px;
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-bottom: 6px solid rgba(160, 160, 160, 1);
+        }
+        .p-2{
+          padding: 0 10px;
+        }
+        #page{
+          padding: 0 15px;
+        }
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .shop-item{
+          border-radius: 5px;
+        }
+
+        .item-img{
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+
+        .assess_count{
+          padding: 0 10px;
+          box-sizing: border-box;
+          font-size: 12px;
+          color: #B3B3B3;
+        }
+        .page_box{
+          min-height:100vh;
+          background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top" onclick="openNavTabWin('index_search','index_search.html','搜索')">
+        <div class="ipt flex-center">
+            <input type="text" placeholder="">
+        </div>
+        <div class="ipt-text clearfix">
+            <img class="pull-left ipt-img" src="../image/search.png" alt="" width="14" height="14">
+            <p class="pull-left">请输入搜索关键词</p>
+        </div>
+    </header>
+    <div id="sort"></div>
+    <script type="text/template" id="sort_temp">
+      <div class="flex list">
+        {{? it.together == 0}}
+          <div onclick="sort('together',{{=it.together}})"><span>综合</span><span class="triangle-up"></span></div>
+        {{?? it.together == 1}}
+          <div onclick="sort('together',{{=it.together}})"><span class="red">综合</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('together',{{=it.together}})"><span class="red">综合</span><span class="triangle-down"></span></div>
+        {{?}}
+
+        {{? it.sales == 0}}
+          <div onclick="sort('sales',{{=it.sales}})"><span>销量</span><span class="triangle-up"></span></div>
+        {{?? it.sales == 1}}
+          <div onclick="sort('sales',{{=it.sales}})"><span  class="red">销量</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('sales',{{=it.sales}})"><span  class="red">销量</span><span class="triangle-down"></span></div>
+        {{?}}
+
+        {{? it.price == 0}}
+          <div onclick="sort('price',{{=it.price}})"><span>价格</span><span class="triangle-up"></span></div>
+        {{?? it.price == 1}}
+          <div onclick="sort('price',{{=it.price}})"><span class="red">价格</span><span class="triangle-up"></span></div>
+        {{??}}
+          <div onclick="sort('price',{{=it.price}})"><span class="red">价格</span><span class="triangle-down"></span></div>
+        {{?}}
+
+          <!-- <div ><span>筛选</span><span class="triangle-up"></span></div> -->
+      </div>
+    </script>
+    <section class="page_box">
+        <div class="flex-wrap" id="page"></div>
+        <script type="text/template" id="template">
+          {{~it.goods_arr :item}}
+          <div class="item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=item.gid}}})">
+              <div class="item-img" style="background:url({{=item.g_image}}) no-repeat center center;background-size:cover;"></div>
+              <!-- <img src="{{=item.g_image}}" alt="" width="100%" height="240"> -->
+              <div class="p-2">
+                <p class="item-text max-two-line">{{=item.g_name}}</p>
+                {{? item.tag}}
+                <p class="item-teg">{{=item.tag}}</p>
+                {{?}}
+                <div class="item-parameter flex">
+                  <p class="font-red margin-top2">￥{{=item.g_xprice}}</p>
+                  <!-- <p class="bj">马上抢</p> -->
+                  <p class="assess_count">{{=item.assess_count || 0}} 条评论</p>
+                </div>
+              </div>
+          </div>
+          {{~}}
+        </script>
+    </section>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    var values = {},pageParam;
+    apiready = function() {
+
+      api.addEventListener({
+          name: 'keyback'
+      }, function(ret, err) {
+        closeWin()
+      });
+
+
+      pageParam = api.pageParam;
+      console.log(JSON.stringify(pageParam))
+      fnAjax('goods/type_detail', 'GET',{
+        values:{
+          type_id: pageParam.type_id
+        }
+      }).then(res => {
+          if (res.error_code === 0) {
+            console.log(JSON.stringify(res))
+            values.together = res.data.together;
+            values.sales = res.data.sales;
+            values.price = res.data.price;
+            fnDataToView("sort", res.data, "sort_temp");
+            fnDataToView("page", res.data, "template");
+          }else{
+            console.log(JSON.stringify(res))
+          }
+      })
+    }
+    function sort(sort,sort_num){
+      var state = sort_num == 0 ? '1' : (sort_num == 1 ? '2' : '0');
+      console.log(state);
+      values[sort] = state,
+      values.type_id = pageParam.type_id;
+      // console.log(JSON.stringify(values))
+      fnAjax('goods/type_detail', 'GET',{values}).then(res => {
+          if (res.error_code === 0) {
+            console.log(JSON.stringify(res))
+            fnDataToView("sort", res.data, "sort_temp");
+            fnDataToView("page", res.data, "template");
+          }
+      })
+    }
+</script>
+
+</html>

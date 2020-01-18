@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        .ipt-text {
+            left: 30%;
+        }
+
+        .top-padding {
+            padding: 10px 15px;
+        }
+
+        .top-search {
+            font-size: 16px;
+            color: rgba(206, 61, 58, 1);
+            line-height: 32px;
+        }
+
+        .search {
+            margin-top: 15px;
+        }
+
+        .search-title {
+            padding: 10px 0;
+            font-size: 16px;
+            color: rgba(68, 68, 68, 1);
+        }
+
+        .item {
+            max-width: 90px;
+            padding: 5px 20px;
+            margin: 10px 10px;
+            font-size: 14px;
+            color: rgba(102, 102, 102, 1);
+            background: rgba(246, 246, 246, 1);
+            border-radius: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .mt2 {
+            margin-top: 2px;
+        }
+
+        .mt10 {
+            margin-top: 4px;
+        }
+
+        .s_f {
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        #page{
+          padding: 0 15px;
+          box-sizing: border-box;
+        }
+        .fw{
+          flex-wrap: wrap;
+        }
+
+        #main{
+          height: 100vh;
+          padding: 0 10px;
+          background: #fff;
+        }
+        .shop-item{
+          border-radius: 5px;
+        }
+        .item-img{
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+        .assess_count{
+          padding: 0 10px;
+          box-sizing: border-box;
+          font-size: 12px;
+          color: #B3B3B3;
+        }
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+        .max-two-line{
+          padding: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-padding ipt">
+            <input id="ipt_text" type="text" placeholder="">
+            <div class="top-search pull-right" onclick="search()">搜索</div>
+        </div>
+        <div class="ipt-text clearfix mt2" id="ipt">
+            <img class="pull-left ipt-img" src="../image/search.png" alt="" width="14" height="14">
+            <p class="pull-left">请输入搜索关键词</p>
+        </div>
+
+    </header>
+    <section id="page"></section>
+    <section id="main"></section>
+
+    <script type="text/template" id="template">
+        <div class="search">
+            <h3 class="search-title">搜索发现</h3>
+            <ul class="flex s_f">
+              {{~ it.hold_arr :item}}
+                <li class="item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=item.gid}}})">{{=item.g_name}}</li>
+              {{~}}
+            </ul>
+        </div>
+        {{? it.record.length > 0}}
+        <div class="search">
+            <h3 class="search-title">搜索历史</h3>
+            <ul class="flex s_f">
+              {{~ it.record :item}}
+                <li class="item" onclick="search('{{= item}}')">{{=item}}</li>
+              {{~}}
+            </ul>
+        </div>
+        {{?}}
+    </script>
+    <script type="text/template" id="goodList">
+      <section class="flex fw">
+          {{~it.goods_arr :item}}
+
+          <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=item.gid}}})">
+              <div class="item-img" style="background:url({{=item.g_image}}) no-repeat;background-size:cover;"></div>
+              <!-- <img src="{{=item.g_image}}" alt="" width="100%" height="200"> -->
+              <p class="max-two-line">{{=item.g_name}}</p>
+              {{? item.tag != ""}}
+              <p class="item-teg">{{=item.tag}}</p>
+              {{?}}
+              <div class="item-parameter flex">
+                  <p class="font-red margin-top2">￥{{=item.g_xprice}}</p>
+                  <!-- <p class="bj">马上抢</p> -->
+                  <p class="assess_count">{{=item.assess_count}} 条评论</p>
+              </div>
+          </div>
+          {{~}}
+      </section>
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+      $('ipt_text').focus();
+        var pageParam;
+        pageParam = api.pageParam;
+        fnAjax('index/get_old_search', 'GET').then(res => {
+          // console.log(JSON.stringify(res))
+            if (res.error_code === 0) {
+                fnDataToView('page', res.data, 'template');
+            }
+        });
+    }
+    $('ipt_text').onfocus = function fn() {
+        $('ipt').style.display = "none";
+        $('page').style.display = "block";
+    }
+    $('ipt_text').onblur = function fn() {
+      // $('page').style.display = "none";
+      // if($api.val($api.byId('ipt_text')).length <1){
+      //   $('ipt').style.display = "block";
+      // }
+    }
+    $('ipt_text').onkeydown = function fn(e) {
+      if (e.keyCode == 13) {
+        search();
+      }
+    }
+
+    $('ipt').onclick = function(){
+      $('ipt_text').focus();
+    }
+
+    function search(keyword) {
+      // console.log(keyword);
+      keyword = keyword || $api.val($api.byId('ipt_text'));
+      $('page').style.display = "none";
+      if(keyword.length <1){
+        $('ipt').style.display = "block";
+        return
+      }
+      $api.val($api.byId('ipt_text'), keyword);
+      window.scrollTo(0,0);
+      fnAjax('index/search','GET',{
+        values: {
+          text: keyword.trim()
+        }
+      }).then(res => {
+        if(res.error_code === 0) {
+          // console.log(JSON.stringify(res.data))
+          fnDataToView('main', res.data, 'goodList');
+        }else {
+           alert(res.msg);
+        }
+      })
+    }
+</script>
+
+</html>

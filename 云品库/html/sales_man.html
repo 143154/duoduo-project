@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/sales.css" />
+    <style>
+        .sales_text {
+            padding: 6px 10px;
+            font-size: 12px;
+            color: rgba(102, 102, 102, 1);
+            line-height: 20px;
+        }
+
+        .p {
+            padding-left: 1em;
+        }
+
+        .mt {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="sales_info"></div>
+    <script type="text/template" id="template">
+      <img src="{{=it.image}}" alt="" width="100%" height="auto">
+      {{= it.desc}}
+      <div class="but flex-center">
+        <button onclick="joinIn()">申请成为分销员</button>
+      </div>
+    </script>
+    <!-- <div class="sales_text mt">小伙伴，欢迎加入我们！</div>
+    <div class="sales_text">我们是商城运营团队，竭诚为您的销售工作提供完善的支 持。
+    </div>
+    <div class="sales_text">我们诚挚邀请您加入我们的销售员推广计划，无任何成本即可 成为我们的销售员，一起分享收获的喜悦。你只需要将高品质 商品分享推荐给他人，收获他人的感谢的同时，挣得属于自己 的利润。
+    </div>
+    <div class="sales_text mt">1.业绩说明
+        <div class="p">买家通过销售员分享链接成交，既算做销售员的业绩； 订单交易完成前发生退款的订单，相应的销售员业绩将扣除 相应的退款金额。
+        </div>
+    </div>
+    <div class="sales_text">2.结算说明
+        <div class="p">买家通过销售员分享链接成交，既算做销售员的业绩； 订单交易完成前发生退款的订单，相应的销售员业绩将扣除 相应的退款金额。
+        </div>
+    </div> -->
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+      fnAjax('Finance/become', 'GET').then(res => {
+          if (res.error_code === 0) {
+            // console.log(JSON.stringify(res.data))
+            fnDataToView("sales_info", res.data, "template");
+          }
+      })
+    }
+    function joinIn(){
+      fnAjax('Finance/become_distributor', 'GET').then(res => {
+          api.toast({msg:res.msg});
+      })
+    }
+</script>
+
+</html>

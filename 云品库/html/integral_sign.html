@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+    .top_info_integ{
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      background: #343434;
+      color: #fff;
+    }
+    .top_info_today{
+      position: relative;
+      height: 200px;
+      text-align: center;
+      background: #E23B33;
+    }
+    .top_rule{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #fff;
+      text-decoration: underline;
+    }
+    .text-white{
+      color: #fff;
+    }
+    .sign{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 80px;
+      box-shadow: 0 0 0 8px rgba(255,255,255,.8);
+      margin: 20px auto;
+      border: 1px solid #DF231A;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .sign p{
+      color: #DF231A;
+    }
+    .sign p:nth-child(1){
+      font-size: 18px;
+      border-bottom: 1px solid #f7f8f7;
+    }
+    .ph-10{
+      padding: 0 10px;
+    }
+    .ps-5{
+      padding: 5px 0;
+    }
+    .date_div{
+      height: 30px;
+      line-height: 30px;
+      font-size: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    </style>
+</head>
+
+<body>
+  <div class="top_info ph-10" id="user_info">
+  </div>
+  <script type="text/template" id="template">
+    <div class="top_info_integ flex-center ps-5">我的积分：{{=it.integ}}</div>
+    <div class="top_info_today flex-column" id="dataDiv">
+      <div class="top_rule" onclick="openNavTabWin('integral_rule','integral_rule.html','积分规则')">积分规则</div>
+      <div class="sign" id="sign">
+        {{? it.today == 1}}
+        <p>已签到</p>
+        <p>连续{{=it.continuous}}天</p>
+        {{??}}
+          <p onclick="sign_in()">签到</p>
+        {{?}}
+      </div>
+      <p class="text-white">今日签到已获得{{=it.distribution}}积分</p>
+    </div>
+  </script>
+  <p id="dataShow" class="date_div"></p>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script type="text/javascript" src="../script/utils.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var specialDate = [];
+    apiready = function() {
+      isLogin().then(res => {
+        fnAjax('Finance/sign_list', 'GET').then(res => {
+          if (res.error_code === 0) {
+            var data = res.data;
+            data.sign.forEach(item => {
+              item.create = utilsDate(item.create * 1000);
+              specialDate.push({date:item.create})
+            });
+            // console.log(JSON.stringify(res.data))
+            fnDataToView("user_info", data, "template");
+            var UICalendar = api.require('UICalendar');
+            var dataShow = $api.byId('dataShow');
+            var rect = $api.offset(dataShow);
+            UICalendar.open({
+              rect: {
+                x: 10,
+                y: rect.t + 130,
+                // api.frameHeight / 2 - 50,
+                w: api.frameWidth - 20,
+                h: 340
+              },
+              styles: {
+                bg: '#fff',
+                week: {
+                  weekdayColor: '#191919',
+                  weekendColor: '#191919',
+                  size: 12
+                },
+                date: {
+                  color: '#191919',
+                  selectedColor: '#fff',
+                  selectedBg: '#E23B33',
+                  size: 12
+                },
+                today: {
+                  color: '#191919',
+                  bg: '#fff'
+                },
+                specialDate: {
+                  color: '#fff',
+                  bg: '#E23B33'
+                }
+              },
+              specialDate: specialDate,
+              switchMode: 'none',
+              fixedOn: api.frameName,
+              fixed: false
+            }, function(ret, err) {
+              if (ret) {
+                // alert(JSON.stringify(ret));
+              } else {
+                // alert(JSON.stringify(err));
+              }
+            });
+          }
+        })
+        // 显示当前月
+        var year = new Date().getFullYear(),
+        month = new Date().getMonth() + 1,
+        dataShow = $api.byId('dataShow');
+        dataShow.innerHTML = year + '年' + month + '月';
+      },()=>{
+        api.toast({msg:'请先登录'});
+        setTimeout(function(){
+          api.closeWin();
+        },1000)
+      })
+    }
+    function sign_in() {
+      fnAjax('user/sign', 'GET').then(res => {
+        api.toast({msg:res.msg});
+        window.location.reload();
+      })
+    }
+</script>
+
+</html>

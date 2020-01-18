@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/user.css" />
+    <style>
+        /*购物车*/
+
+        body {
+            height: 100vh;
+            background: #fff;
+        }
+
+        .load {
+            padding: 30% 0 5%;
+        }
+
+        .page p {
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(127, 127, 127, 1);
+        }
+
+        .btn {
+            width: 200px;
+            height: 48px;
+            margin: 20px auto 0;
+            background: rgba(206, 61, 58, 1);
+            border-radius: 24px;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .m10 {
+            font-size: 14px;
+            color: rgba(80, 80, 80, 1);
+            line-height: 24px;
+        }
+
+        .ml6 {
+            margin-left: 6px;
+        }
+
+        .mo {
+            display: inline-block;
+            padding: 0 5px;
+            background: rgba(206, 61, 58, 1);
+            border-radius: 3px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 1);
+        }
+        .addr_list{
+          border-bottom: 1px solid #f7f8f7;
+          background: #fff;
+        }
+        .w-75{
+          max-width: 75%;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="addr"></section>
+    <script type="text/template" id="addr_temp">
+        {{? it.length < 1}}
+        <div class="flex-center load">
+            <img src="../image/user_addr.png" alt="" width="180px" height="157px">
+            </div>
+            <div class="page">
+                <p class="text-center">您还没有常用地址~</p>
+            </div>
+            <div class="btn flex-center" onclick="openNavTabWin('site_add','user_siteAdd.html','添加地址')">添加收货地址</div>
+            {{??}}
+            {{~ it.addr_arr :item}}
+            <div class="p12 flex addr_list" onclick="changeSite({{=item.aid}})">
+                <div class="w-75">
+                    <div>
+                        {{= item.username}}
+                        <span class="ml10">{{=item.phone}}</span> {{? item.default === 1}}
+                        <span class="mo ml10">默认</span> {{?}}
+                    </div>
+                    <div class="max-one-line">{{= item.addr}}{{= item.addrs}}</div>
+                </div>
+                <div class="flex-center">
+                    <img src="../image/icon_setting.png" alt="" width="14" height="14">
+                    <div class="ml6" onclick="openNavTabWin('user_siteAdd','user_siteAdd.html','修改地址',{aid:{{=item.aid}}})">编辑</div>
+                </div>
+            </div>
+            {{~}}
+            <div class="sub" onclick="openNavTabWin('user_siteAdd','user_siteAdd.html','添加地址')">
+                <button>新建地址</button>
+            </div>
+            {{?}}
+    </script>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var pageParam;
+    apiready = function() {
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+          if (ret) {
+            // console.log(123)
+            window.location.reload();
+          }
+        });
+        // 获取收货地址
+        fnAjax('addr/get_user_addr', 'GET').then(res => {
+          if(res.error_code === 0){
+            fnDataToView("addr", res.data, "addr_temp");
+          }else{
+            fnDataToView("addr", res.data, "addr_temp");
+          }
+        })
+    }
+    function changeSite(aid){
+      pageParam = api.pageParam.statu;
+      if(pageParam == 0){
+        api.sendEvent({
+          name: 'viewappear',
+          extra: {
+            aid: aid
+          }
+        });
+        closeWin();
+      }
+    }
+</script>
+
+</html>

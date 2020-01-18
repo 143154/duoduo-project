@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        body {
+          padding-top: 50px;
+        }
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            border-bottom: 1px solid #F0F1F3;
+            width: 100%;
+            background-color: #fff;
+            z-index: 9999;
+
+        }
+        .item-text,
+        .seckill-item-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .top-item {
+            flex: 0 0 auto;
+            padding: 20px 10px 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .top-item.active {
+            border-bottom: 2px solid rgba(235, 73, 73, 1);
+        }
+        /*.h-100{
+          height: 100vh;
+        }*/
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .fw {
+            flex-wrap: wrap;
+        }
+
+        #classify_info {
+            min-height: 100vh;
+            padding: 0 15px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+        .fw {
+            flex-wrap: wrap;
+        }
+
+        .item-teg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 18px;
+            padding: 0 5px !important;
+            margin: 0 5px !important;
+            /*line-height: 15px;*/
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #fff;
+            background: #D5B98A;
+            overflow: hidden;
+        }
+        .item-img {
+            width: 100%;
+            padding-top: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .assess_count{
+          padding: 0 10px;
+          box-sizing: border-box;
+          font-size: 12px;
+          color: #B3B3B3;
+        }
+
+        .item-text{
+          text-align: center;
+          /*margin-top: 5px;*/
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+        .item-img{
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          /*border-bottom: 1px solid #eee;*/
+        }
+        #top .shop-item{
+          width: 20%;
+          padding-bottom: 0;
+          /*border-radius: 5px;*/
+          border-bottom:0;
+            box-shadow: none;
+        }
+        #top .shop-item .item-img {
+          /*border: 1px solid red;*/
+          width: 80%;
+          padding-top: 80%;
+          background-size: contain;
+          background-position: center!important;
+        }
+
+        #top {
+          justify-content: flex-start;
+        }
+        .opacity-0{
+          opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="classify_list">
+      <div class="shop-item opacity-0">
+          <div class="item-img"></div>
+          <!-- <img class="item-img" src="{{=items.g_image}}" alt="" width="100%" height="200"> -->
+          <p class="item-text">占位</p>
+      </div>
+    </div>
+    <div id="classify_info"></div>
+
+    <script type="text/template" id="list_temp">
+        <div class="flex-start top white" id="menu">
+            {{~ it.type_lot :item:index}}
+              <div class="top-item" onclick="selected({{= item.type_id}},{{= index}})">{{= item.type_name}}</div>
+            {{~}}
+        </div>
+    </script>
+    <script type="text/template" id="info_temp">
+        <section class="flex fw mb-10">
+        {{~ it.goods :items}}
+        <!-- <div class="shop-item" onclick="openNavTabWin('index_shop_details','index_shop_details.html','商品详情',{gid:{{=items.gid}}})"> -->
+        <div class="shop-item" onclick="openWin('index_shop_details.html','index_shop_details',{gid:{{=items.gid}}})">
+            <div class="item-img" style="background:url({{=items.g_image}}) no-repeat;background-size:cover;"></div>
+            <p class="max-two-line">{{=items.g_name}}</p>
+            {{? items.tag != ""}}
+            <p class="item-teg">{{=items.tag}}</p>
+            {{?}}
+            <div class="item-parameter flex">
+                <p class="font-red margin-top2">￥{{=items.g_xprice}}</p>
+                <p class="bj">马上抢</p>
+            </div>
+        </div>
+        {{~}}
+        </section>
+    </script>
+</body>
+<script src="../script/api.js"></script>
+<script src="../script/global.js"></script>
+<script src="../script/doT.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pageParam, item;
+    apiready = function() {
+        pageParam = api.pageParam;
+        getNewType2(pageParam.fisrt_id, pageParam.type_id)
+        // console.log(JSON.stringify(pageParam));
+        // return
+
+        // fnAjax('index/get_second_type', 'GET', {
+        //     values: {
+        //         tid: pageParam.type_id
+        //     }
+        // }).then(res => {
+        //     if (res.error_code === 0) {
+        //         var data = res.data;
+        //         console.log(JSON.stringify(data))
+        //         // console.log(JSON.stringify(res.data))
+        //         // api.setTabLayoutAttr({
+        //         //     title: data.father_type.type_name
+        //         // })
+        //         fnDataToView('classify_list', data, 'list_temp')
+        //         item = $api.domAll(document, '.top-item');
+        //         // var index = data.type_lot.findIndex(item => item.type_id === type_id)
+        //         selected(data.type_lot[0].type_id, 0)
+        //
+        //         // // console.log(JSON.stringify())
+        //         // // getData(data.thirdly_type[0].type_id)
+        //         // selected(data.thirdly_type[0].type_id, 0)
+        //     }
+        // })
+    };
+
+    // 2级分类
+    function getNewType2(tid, type_id) {
+      fnAjax('index/get_second_type', 'GET', {
+        values: {
+          tid: tid
+        }
+      }).then(res => {
+        if(res.error_code === 0) {
+          var data = res.data;
+          // console.log(JSON.stringify(data));
+          if (data.type_lot.length) {
+            fnDataToView('classify_list', data, 'list_temp');
+            item = $api.domAll(document, '.top-item');
+            var index = data.type_lot.findIndex(item => item.type_id === type_id);
+            selected(type_id, index);
+            // fnDataToView('classify_info', data, 'info_temp')
+            // getNewType3(data.type_lot[0].type_id)
+            // sid = data.type_lot[0].type_id
+          }
+        }
+      })
+    }
+
+
+    // 推荐商品切换
+    function selected(_id, index) {
+        getData(_id);
+        for (let i = 0; i < item.length; i++) {
+            $api.removeCls(item[i], 'active');
+        }
+        $api.addCls(item[index], 'active');
+    }
+
+    function getData(_id) {
+      // console.log(_id);
+      fnAjax('index/get_second_type_detail?tid='+_id, 'GET').then(res => {
+        // console.log(JSON.stringify(res.data))
+        if(res.error_code === 0) {
+          fnDataToView('classify_info', res.data, 'info_temp');
+        }
+      })
+
+
+      // fnAjax('index/get_thirdly_type_detail', 'GET',{
+      //   values:{
+      //     pid: pageParam.type_id,
+      //     tid: _id
+      //   }
+      // }).then(res => {
+      //     if (res.error_code === 0) {
+      //       fnDataToView('classify_info', res.data, 'info_temp');
+      //     }else{
+      //       console.log(JSON.stringify(res))
+      //     }
+      // })
+    }
+</script>
+
+</html>
